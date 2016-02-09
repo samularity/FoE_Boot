@@ -234,9 +234,6 @@ public class Main {
                 //difference of r,g,b
                 int rDif, gDif, bDif;
 
-                //calculated difference value
-                double difference;
-
                 boolean breakLoop = false;
                 while (!breakLoop){
                     cSmall = new Color(small.getRGB(xSmall, ySmall));
@@ -245,9 +242,8 @@ public class Main {
                     gDif = cBig.getGreen() - cSmall.getGreen();
                     bDif = cBig.getBlue() - cSmall.getBlue();
 
-                    difference = (rDif * rDif) + (gDif * gDif) + (bDif * bDif);
 
-                    if (difference > 900) {
+                    if ((rDif != 0) || (gDif != 0) || (bDif != 0)) {
                         breakLoop = true;
                     }
 
@@ -289,9 +285,6 @@ public class Main {
                 //difference of r,g,b
                 int rDif, gDif, bDif;
 
-                //calculated difference value
-                double difference;
-
                 boolean breakLoop = false;
                 while (!breakLoop){
                     cSmall = new Color(small.getRGB(xSmall, ySmall));
@@ -300,9 +293,7 @@ public class Main {
                     gDif = cBig.getGreen() - cSmall.getGreen();
                     bDif = cBig.getBlue() - cSmall.getBlue();
 
-                    difference = (rDif * rDif) + (gDif * gDif) + (bDif * bDif);
-
-                    if (difference > 900) {
+                    if ((rDif != 0) || (gDif != 0) || (bDif != 0)) {
                         breakLoop = true;
                     }
 
