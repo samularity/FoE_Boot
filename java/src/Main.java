@@ -29,47 +29,47 @@ public class Main {
             //images
 
 
-            BufferedImage head = ImageIO.read(new File("head.png"));
+            BufferedImage head = ImageIO.read(new File("images\head.png"));
 
             //refresh opera or chrome
             //BufferedImage refresh = ImageIO.read(new File("refresh_opera.png"));
-            BufferedImage refresh = ImageIO.read(new File("refresh_chrome.png"));
+            BufferedImage refresh = ImageIO.read(new File("images\refresh_chrome.png"));
 
             //forge points
-            BufferedImage forgePoint = ImageIO.read(new File("forgePoint.png"));
-            BufferedImage science = ImageIO.read(new File("science.png"));
-            BufferedImage light = ImageIO.read(new File("light.png"));
-            BufferedImage useForgePoint = ImageIO.read(new File("useForgePoint.png"));
-            BufferedImage unlock = ImageIO.read(new File("unlock.png"));
+            BufferedImage forgePoint = ImageIO.read(new File("images\forgePoints\forgePoint.png"));
+            BufferedImage science = ImageIO.read(new File("images\forgePoints\science.png"));
+            BufferedImage light = ImageIO.read(new File("images\forgePoints\light.png"));
+            BufferedImage useForgePoint = ImageIO.read(new File("images\forgePoints\useForgePoint.png"));
+            BufferedImage unlock = ImageIO.read(new File("images\forgePoints\unlock.png"));
 
             //treasure hunt
-            BufferedImage treasureHunt = ImageIO.read(new File("treasureHunt.png"));
-            BufferedImage open = ImageIO.read(new File("open.png"));
-            BufferedImage ok = ImageIO.read(new File("ok.png"));
+            BufferedImage treasureHunt = ImageIO.read(new File("images\treasureHunt\treasureHunt.png"));
+            BufferedImage open = ImageIO.read(new File("images\treasureHunt\open.png"));
+            BufferedImage ok = ImageIO.read(new File("images\treasureHunt\ok.png"));
 
 
             //list of click objects
             java.util.List<ClickObject> icons = new ArrayList<ClickObject>();
 
-            icons.add(new ClickObject(ImageIO.read(new File("moon.png")), "moon", false, 0, 50));
+            icons.add(new ClickObject(ImageIO.read(new File("images\moon.png")), "moon", false, 0, 50));
 
-            icons.add(new ClickObject(ImageIO.read(new File("cole.png")), "cole", false, 0, 0));
-            icons.add(new ClickObject(ImageIO.read(new File("trophy.png")), "trophy", false, 0, 0));
-            icons.add(new ClickObject(ImageIO.read(new File("wood.png")), "wood", false, 0, 0));
-            icons.add(new ClickObject(ImageIO.read(new File("bottle.png")), "bottle", false, 0, 0));
-            icons.add(new ClickObject(ImageIO.read(new File("marble.png")), "marble", false, 0, 0));
-            icons.add(new ClickObject(ImageIO.read(new File("horseshoe.png")), "horseshoe", false, 0, 0));
+            icons.add(new ClickObject(ImageIO.read(new File("images\cole.png")), "cole", false, 0, 0));
+            icons.add(new ClickObject(ImageIO.read(new File("images\trophy.png")), "trophy", false, 0, 0));
+            icons.add(new ClickObject(ImageIO.read(new File("images\wood.png")), "wood", false, 0, 0));
+            icons.add(new ClickObject(ImageIO.read(new File("images\bottle.png")), "bottle", false, 0, 0));
+            icons.add(new ClickObject(ImageIO.read(new File("images\marble.png")), "marble", false, 0, 0));
+            icons.add(new ClickObject(ImageIO.read(new File("images\horseshoe.png")), "horseshoe", false, 0, 0));
 
-            icons.add(new ClickObject(ImageIO.read(new File("recrute.png")), "recrute", false, 0, 0));
-            icons.add(new ClickObject(ImageIO.read(new File("recrute2.png")), "recrute2", false, 0, 0));
+            icons.add(new ClickObject(ImageIO.read(new File("images\recrute.png")), "recrute", false, 0, 0));
+            icons.add(new ClickObject(ImageIO.read(new File("images\recrute2.png")), "recrute2", false, 0, 0));
 
-            icons.add(new ClickObject(ImageIO.read(new File("close.png")), "close", false, 0, 0));
-            icons.add(new ClickObject(ImageIO.read(new File("close2.png")), "close2", false, 0, 0));
+            icons.add(new ClickObject(ImageIO.read(new File("images\close.png")), "close", false, 0, 0));
+            icons.add(new ClickObject(ImageIO.read(new File("images\close2.png")), "close2", false, 0, 0));
 
-            icons.add(new ClickObject(ImageIO.read(new File("coin.png")), "coin", true, 0, 70));
-            icons.add(new ClickObject(ImageIO.read(new File("box.png")), "box", true, 0, 70));
-            icons.add(new ClickObject(ImageIO.read(new File("swords.png")), "swords", true, 0, 50));
-            icons.add(new ClickObject(ImageIO.read(new File("hammer.png")), "hammer", true, 0, 90));
+            icons.add(new ClickObject(ImageIO.read(new File("images\coin.png")), "coin", true, 0, 70));
+            icons.add(new ClickObject(ImageIO.read(new File("images\box.png")), "box", true, 0, 70));
+            icons.add(new ClickObject(ImageIO.read(new File("images\swords.png")), "swords", true, 0, 50));
+            icons.add(new ClickObject(ImageIO.read(new File("images\hammer.png")), "hammer", true, 0, 90));
 
 
             java.util.List<Position> clickPos;
