@@ -28,10 +28,13 @@ public class Main {
 
             //images
 
-            //opera
-            BufferedImage head = ImageIO.read(new File("head.png"));
-            BufferedImage refresh = ImageIO.read(new File("refresh.png"));
 
+            BufferedImage head = ImageIO.read(new File("head.png"));
+
+            //refresh opera or chrome
+            //BufferedImage refresh = ImageIO.read(new File("refresh_opera.png"));
+            BufferedImage refresh = ImageIO.read(new File("refresh_chrome.png"));
+            
             //forge points
             BufferedImage forgePoint = ImageIO.read(new File("forgePoint.png"));
             BufferedImage science = ImageIO.read(new File("science.png"));
