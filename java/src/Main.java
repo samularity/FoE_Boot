@@ -15,6 +15,8 @@ import javax.imageio.*;
 public class Main {
     public static void main (String[] args){
         try {
+            System.out.println("3 Seconds till Start");
+            Thread.sleep(3000);
             //bot for taking screenshots and clicking
             Robot bot = new Robot();
 
@@ -46,7 +48,6 @@ public class Main {
             //list of click objects
             java.util.List<ClickObject> icons = new ArrayList<ClickObject>();
 
-            //icons.add(new ClickObject(ImageIO.read(new File("moon_small.png")), "moon", false, 0, 50));
             icons.add(new ClickObject(ImageIO.read(new File("moon.png")), "moon", false, 0, 50));
 
             icons.add(new ClickObject(ImageIO.read(new File("cole.png")), "cole", false, 0, 0));
@@ -56,26 +57,12 @@ public class Main {
             icons.add(new ClickObject(ImageIO.read(new File("marble.png")), "marble", false, 0, 0));
             icons.add(new ClickObject(ImageIO.read(new File("horseshoe.png")), "horseshoe", false, 0, 0));
 
-            /*
-            icons.add(new ClickObject(ImageIO.read(new File("spear.png")), "spear", false, 0, 0));
-            icons.add(new ClickObject(ImageIO.read(new File("slinger.png")), "slinger", false, 0, 0));
-            icons.add(new ClickObject(ImageIO.read(new File("stoneSlinger.png")), "stoneSlinger", false, 0, 0));
-            icons.add(new ClickObject(ImageIO.read(new File("warrior.png")), "warrior", false, 0, 0));
-            icons.add(new ClickObject(ImageIO.read(new File("horseman.png")), "horseman", false, 0, 0));
-            */
-
             icons.add(new ClickObject(ImageIO.read(new File("recrute.png")), "recrute", false, 0, 0));
             icons.add(new ClickObject(ImageIO.read(new File("recrute2.png")), "recrute2", false, 0, 0));
 
             icons.add(new ClickObject(ImageIO.read(new File("close.png")), "close", false, 0, 0));
             icons.add(new ClickObject(ImageIO.read(new File("close2.png")), "close2", false, 0, 0));
 
-/*
-            icons.add(new ClickObject(ImageIO.read(new File("coin_small.png")), "coin", true, 0, 30));
-            icons.add(new ClickObject(ImageIO.read(new File("box_small.png")), "box", true, 0, 30));
-            icons.add(new ClickObject(ImageIO.read(new File("swords_small.png")), "swords", true, 0, 50));
-            icons.add(new ClickObject(ImageIO.read(new File("hammer_small.png")), "hammer", true, 0, 40));
-/*/
             icons.add(new ClickObject(ImageIO.read(new File("coin.png")), "coin", true, 0, 70));
             icons.add(new ClickObject(ImageIO.read(new File("box.png")), "box", true, 0, 70));
             icons.add(new ClickObject(ImageIO.read(new File("swords.png")), "swords", true, 0, 50));
