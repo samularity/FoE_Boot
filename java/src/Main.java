@@ -4,31 +4,33 @@
 
 import java.awt.*;
 import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
+//import java.awt.event.KeyEvent;
 import java.awt.image.*;
 import java.io.*;
 import java.util.*;
 import java.lang.*;
 import javax.imageio.*;
 
-
 public class Main {
-    public static void main (String[] args){
+
+    static Log log = new Log(Log.LOGLEVEL.DEBUG);
+
+    public static void main(String[] args) {
         try {
-            System.out.println("3 Seconds till Start");
-            Thread.sleep(3000);
             //bot for taking screenshots and clicking
             Robot bot = new Robot();
-
-            //object for the screenshot
-            BufferedImage screen;
 
             Date currentDate = new Date();
             long lastRefresh = currentDate.getTime() / 1000;
 
+            //object for the screenshot
+            BufferedImage screen;
+
+            log.print("Starting", Log.LOGLEVEL.INFO);
+            Thread.sleep(4000);
+
+            log.print("Start Reading Images", Log.LOGLEVEL.DEBUG);
             //images
-
-
             BufferedImage head = ImageIO.read(new File("images/head.png"));
 
             //refresh opera or chrome
@@ -47,7 +49,7 @@ public class Main {
             BufferedImage open = ImageIO.read(new File("images/treasureHunt/open.png"));
             BufferedImage ok = ImageIO.read(new File("images/treasureHunt/ok.png"));
 
-
+            log.print("create list with Click Objects", Log.LOGLEVEL.DEBUG);
             //list of click objects
             java.util.List<ClickObject> icons = new ArrayList<ClickObject>();
 
@@ -75,7 +77,7 @@ public class Main {
             java.util.List<Position> clickPos;
 
 
-
+            log.print("Enter Main-Loop", Log.LOGLEVEL.INFO);
             //(never ending) main loop
             boolean breakMainLoop = false;
             while (!breakMainLoop) {
@@ -85,11 +87,15 @@ public class Main {
                 bot.keyRelease(KeyEvent.VK_UP);
                 */
 
+
                 //first get a screenshot
+                log.print("start capturing screen", Log.LOGLEVEL.DEBUG);
                 screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+                log.print("Screen capture done", Log.LOGLEVEL.DEBUG);
 
                 clickPos = getOnePosInImage(screen, treasureHunt);
-                if(!clickPos.isEmpty()){
+                if (!clickPos.isEmpty()) {
+                    log.print("Treasure-Hunt", Log.LOGLEVEL.INFO);
                     click(bot, clickPos, 0, 0);
 
                     Thread.sleep(5000);
@@ -104,10 +110,10 @@ public class Main {
                 }
 
 
-
-                    if(!getOnePosInImage(screen, forgePoint).isEmpty()){
+                if (!getOnePosInImage(screen, forgePoint).isEmpty()) {
+                    log.print("Enter Forge-Point Menu", Log.LOGLEVEL.DEBUG);
                     clickPos = getOnePosInImage(screen, science);
-                    click(bot,clickPos, 0, 0);
+                    click(bot, clickPos, 0, 0);
 
                     Thread.sleep(5000);
                     screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
@@ -117,7 +123,8 @@ public class Main {
                     Thread.sleep(2000);
                     screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
                     clickPos = getOnePosInImage(screen, useForgePoint);
-                    while(!clickPos.isEmpty()){
+                    while (!clickPos.isEmpty()) {
+                        log.print("Use Forge-Point", Log.LOGLEVEL.INFO);
                         click(bot, clickPos, 0, 0);
                         Thread.sleep(2000);
                         screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
@@ -133,7 +140,7 @@ public class Main {
                 int count = 0;
                 ClickObject icon;
                 boolean breakLoop = false;
-                while (!breakLoop){
+                while (!breakLoop) {
                     //the icon to find and click from the list
                     icon = icons.get(count);
 
@@ -153,10 +160,11 @@ public class Main {
                         screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
                     }
 
-                    //stop if opera isn't at the screen
-                    if (getOnePosInImage(screen, head).isEmpty()){
+                    //stop if game isn't at the screen
+                    if (getOnePosInImage(screen, head).isEmpty()) {
                         breakLoop = true;
                         breakMainLoop = true;
+                        log.print("No game found!", Log.LOGLEVEL.CRITICAL);
                     }
 
 
@@ -179,13 +187,13 @@ public class Main {
 
             }
 
-        //catch all exceptions and print them...
+            //catch all exceptions and print them...
         } catch (AWTException ex) {
-            System.out.println(ex);
-        } catch (IOException ex){
-            System.out.println(ex);
-        } catch (InterruptedException ex){
-            System.out.println(ex);
+            log.print("AWTException"+ ex.getMessage(), Log.LOGLEVEL.CRITICAL);
+        } catch (IOException ex) {
+            log.print("IOException" + ex.getMessage(), Log.LOGLEVEL.CRITICAL);
+        } catch (InterruptedException ex) {
+            log.print("InterruptedException" + ex.getMessage(), Log.LOGLEVEL.CRITICAL);
         }
     }
 
@@ -195,7 +203,7 @@ public class Main {
         rand.setSeed(System.currentTimeMillis() / 1000L);
         int xClick, yClick;
 
-        for(Position pos : clickPos){
+        for (Position pos : clickPos) {
             xClick = pos.x + xOff + (rand.nextInt(10) - 5);
             yClick = pos.y + yOff + (rand.nextInt(10) - 5);
             bot.mouseMove(xClick, yClick);
@@ -206,7 +214,7 @@ public class Main {
     }
 
     //finds images and returns the positions
-    public static java.util.List<Position> getAllPosInImage(BufferedImage big, BufferedImage small){
+    public static java.util.List<Position> getAllPosInImage(BufferedImage big, BufferedImage small) {
         //List which will be returned
         java.util.List<Position> ret = new ArrayList<Position>();
 
@@ -225,7 +233,7 @@ public class Main {
                 int rDif, gDif, bDif;
 
                 boolean breakLoop = false;
-                while (!breakLoop){
+                while (!breakLoop) {
                     cSmall = new Color(small.getRGB(xSmall, ySmall));
                     cBig = new Color(big.getRGB(xBig + xSmall, yBig + ySmall));
                     rDif = cBig.getRed() - cSmall.getRed();
@@ -238,10 +246,10 @@ public class Main {
                     }
 
                     xSmall++;
-                    if (xSmall >= small.getWidth()){
+                    if (xSmall >= small.getWidth()) {
                         xSmall = 0;
                         ySmall++;
-                        if (ySmall >= small.getHeight()){
+                        if (ySmall >= small.getHeight()) {
                             int x = xBig + (small.getWidth() / 2);
                             int y = yBig + (small.getHeight() / 2);
                             ret.add(new Position(x, y));
@@ -257,7 +265,7 @@ public class Main {
     }
 
     //nearly the same as getPosInImage just faster and returns just one pos...
-    public static java.util.List<Position> getOnePosInImage(BufferedImage big, BufferedImage small){
+    public static java.util.List<Position> getOnePosInImage(BufferedImage big, BufferedImage small) {
         //List which will be returned
         java.util.List<Position> ret = new ArrayList<Position>();
 
@@ -276,7 +284,7 @@ public class Main {
                 int rDif, gDif, bDif;
 
                 boolean breakLoop = false;
-                while (!breakLoop){
+                while (!breakLoop) {
                     cSmall = new Color(small.getRGB(xSmall, ySmall));
                     cBig = new Color(big.getRGB(xBig + xSmall, yBig + ySmall));
                     rDif = cBig.getRed() - cSmall.getRed();
@@ -288,10 +296,10 @@ public class Main {
                     }
 
                     xSmall++;
-                    if (xSmall >= small.getWidth()){
+                    if (xSmall >= small.getWidth()) {
                         xSmall = 0;
                         ySmall++;
-                        if (ySmall >= small.getHeight()){
+                        if (ySmall >= small.getHeight()) {
                             int x = xBig + (small.getWidth() / 2);
                             int y = yBig + (small.getHeight() / 2);
                             ret.add(new Position(x, y));
@@ -305,6 +313,5 @@ public class Main {
 
         return ret;
     }
-
 }
 
