@@ -34,8 +34,8 @@ public class Main {
             BufferedImage head = ImageIO.read(new File("images/head.png"));
 
             //refresh opera or chrome
-            //BufferedImage refresh = ImageIO.read(new File("refresh_opera.png"));
-            BufferedImage refresh = ImageIO.read(new File("images/refresh_chrome.png"));
+            BufferedImage refresh = ImageIO.read(new File("images/refresh_opera.png"));
+            //BufferedImage refresh = ImageIO.read(new File("images/refresh_chrome.png"));
 
             //forge points
             BufferedImage forgePoint = ImageIO.read(new File("images/forgePoints/forgePoint.png"));
