@@ -4,7 +4,6 @@
 
 import java.awt.*;
 import java.awt.event.InputEvent;
-//import java.awt.event.KeyEvent;
 import java.awt.image.*;
 import java.io.*;
 import java.util.*;
@@ -13,29 +12,43 @@ import javax.imageio.*;
 
 public class Main {
 
+    //change the log level here
     static Log log = new Log(Log.LOGLEVEL.DEBUG);
+
 
     public static void main(String[] args) {
         try {
+
             //bot for taking screenshots and clicking
             Robot bot = new Robot();
 
-            Date currentDate = new Date();
-            long lastRefresh = currentDate.getTime() / 1000;
+            //save the time for refreshing periodically
+            long lastRefresh = new Date().getTime() / 1000;
 
             //object for the screenshot
             BufferedImage screen;
 
-            log.print("Starting", Log.LOGLEVEL.INFO);
-            Thread.sleep(4000);
+            //list of position(s) to click
+            java.util.List<Position> clickPos;
 
-            log.print("Start Reading Images", Log.LOGLEVEL.DEBUG);
+
+            log.print("Starting", Log.LOGLEVEL.INFO);
+            Thread.sleep(2000);
+
+
             //images
+            log.print("Start Reading Images", Log.LOGLEVEL.DEBUG);
+
+            //if this isn't on screen the programm will stop
             BufferedImage head = ImageIO.read(new File("images/head.png"));
 
-            //refresh opera or chrome
+            //refresh button from opera or chrome
             BufferedImage refresh = ImageIO.read(new File("images/refresh_opera.png"));
             //BufferedImage refresh = ImageIO.read(new File("images/refresh_chrome.png"));
+
+            //close
+            BufferedImage close = ImageIO.read(new File("images/close.png"));
+            BufferedImage close2 = ImageIO.read(new File("images/close2.png"));
 
             //forge points
             BufferedImage forgePoint = ImageIO.read(new File("images/forgePoints/forgePoint.png"));
@@ -49,10 +62,12 @@ public class Main {
             BufferedImage open = ImageIO.read(new File("images/treasureHunt/open.png"));
             BufferedImage ok = ImageIO.read(new File("images/treasureHunt/ok.png"));
 
-            log.print("create list with Click Objects", Log.LOGLEVEL.DEBUG);
+
             //list of click objects
+            log.print("create list with Click Objects", Log.LOGLEVEL.DEBUG);
             java.util.List<ClickObject> icons = new ArrayList<ClickObject>();
 
+            //first object in list will be clicked first!!!
             icons.add(new ClickObject(ImageIO.read(new File("images/moon.png")), "moon", false, 0, 50));
 
             icons.add(new ClickObject(ImageIO.read(new File("images/cole.png")), "cole", false, 0, 0));
@@ -74,11 +89,7 @@ public class Main {
             icons.add(new ClickObject(ImageIO.read(new File("images/hammer.png")), "hammer", true, 0, 90));
 
 
-            java.util.List<Position> clickPos;
-
-
-            log.print("Enter Main-Loop", Log.LOGLEVEL.INFO);
-            //(never ending) main loop
+            log.print("Enter Main-Loop", Log.LOGLEVEL.DEBUG);
             boolean breakMainLoop = false;
             while (!breakMainLoop) {
 
@@ -88,113 +99,162 @@ public class Main {
                 */
 
 
-                //first get a screenshot
-                log.print("start capturing screen", Log.LOGLEVEL.DEBUG);
-                screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
-                log.print("Screen capture done", Log.LOGLEVEL.DEBUG);
+                doTreasureHunt(bot, treasureHunt, open, ok, close, close2);
+                doUseForgePoint(bot, forgePoint, science, light, useForgePoint, unlock, close, close2);
 
-                clickPos = getOnePosInImage(screen, treasureHunt);
-                if (!clickPos.isEmpty()) {
-                    log.print("Treasure-Hunt", Log.LOGLEVEL.INFO);
-                    click(bot, clickPos, 0, 0);
-
-                    Thread.sleep(5000);
-                    screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
-                    clickPos = getOnePosInImage(screen, open);
-                    click(bot, clickPos, 0, 0);
-
-                    Thread.sleep(5000);
-                    screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
-                    clickPos = getOnePosInImage(screen, ok);
-                    click(bot, clickPos, 0, 0);
-                }
-
-
-                if (!getOnePosInImage(screen, forgePoint).isEmpty()) {
-                    log.print("Enter Forge-Point Menu", Log.LOGLEVEL.DEBUG);
-                    clickPos = getOnePosInImage(screen, science);
-                    click(bot, clickPos, 0, 0);
-
-                    Thread.sleep(5000);
-                    screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
-                    clickPos = getOnePosInImage(screen, light);
-                    click(bot, clickPos, 0, 0);
-
-                    Thread.sleep(2000);
-                    screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
-                    clickPos = getOnePosInImage(screen, useForgePoint);
-                    while (!clickPos.isEmpty()) {
-                        log.print("Use Forge-Point", Log.LOGLEVEL.INFO);
-                        click(bot, clickPos, 0, 0);
-                        Thread.sleep(2000);
-                        screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
-                        clickPos = getOnePosInImage(screen, useForgePoint);
-                    }
-
-                    clickPos = getOnePosInImage(screen, unlock);
-                    click(bot, clickPos, 0, 0);
-                    Thread.sleep(2000);
-                    screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
-                }
-
-                int count = 0;
+                //loops through all icons in the list and clicks them
+                int iconCount = 0;
                 ClickObject icon;
+
+                //get a screenshot
+                screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+
                 boolean breakLoop = false;
                 while (!breakLoop) {
-                    //the icon to find and click from the list
-                    icon = icons.get(count);
+
+                    //the icon to click from the list
+                    icon = icons.get(iconCount);
 
                     //search for one or for more
-                    if (icon.multipleAllowed) {
-                        clickPos = getAllPosInImage(screen, icon.img);
-                    } else {
-                        clickPos = getOnePosInImage(screen, icon.img);
-                    }
+                    clickPos = getPosInImage(screen, icon.img, icon.multipleAllowed);
 
                     //click it
                     click(bot, clickPos, icon.xOffset, icon.yOffset);
 
                     //wait for a popup and make a new screenshot
                     if ((!icon.multipleAllowed) && (clickPos.size() > 0)) {
-                        Thread.sleep(200);
+                        Thread.sleep(1000);
                         screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
                     }
 
                     //stop if game isn't at the screen
-                    if (getOnePosInImage(screen, head).isEmpty()) {
+                    if (!doCheckForRunningGame(screen, head, close, close2)) {
                         breakLoop = true;
                         breakMainLoop = true;
-                        log.print("No game found!", Log.LOGLEVEL.CRITICAL);
+                        log.print("No running game on screen!", Log.LOGLEVEL.CRITICAL);
                     }
 
-
-                    currentDate = new Date();
-
-                    if (((currentDate.getTime() / 1000) - lastRefresh) > 1800) {
-                        clickPos = getOnePosInImage(screen, refresh);
+                    //refresh periodically
+                    if (((new Date().getTime() / 1000) - lastRefresh) > 1800) {
+                        clickPos = getPosInImage(screen, refresh, false);
                         click(bot, clickPos, 0, 0);
-                        lastRefresh = currentDate.getTime() / 1000;
-                        System.out.println(lastRefresh);
+                        lastRefresh = new Date().getTime() / 1000;
+                        log.print("Refresh the page", Log.LOGLEVEL.INFO);
+                        Thread.sleep(10000);
                     }
 
                     //count up
-                    count++;
-                    if (count >= icons.size()) {
+                    iconCount++;
+                    if (iconCount >= icons.size()) {
                         breakLoop = true;
                     }
                 }
-                bot.mouseMove(200, 0);
-
             }
 
             //catch all exceptions and print them...
         } catch (AWTException ex) {
-            log.print("AWTException"+ ex.getMessage(), Log.LOGLEVEL.CRITICAL);
+            log.print("AWTException" + ex.getMessage(), Log.LOGLEVEL.CRITICAL);
         } catch (IOException ex) {
             log.print("IOException" + ex.getMessage(), Log.LOGLEVEL.CRITICAL);
         } catch (InterruptedException ex) {
             log.print("InterruptedException" + ex.getMessage(), Log.LOGLEVEL.CRITICAL);
         }
+    }
+
+    public static boolean doCheckForRunningGame(BufferedImage screen, BufferedImage head, BufferedImage close, BufferedImage close2) {
+        boolean onScreen = false;
+        onScreen |= getPosInImage(screen, head, false).isEmpty();
+        onScreen |= getPosInImage(screen, close, false).isEmpty();
+        onScreen |= getPosInImage(screen, close2, false).isEmpty();
+        return onScreen;
+    }
+
+    public static void doUseForgePoint(
+            Robot bot,
+            BufferedImage forgePoint,
+            BufferedImage science,
+            BufferedImage light,
+            BufferedImage useForgePoint,
+            BufferedImage unlock,
+            BufferedImage close,
+            BufferedImage close2) throws InterruptedException {
+
+        BufferedImage screen;
+        java.util.List<Position> clickPos;
+
+        screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+        if (!getPosInImage(screen, forgePoint, false).isEmpty()) {
+            log.print("Enter Forge-Point Menu", Log.LOGLEVEL.DEBUG);
+            clickPos = getPosInImage(screen, science, false);
+            click(bot, clickPos, 0, 0);
+
+            //light
+            Thread.sleep(5000);
+            screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+            clickPos = getPosInImage(screen, light, false);
+            click(bot, clickPos, 0, 0);
+
+            //use 1 forgepoint
+            Thread.sleep(2000);
+            screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+            clickPos = getPosInImage(screen, useForgePoint, false);
+            log.print("Use Forge-Point", Log.LOGLEVEL.INFO);
+            click(bot, clickPos, 0, 0);
+
+            //unlock
+            Thread.sleep(2000);
+            screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+            clickPos = getPosInImage(screen, unlock, false);
+            click(bot, clickPos, 0, 0);
+
+
+            doClose(bot, close, close2);
+        }
+    }
+
+    public static void doTreasureHunt(Robot bot, BufferedImage treasureHunt, BufferedImage open, BufferedImage ok, BufferedImage close, BufferedImage close2) throws InterruptedException {
+        BufferedImage screen;
+        java.util.List<Position> clickPos;
+
+        screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+        clickPos = getPosInImage(screen, treasureHunt, false);
+        if (!clickPos.isEmpty()) {
+            log.print("Treasure-Hunt", Log.LOGLEVEL.INFO);
+            click(bot, clickPos, 0, 0);
+
+            //open
+            Thread.sleep(5000);
+            screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+            clickPos = getPosInImage(screen, open, false);
+            click(bot, clickPos, 0, 0);
+
+            //ok
+            Thread.sleep(5000);
+            screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+            clickPos = getPosInImage(screen, ok, false);
+            click(bot, clickPos, 0, 0);
+
+
+            doClose(bot, close, close2);
+        }
+    }
+
+    //clicks on the close Buttons
+    public static void doClose(Robot bot, BufferedImage close, BufferedImage close2) throws InterruptedException {
+        BufferedImage screen;
+        java.util.List<Position> clickPos;
+
+        //close
+        Thread.sleep(2000);
+        screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+        clickPos = getPosInImage(screen, close, false);
+        click(bot, clickPos, 0, 0);
+
+        //close2
+        Thread.sleep(2000);
+        screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+        clickPos = getPosInImage(screen, close2, false);
+        click(bot, clickPos, 0, 0);
     }
 
     //clicks on Points with randomized delay and offset
@@ -214,7 +274,7 @@ public class Main {
     }
 
     //finds images and returns the positions
-    public static java.util.List<Position> getAllPosInImage(BufferedImage big, BufferedImage small) {
+    public static java.util.List<Position> getPosInImage(BufferedImage big, BufferedImage small, boolean multipleAllowed) {
         //List which will be returned
         java.util.List<Position> ret = new ArrayList<Position>();
 
@@ -222,7 +282,7 @@ public class Main {
         for (int xBig = 0; xBig < (big.getWidth() - small.getWidth()); xBig++) {
             for (int yBig = 0; yBig < (big.getHeight() - small.getHeight()); yBig++) {
 
-                //position in smal picture
+                //position in small picture
                 int xSmall = 0;
                 int ySmall = 0;
 
@@ -253,65 +313,22 @@ public class Main {
                             int x = xBig + (small.getWidth() / 2);
                             int y = yBig + (small.getHeight() / 2);
                             ret.add(new Position(x, y));
+
+                            if (!multipleAllowed) {
+                                return ret;
+                            }
+
                             breakLoop = true;
+
                         }
                     }
                 }
 
             }
         }
-
-        return ret;
-    }
-
-    //nearly the same as getPosInImage just faster and returns just one pos...
-    public static java.util.List<Position> getOnePosInImage(BufferedImage big, BufferedImage small) {
-        //List which will be returned
-        java.util.List<Position> ret = new ArrayList<Position>();
-
-        //two for loops for addressing every pixel in the big picture
-        for (int xBig = 0; xBig < (big.getWidth() - small.getWidth()); xBig++) {
-            for (int yBig = 0; yBig < (big.getHeight() - small.getHeight()); yBig++) {
-
-                //position in smal picture
-                int xSmall = 0;
-                int ySmall = 0;
-
-                //colors of the pixels
-                Color cSmall, cBig;
-
-                //difference of r,g,b
-                int rDif, gDif, bDif;
-
-                boolean breakLoop = false;
-                while (!breakLoop) {
-                    cSmall = new Color(small.getRGB(xSmall, ySmall));
-                    cBig = new Color(big.getRGB(xBig + xSmall, yBig + ySmall));
-                    rDif = cBig.getRed() - cSmall.getRed();
-                    gDif = cBig.getGreen() - cSmall.getGreen();
-                    bDif = cBig.getBlue() - cSmall.getBlue();
-
-                    if ((rDif != 0) || (gDif != 0) || (bDif != 0)) {
-                        breakLoop = true;
-                    }
-
-                    xSmall++;
-                    if (xSmall >= small.getWidth()) {
-                        xSmall = 0;
-                        ySmall++;
-                        if (ySmall >= small.getHeight()) {
-                            int x = xBig + (small.getWidth() / 2);
-                            int y = yBig + (small.getHeight() / 2);
-                            ret.add(new Position(x, y));
-                            return ret;
-                        }
-                    }
-                }
-
-            }
-        }
-
+        Collections.shuffle(ret);
         return ret;
     }
 }
+
 

@@ -176,3 +176,70 @@
 2016.02.11 19:46:43 :	Enter Forge-Point Menu
 2016.02.11 19:46:51 :	Use Forge-Point
 2016.02.11 19:46:57 :	No game found!
+2016.02.11 19:58:59 :	Starting
+2016.02.11 19:59:03 :	Start Reading Images
+2016.02.11 19:59:03 :	create list with Click Objects
+2016.02.11 19:59:03 :	Enter Main-Loop
+2016.02.11 19:59:03 :	start capturing screen
+2016.02.11 19:59:03 :	Screen capture done
+2016.02.11 19:59:26 :	start capturing screen
+2016.02.11 19:59:26 :	Screen capture done
+2016.02.11 19:59:28 :	No game found!
+2016.02.11 20:00:44 :	Starting
+2016.02.11 20:00:48 :	Start Reading Images
+2016.02.11 20:00:48 :	create list with Click Objects
+2016.02.11 20:00:48 :	Enter Main-Loop
+2016.02.11 20:00:48 :	start capturing screen
+2016.02.11 20:00:48 :	Screen capture done
+2016.02.11 20:01:03 :	start capturing screen
+2016.02.11 20:01:03 :	Screen capture done
+2016.02.11 20:01:17 :	start capturing screen
+2016.02.11 20:01:17 :	Screen capture done
+2016.02.11 20:01:35 :	start capturing screen
+2016.02.11 20:01:35 :	Screen capture done
+2016.02.11 20:05:09 :	Starting
+2016.02.11 20:05:13 :	Start Reading Images
+2016.02.11 20:05:13 :	create list with Click Objects
+2016.02.11 20:05:13 :	Enter Main-Loop
+2016.02.11 20:05:13 :	start capturing screen
+2016.02.11 20:05:14 :	Screen capture done
+2016.02.11 20:05:29 :	start capturing screen
+2016.02.11 20:05:29 :	Screen capture done
+2016.02.11 20:05:44 :	start capturing screen
+2016.02.11 20:05:44 :	Screen capture done
+2016.02.11 20:05:58 :	start capturing screen
+2016.02.11 20:05:58 :	Screen capture done
+2016.02.11 20:06:12 :	start capturing screen
+2016.02.11 20:06:12 :	Screen capture done
+2016.02.11 20:06:26 :	start capturing screen
+2016.02.11 20:06:26 :	Screen capture done
+2016.02.11 20:06:41 :	start capturing screen
+2016.02.11 20:06:41 :	Screen capture done
+2016.02.11 20:06:56 :	Starting
+2016.02.11 20:07:00 :	Start Reading Images
+2016.02.11 20:07:00 :	create list with Click Objects
+2016.02.11 20:07:00 :	Enter Main-Loop
+2016.02.11 20:07:00 :	start capturing screen
+2016.02.11 20:07:00 :	Screen capture done
+2016.02.11 20:07:29 :	Starting
+2016.02.11 20:07:33 :	Start Reading Images
+2016.02.11 20:07:33 :	create list with Click Objects
+2016.02.11 20:07:33 :	Enter Main-Loop
+2016.02.11 20:07:33 :	start capturing screen
+2016.02.11 20:07:33 :	Screen capture done
+2016.02.11 20:07:48 :	start capturing screen
+2016.02.11 20:07:48 :	Screen capture done
+2016.02.11 20:07:50 :	No game found!
+2016.02.12 16:28:29 :	Starting
+2016.02.12 16:28:31 :	Start Reading Images
+2016.02.12 16:28:32 :	create list with Click Objects
+2016.02.12 16:28:32 :	Enter Main-Loop
+2016.02.12 16:28:36 :	No running game on screen!
+2016.02.12 16:29:45 :	Starting
+2016.02.12 16:29:47 :	Start Reading Images
+2016.02.12 16:29:47 :	create list with Click Objects
+2016.02.12 16:29:47 :	Enter Main-Loop
+2016.02.12 16:37:48 :	Starting
+2016.02.12 16:37:50 :	Start Reading Images
+2016.02.12 16:37:50 :	create list with Click Objects
+2016.02.12 16:37:50 :	Enter Main-Loop
