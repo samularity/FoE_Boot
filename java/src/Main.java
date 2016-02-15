@@ -2,6 +2,12 @@
  * Created by Janis on 03.02.2016.
  */
 
+//TODO add border to limit the clickable area
+//TODO add feature to "help" friends
+//TODO move code in functions
+//TODO lower cpu load
+//TODO check doCheckForRunningGame, compiler say, wrong logic expression
+
 import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.image.*;
@@ -75,7 +81,7 @@ public class Main {
 
             //handleMoon
             BufferedImage moon = ImageIO.read(new File("images/moon.png"));
-            java.util.List<ClickObject> moonList = new ArrayList<ClickObject>();
+            java.util.List<ClickObject> moonList = new ArrayList<>();
             moonList.add(new ClickObject(ImageIO.read(new File("images/cole.png")), "cole", false, 0, 0));
             moonList.add(new ClickObject(ImageIO.read(new File("images/trophy.png")), "trophy", false, 0, 0));
             moonList.add(new ClickObject(ImageIO.read(new File("images/wood.png")), "wood", false, 0, 0));
@@ -88,14 +94,14 @@ public class Main {
 
             //list of click objects
             log.print("create list with Click Objects", Log.LOGLEVEL.DEBUG);
-            java.util.List<ClickObject> icons = new ArrayList<ClickObject>();
+            java.util.List<ClickObject> icons = new ArrayList<>();
 
             //first object in list will be clicked first!!!
             icons.add(new ClickObject(ImageIO.read(new File("images/coin.png")), "coin", true, 0, 70));
             icons.add(new ClickObject(ImageIO.read(new File("images/box.png")), "box", true, 0, 70));
             icons.add(new ClickObject(ImageIO.read(new File("images/swords.png")), "swords", true, 0, 50));
             icons.add(new ClickObject(ImageIO.read(new File("images/hammer.png")), "hammer", true, 0, 90));
-
+            icons.add(new ClickObject(ImageIO.read(new File("images/thunder.png")), "thunder", true, 0, 70));
 
             log.print("Enter Main-Loop", Log.LOGLEVEL.DEBUG);
             boolean breakMainLoop = false;
@@ -261,9 +267,9 @@ public class Main {
             Thread.sleep(5000);
             screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
             clickPos = getPosInImage(screen, open, false);
-            click(bot, clickPos, 0, 0);
+            click(bot, clickPos, 50, 15);
             clickPos = getPosInImage(screen, open2, false);
-            click(bot, clickPos, 0, 0);
+            click(bot, clickPos, 50, 15);
 
             //ok
             Thread.sleep(5000);
@@ -381,7 +387,7 @@ public class Main {
     //finds images and returns the positions
     public static java.util.List<Position> getPosInImage(BufferedImage big, BufferedImage small, boolean multipleAllowed) {
         //List which will be returned
-        java.util.List<Position> ret = new ArrayList<Position>();
+        java.util.List<Position> ret = new ArrayList<>();
 
         //two for loops for addressing every pixel in the big picture
         for (int xBig = 0; xBig < (big.getWidth() - small.getWidth()); xBig++) {
