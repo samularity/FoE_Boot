@@ -51,8 +51,8 @@ public class Log {
     {
         statusWindow.setTitle(text);
 
-        if (priority.value <= loglevel.value) {
-            String temp = formatter.format(new Date()) + "\t" + text;
+            if (priority.value <= loglevel.value) {
+            String temp = formatter.format(new Date()) + "\t" + priority.toString() + "\t"+ text;
             System.out.println(temp);
             write(temp);
         }

@@ -162,11 +162,11 @@ public class Main {
 
             //catch all exceptions and print them...
         } catch (AWTException ex) {
-            log.print("AWTException" + ex.getMessage(), Log.LOGLEVEL.CRITICAL);
+            log.print("AWTException:" + ex.getMessage() + "\r\n" + ex.toString(), Log.LOGLEVEL.CRITICAL);
         } catch (IOException ex) {
-            log.print("IOException" + ex.getMessage(), Log.LOGLEVEL.CRITICAL);
+            log.print("IOException:" + ex.getMessage()+ "\r\n" + ex.toString(), Log.LOGLEVEL.CRITICAL);
         } catch (InterruptedException ex) {
-            log.print("InterruptedException" + ex.getMessage(), Log.LOGLEVEL.CRITICAL);
+            log.print("InterruptedException" + ex.getMessage()+ "\r\n" + ex.toString(), Log.LOGLEVEL.CRITICAL);
         }
         //failerfall
         log.dispose();
