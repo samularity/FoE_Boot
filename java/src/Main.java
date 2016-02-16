@@ -18,7 +18,6 @@ import java.io.*;
 import java.util.*;
 import java.lang.*;
 import javax.imageio.*;
-import javax.swing.*;
 
 public class Main {
 
@@ -79,14 +78,14 @@ public class Main {
             //handleMoon
             BufferedImage moon = ImageIO.read(new File("images/moon.png"));
             java.util.List<ClickObject> moonList = new ArrayList<>();
-            moonList.add(new ClickObject(ImageIO.read(new File("images/recrute.png")), "recrute", false, 50, 10));
-            moonList.add(new ClickObject(ImageIO.read(new File("images/recrute2.png")), "recrute2", false, 50, 10));
             moonList.add(new ClickObject(ImageIO.read(new File("images/produce.png")), "produce", false, 50, 10));
             moonList.add(new ClickObject(ImageIO.read(new File("images/produce2.png")), "produce2", false, 50, 10));
+            moonList.add(new ClickObject(ImageIO.read(new File("images/produce3.png")), "produce3", false, 50, 10));
+            moonList.add(new ClickObject(ImageIO.read(new File("images/recrute.png")), "recrute", false, 50, 10));
+            moonList.add(new ClickObject(ImageIO.read(new File("images/recrute2.png")), "recrute2", false, 50, 10));
 
 
             //list of click objects
-            log.print("create list with Click Objects", Log.LOGLEVEL.DEBUG);
             java.util.List<ClickObject> icons = new ArrayList<>();
 
             //first object in list will be clicked first!!!
@@ -104,8 +103,6 @@ public class Main {
                 bot.keyRelease(KeyEvent.VK_UP);
                 */
 
-                log.print("do Main-Loop", Log.LOGLEVEL.DEBUG);
-
                 doTreasureHunt(bot, treasureHunt, open, ok, ok2, close, close2, close3, close4);
                 doUseForgePoint(bot, forgePoint, science, light, useForgePoint, unlock, close, close2, close3, close4);
                 doHandleMoon(bot, moon, moonList, close, close2, close3, close4);
@@ -122,6 +119,7 @@ public class Main {
 
                     //the icon to click from the list
                     icon = icons.get(iconCount);
+                    log.print(icon.imgName, Log.LOGLEVEL.INFO);
 
                     //search for one or for more
                     clickPos = getPosInImage(screen, icon.img, icon.multipleAllowed);
@@ -253,12 +251,14 @@ public class Main {
 
             //open
             Thread.sleep(5000);
+            log.print("open", Log.LOGLEVEL.DEBUG);
             screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
             clickPos = getPosInImage(screen, open, false);
             click(bot, clickPos, 50, 15);
 
             //ok
             Thread.sleep(5000);
+            log.print("ok", Log.LOGLEVEL.DEBUG);
             screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
             clickPos = getPosInImage(screen, ok, false);
             click(bot, clickPos, 50, 10);
@@ -288,7 +288,7 @@ public class Main {
         if (!clickPos.isEmpty()) {
             log.print("handle Moon", Log.LOGLEVEL.INFO);
 
-            click(bot, clickPos, 0, 50);
+            click(bot, clickPos, 0, 60);
             Thread.sleep(2000);
 
             //loops through all icons in the list and clicks them
@@ -303,6 +303,7 @@ public class Main {
 
                 //the icon to click from the list
                 icon = moonList.get(iconCount);
+                log.print(icon.imgName, Log.LOGLEVEL.DEBUG);
 
                 //search for one or for more
                 clickPos = getPosInImage(screen, icon.img, icon.multipleAllowed);
@@ -333,6 +334,7 @@ public class Main {
 
         //close
         Thread.sleep(2000);
+        log.print("close x", Log.LOGLEVEL.DEBUG);
         screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
         clickPos = getPosInImage(screen, close, false);
         click(bot, clickPos, 0, 0);
@@ -347,6 +349,7 @@ public class Main {
 
         //close2
         Thread.sleep(2000);
+        log.print("close v", Log.LOGLEVEL.DEBUG);
         screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
         clickPos = getPosInImage(screen, close2, false);
         click(bot, clickPos, 0, 0);
