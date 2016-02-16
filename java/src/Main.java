@@ -1,12 +1,15 @@
 /**
- * Created by Janis on 03.02.2016.
+ * Created by Janis and Samu on 03.02.2016.
  */
 
 //TODO add border to limit the clickable area
 //TODO add feature to "help" friends
-//TODO move code in functions
+//TODO move code into functions
 //TODO lower cpu load
-//TODO check doCheckForRunningGame, compiler say, wrong logic expression
+//TODO check doCheckForRunningGame, compiler says, wrong logic expression  --DONE: compiler lies
+
+
+
 
 import java.awt.*;
 import java.awt.event.InputEvent;
