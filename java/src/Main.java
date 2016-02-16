@@ -72,24 +72,29 @@ public class Main {
             BufferedImage light = ImageIO.read(new File("images/forgePoints/light.png"));
             BufferedImage useForgePoint = ImageIO.read(new File("images/forgePoints/useForgePoint.png"));
             BufferedImage unlock = ImageIO.read(new File("images/forgePoints/unlock.png"));
+            log.print("1", Log.LOGLEVEL.DEBUG);
 
             //treasure hunt
             BufferedImage treasureHunt = ImageIO.read(new File("images/treasureHunt/treasureHunt.png"));
             BufferedImage open = ImageIO.read(new File("images/treasureHunt/open.png"));
-            BufferedImage open2 = ImageIO.read(new File("images/treasureHunt/open2.png"));
             BufferedImage ok = ImageIO.read(new File("images/treasureHunt/ok.png"));
+            BufferedImage ok2 = ImageIO.read(new File("images/treasureHunt/ok2.png"));
+            log.print("2", Log.LOGLEVEL.DEBUG);
 
             //handleMoon
             BufferedImage moon = ImageIO.read(new File("images/moon.png"));
             java.util.List<ClickObject> moonList = new ArrayList<>();
-            moonList.add(new ClickObject(ImageIO.read(new File("images/cole.png")), "cole", false, 0, 0));
+            /*moonList.add(new ClickObject(ImageIO.read(new File("images/cole.png")), "cole", false, 0, 0));
             moonList.add(new ClickObject(ImageIO.read(new File("images/trophy.png")), "trophy", false, 0, 0));
             moonList.add(new ClickObject(ImageIO.read(new File("images/wood.png")), "wood", false, 0, 0));
             moonList.add(new ClickObject(ImageIO.read(new File("images/bottle.png")), "bottle", false, 0, 0));
             moonList.add(new ClickObject(ImageIO.read(new File("images/marble.png")), "marble", false, 0, 0));
-            moonList.add(new ClickObject(ImageIO.read(new File("images/horseshoe.png")), "horseshoe", false, 0, 0));
-            moonList.add(new ClickObject(ImageIO.read(new File("images/recrute.png")), "recrute", false, 0, 0));
-            moonList.add(new ClickObject(ImageIO.read(new File("images/recrute2.png")), "recrute2", false, 0, 0));
+            moonList.add(new ClickObject(ImageIO.read(new File("images/horseshoe.png")), "horseshoe", false, 0, 0));*/
+
+            moonList.add(new ClickObject(ImageIO.read(new File("images/recrute.png")), "recrute", false, 50, 10));
+            moonList.add(new ClickObject(ImageIO.read(new File("images/recrute2.png")), "recrute2", false, 50, 10));
+            moonList.add(new ClickObject(ImageIO.read(new File("images/produce.png")), "produce", false, 50, 10));
+            moonList.add(new ClickObject(ImageIO.read(new File("images/produce2.png")), "produce2", false, 50, 10));
 
 
             //list of click objects
@@ -114,7 +119,7 @@ public class Main {
 
                 log.print("do Main-Loop", Log.LOGLEVEL.DEBUG);
 
-                doTreasureHunt(bot, treasureHunt, open, open2, ok, close, close2, close3, close4);
+                doTreasureHunt(bot, treasureHunt, open, ok, ok2, close, close2, close3, close4);
                 doUseForgePoint(bot, forgePoint, science, light, useForgePoint, unlock, close, close2, close3, close4);
                 doHandleMoon(bot, moon, moonList, close, close2, close3, close4);
 
@@ -245,8 +250,8 @@ public class Main {
             Robot bot,
             BufferedImage treasureHunt,
             BufferedImage open,
-            BufferedImage open2,
             BufferedImage ok,
+            BufferedImage ok2,
             BufferedImage close,
             BufferedImage close2,
             BufferedImage close3,
@@ -268,14 +273,14 @@ public class Main {
             screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
             clickPos = getPosInImage(screen, open, false);
             click(bot, clickPos, 50, 15);
-            clickPos = getPosInImage(screen, open2, false);
-            click(bot, clickPos, 50, 15);
 
             //ok
             Thread.sleep(5000);
             screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
             clickPos = getPosInImage(screen, ok, false);
-            click(bot, clickPos, 0, 0);
+            click(bot, clickPos, 50, 10);
+            clickPos = getPosInImage(screen, ok2, false);
+            click(bot, clickPos, 50, 10);
 
 
             doClose(bot, close, close2, close3, close4);
