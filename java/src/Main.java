@@ -22,18 +22,12 @@ import javax.swing.*;
 
 public class Main {
 
-    static JFrame mainWindow = new JFrame("started");
-
     //change the log level here
     static Log log = new Log(Log.LOGLEVEL.DEBUG);
 
 
     public static void main(String[] args) {
         try {
-            mainWindow.setSize(10,10);
-            mainWindow.setLocation(1,1);
-            mainWindow.setVisible(true);
-
             //bot for taking screenshots and clicking
             Robot bot = new Robot();
 
@@ -48,13 +42,11 @@ public class Main {
 
 
             log.print("Starting", Log.LOGLEVEL.INFO);
-            mainWindow.setTitle("Starting");
             Thread.sleep(2000);
 
 
             //images
             log.print("Start Reading Images", Log.LOGLEVEL.DEBUG);
-            mainWindow.setTitle("Reading Images");
 
             //if this isn't on screen the program will stop
             BufferedImage head = ImageIO.read(new File("images/head.png"));
@@ -87,13 +79,6 @@ public class Main {
             //handleMoon
             BufferedImage moon = ImageIO.read(new File("images/moon.png"));
             java.util.List<ClickObject> moonList = new ArrayList<>();
-            /*moonList.add(new ClickObject(ImageIO.read(new File("images/cole.png")), "cole", false, 0, 0));
-            moonList.add(new ClickObject(ImageIO.read(new File("images/trophy.png")), "trophy", false, 0, 0));
-            moonList.add(new ClickObject(ImageIO.read(new File("images/wood.png")), "wood", false, 0, 0));
-            moonList.add(new ClickObject(ImageIO.read(new File("images/bottle.png")), "bottle", false, 0, 0));
-            moonList.add(new ClickObject(ImageIO.read(new File("images/marble.png")), "marble", false, 0, 0));
-            moonList.add(new ClickObject(ImageIO.read(new File("images/horseshoe.png")), "horseshoe", false, 0, 0));*/
-
             moonList.add(new ClickObject(ImageIO.read(new File("images/recrute.png")), "recrute", false, 50, 10));
             moonList.add(new ClickObject(ImageIO.read(new File("images/recrute2.png")), "recrute2", false, 50, 10));
             moonList.add(new ClickObject(ImageIO.read(new File("images/produce.png")), "produce", false, 50, 10));
@@ -139,8 +124,6 @@ public class Main {
                     //the icon to click from the list
                     icon = icons.get(iconCount);
 
-                    mainWindow.setTitle(icon.imgName);
-
                     //search for one or for more
                     clickPos = getPosInImage(screen, icon.img, icon.multipleAllowed);
 
@@ -156,11 +139,9 @@ public class Main {
 
                     //stop if game isn't at the screen
                     if (!doCheckForRunningGame(screen, head, close, close2, close3)) {
-                        breakLoop = true;
-                        breakMainLoop = true;
                         log.print("No running game on screen!", Log.LOGLEVEL.CRITICAL);
-                        mainWindow.setVisible(false);
-                        mainWindow.dispose();
+                        log.dispose();
+                        System.exit(0);
                     }
 
                     //refresh periodically
@@ -169,7 +150,6 @@ public class Main {
                         click(bot, clickPos, 0, 0);
                         lastRefresh = new Date().getTime() / 1000;
                         log.print("Refresh the page", Log.LOGLEVEL.INFO);
-                        mainWindow.setTitle("refresh");
                         Thread.sleep(60000);
                     }
 
@@ -191,6 +171,11 @@ public class Main {
             log.print("IOException" + ex.getMessage(), Log.LOGLEVEL.CRITICAL);
         } catch (InterruptedException ex) {
             log.print("InterruptedException" + ex.getMessage(), Log.LOGLEVEL.CRITICAL);
+        } finally {
+
+            //failerfall
+            log.dispose();
+            System.exit(-1);
         }
     }
 
@@ -221,7 +206,6 @@ public class Main {
         screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
         if (!getPosInImage(screen, forgePoint, false).isEmpty()) {
             log.print("Enter Forge-Point Menu", Log.LOGLEVEL.DEBUG);
-            mainWindow.setTitle("forge point");
             clickPos = getPosInImage(screen, science, false);
             click(bot, clickPos, 0, 0);
 
@@ -267,7 +251,6 @@ public class Main {
         clickPos = getPosInImage(screen, treasureHunt, false);
         if (!clickPos.isEmpty()) {
             log.print("Treasure-Hunt", Log.LOGLEVEL.INFO);
-            mainWindow.setTitle("treasure hunt");
 
             click(bot, clickPos, 0, 0);
 
@@ -307,7 +290,6 @@ public class Main {
         clickPos = getPosInImage(screen, moon, false);
         if (!clickPos.isEmpty()) {
             log.print("handle Moon", Log.LOGLEVEL.INFO);
-            mainWindow.setTitle("handle moon");
 
             click(bot, clickPos, 0, 50);
             Thread.sleep(2000);
@@ -324,8 +306,6 @@ public class Main {
 
                 //the icon to click from the list
                 icon = moonList.get(iconCount);
-
-                mainWindow.setTitle(icon.imgName);
 
                 //search for one or for more
                 clickPos = getPosInImage(screen, icon.img, icon.multipleAllowed);

@@ -2,6 +2,7 @@
  * Created by sam on 10/02/16.
  */
 
+import javax.swing.*;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,6 +13,7 @@ import java.util.Date;
 
 
 public class Log {
+
 
     SimpleDateFormat formatter = new SimpleDateFormat ("yyyy.MM.dd HH:mm:ss :");
 
@@ -27,22 +29,28 @@ public class Log {
         LOGLEVEL(int value) {
             this.value = value;
         }
-    };
+    }
 
 
     //class variables
     public static LOGLEVEL loglevel;
-
+    public static JFrame statusWindow;
 
     //constructor
     public Log (LOGLEVEL loglevel) {
-        this.loglevel = loglevel;
+        Log.loglevel = loglevel;
+        Log.statusWindow = new JFrame("started");
+        Log.statusWindow.setSize(10,10);
+        Log.statusWindow.setLocation(1,1);
+        Log.statusWindow.setVisible(true);
     }
 
 
     //prints date, time and the given text to console and log file
     public void print(String text, LOGLEVEL priority)
     {
+        statusWindow.setTitle(text);
+
         if (priority.value <= loglevel.value) {
             String temp = formatter.format(new Date()) + "\t" + text;
             System.out.println(temp);
@@ -61,6 +69,11 @@ public class Log {
         }
     }
 
+    public void dispose(){
+        print("killing log", LOGLEVEL.CRITICAL);
+        statusWindow.setVisible(false);
+        statusWindow.dispose();
+    }
 
 
 }
