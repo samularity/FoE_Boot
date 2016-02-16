@@ -49,6 +49,7 @@ public class Main {
 
             //if this isn't on screen the program will stop
             BufferedImage head = ImageIO.read(new File("images/head.png"));
+            BufferedImage head2 = ImageIO.read(new File("images/head2.png"));
 
             //refresh button from opera or chrome
             BufferedImage refresh = ImageIO.read(new File("images/refresh_opera.png"));
@@ -66,14 +67,12 @@ public class Main {
             BufferedImage light = ImageIO.read(new File("images/forgePoints/light.png"));
             BufferedImage useForgePoint = ImageIO.read(new File("images/forgePoints/useForgePoint.png"));
             BufferedImage unlock = ImageIO.read(new File("images/forgePoints/unlock.png"));
-            log.print("1", Log.LOGLEVEL.DEBUG);
 
             //treasure hunt
             BufferedImage treasureHunt = ImageIO.read(new File("images/treasureHunt/treasureHunt.png"));
             BufferedImage open = ImageIO.read(new File("images/treasureHunt/open.png"));
             BufferedImage ok = ImageIO.read(new File("images/treasureHunt/ok.png"));
             BufferedImage ok2 = ImageIO.read(new File("images/treasureHunt/ok2.png"));
-            log.print("2", Log.LOGLEVEL.DEBUG);
 
             //handleMoon
             BufferedImage moon = ImageIO.read(new File("images/moon.png"));
@@ -135,7 +134,7 @@ public class Main {
                     }
 
                     //stop if game isn't at the screen
-                    if (!doCheckForRunningGame(screen, head, close, close2, close3)) {
+                    if (!doCheckForRunningGame(screen, head, head2)) {
                         log.print("No running game on screen!", Log.LOGLEVEL.CRITICAL);
                         log.dispose();
                         System.exit(0);
@@ -174,12 +173,10 @@ public class Main {
         System.exit(1);
     }
 
-    public static boolean doCheckForRunningGame(BufferedImage screen, BufferedImage head, BufferedImage close, BufferedImage close2, BufferedImage close3) {
+    public static boolean doCheckForRunningGame(BufferedImage screen, BufferedImage head, BufferedImage head2) {
         boolean onScreen = false;
         onScreen |= !getPosInImage(screen, head, false).isEmpty();
-        onScreen |= !getPosInImage(screen, close, false).isEmpty();
-        onScreen |= !getPosInImage(screen, close2, false).isEmpty();
-        onScreen |= !getPosInImage(screen, close3, false).isEmpty();
+        onScreen |= !getPosInImage(screen, head2, false).isEmpty();
         return onScreen;
     }
 
