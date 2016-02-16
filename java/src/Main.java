@@ -97,8 +97,7 @@ public class Main {
             icons.add(new ClickObject(ImageIO.read(new File("images/thunder.png")), "thunder", true, 0, 70));
 
             log.print("Enter Main-Loop", Log.LOGLEVEL.DEBUG);
-            boolean breakMainLoop = false;
-            while (!breakMainLoop) {
+            while (true) {
 
                 /*
                 bot.keyPress(KeyEvent.VK_UP);
@@ -171,12 +170,10 @@ public class Main {
             log.print("IOException" + ex.getMessage(), Log.LOGLEVEL.CRITICAL);
         } catch (InterruptedException ex) {
             log.print("InterruptedException" + ex.getMessage(), Log.LOGLEVEL.CRITICAL);
-        } finally {
-
-            //failerfall
-            log.dispose();
-            System.exit(-1);
         }
+        //failerfall
+        log.dispose();
+        System.exit(1);
     }
 
     public static boolean doCheckForRunningGame(BufferedImage screen, BufferedImage head, BufferedImage close, BufferedImage close2, BufferedImage close3) {
