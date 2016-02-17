@@ -167,7 +167,8 @@ public class Main {
                 }
 
                 doClose(bot, close, close1, close2, close3, clickArea);
-
+                Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
+                bot.mouseMove(mouseLocation.x+10,mouseLocation.y+10);
             }
 
             //catch all exceptions and print them...
