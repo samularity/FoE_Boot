@@ -35,5 +35,9 @@ public class ClickObject {
         this.xOffset = xOffset;
         this.yOffset = yOffset;
         this.maxClickTolerance = maxClickTolerance;
+        if (maxClickTolerance <= 0) {
+            this.maxClickTolerance = 1;
+
+        }
     }
 }

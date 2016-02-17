@@ -53,9 +53,9 @@ public class Main {
 
             //close#
             ClickObject close = new ClickObject("images/", "close.png", false, 0, 0, 10, log);
+            ClickObject close1 = new ClickObject("images/", "close1.png", false, 0, 0, 10, log);
             ClickObject close2 = new ClickObject("images/", "close2.png", false, 0, 0, 10, log);
             ClickObject close3 = new ClickObject("images/", "close3.png", false, 0, 0, 10, log);
-            ClickObject close4 = new ClickObject("images/", "close4.png", false, 0, 0, 10, log);
 
             //forge points
             ClickObject forgePoint = new ClickObject("images/forgePoints/", "forgePoint.png", false, 0, 0, 0, log);
@@ -112,9 +112,9 @@ public class Main {
                 bot.keyRelease(KeyEvent.VK_UP);
                 */
 
-                doTreasureHunt(bot, treasureHunt, open, ok, ok2, close, close2, close3, close4, clickArea);
-                doUseForgePoint(bot, forgePoint, science, light, useForgePoint, unlock, close, close2, close3, close4, clickArea);
-                doHandleMoon(bot, moon, moonList, close, close2, close3, close4, clickArea);
+                doTreasureHunt(bot, treasureHunt, open, ok, ok2, close, close1, close2, close3, clickArea);
+                doUseForgePoint(bot, forgePoint, science, light, useForgePoint, unlock, close, close1, close2, close3, clickArea);
+                doHandleMoon(bot, moon, moonList, close, close1,  close2, close3, clickArea);
 
                 //loops through all icons in the list and clicks them
                 int iconCount = 0;
@@ -166,7 +166,7 @@ public class Main {
                     }
                 }
 
-                doClose(bot, close, close2, close3, close4, clickArea);
+                doClose(bot, close, close1, close2, close3, clickArea);
 
             }
 
@@ -198,9 +198,9 @@ public class Main {
             ClickObject useForgePoint,
             ClickObject unlock,
             ClickObject close,
+            ClickObject close1,
             ClickObject close2,
             ClickObject close3,
-            ClickObject close4,
             Polygon clickArea) throws InterruptedException {
 
         BufferedImage screen;
@@ -232,7 +232,7 @@ public class Main {
             click(bot, clickPos, unlock, clickArea);
 
 
-            doClose(bot, close, close2, close3, close4, clickArea);
+            doClose(bot, close, close1, close2, close3, clickArea);
         }
     }
 
@@ -243,9 +243,9 @@ public class Main {
             ClickObject ok,
             ClickObject ok2,
             ClickObject close,
+            ClickObject close1,
             ClickObject close2,
             ClickObject close3,
-            ClickObject close4,
             Polygon clickArea) throws InterruptedException {
 
         BufferedImage screen;
@@ -275,7 +275,7 @@ public class Main {
             click(bot, clickPos, ok2, clickArea);
 
 
-            doClose(bot, close, close2, close3, close4, clickArea);
+            doClose(bot, close, close1, close2, close3, clickArea);
         }
     }
 
@@ -285,9 +285,9 @@ public class Main {
             ClickObject moon,
             java.util.List<ClickObject> moonList,
             ClickObject close,
+            ClickObject close1,
             ClickObject close2,
             ClickObject close3,
-            ClickObject close4,
             Polygon clickArea) throws InterruptedException {
 
         BufferedImage screen;
@@ -337,7 +337,7 @@ public class Main {
             }
 
 
-            doClose(bot, close, close2, close3, close4, clickArea);
+            doClose(bot, close, close1,close2, close3, clickArea);
         }
     }
 
@@ -345,31 +345,30 @@ public class Main {
     public static void doClose(
             Robot bot,
             ClickObject close,
+            ClickObject close1,
             ClickObject close2,
             ClickObject close3,
-            ClickObject close4,
             Polygon clickArea) throws InterruptedException {
         BufferedImage screen;
         java.util.List<Position> clickPos;
 
         //close
         Thread.sleep(2000);
-        log.print("close x", Log.LOGLEVEL.DEBUG);
+        log.print("close", Log.LOGLEVEL.DEBUG);
         screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
         clickPos = getPosInImage(screen, close);
         click(bot, clickPos, close, clickArea);
+
+        //close1
+        clickPos = getPosInImage(screen, close1);
+        click(bot, clickPos, close1, clickArea);
 
         //close3
         clickPos = getPosInImage(screen, close3);
         click(bot, clickPos, close3, clickArea);
 
-        //close4
-        clickPos = getPosInImage(screen, close4);
-        click(bot, clickPos, close4, clickArea);
-
         //close2
         Thread.sleep(2000);
-        log.print("close v", Log.LOGLEVEL.DEBUG);
         screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
         clickPos = getPosInImage(screen, close2);
         click(bot, clickPos, close2, clickArea);
@@ -466,7 +465,7 @@ public class Main {
 
                     double difference = (rDif * rDif) + (gDif * gDif) + (bDif * bDif);
 
-                    if (difference > 900) {
+                    if (difference > 400) {
                         breakLoop = true;
                     }
 
