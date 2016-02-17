@@ -396,8 +396,9 @@ public class Main {
                     gDif = cBig.getGreen() - cSmall.getGreen();
                     bDif = cBig.getBlue() - cSmall.getBlue();
 
+                    double difference = (rDif * rDif) + (gDif * gDif) + (bDif * bDif);
 
-                    if ((rDif != 0) || (gDif != 0) || (bDif != 0)) {
+                    if (difference > 900) {
                         breakLoop = true;
                     }
 
