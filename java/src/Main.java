@@ -5,6 +5,7 @@
 //TODO add feature to "help" friends
 //TODO move code into functions
 //TODO lower cpu load
+//TODO refresh for multiple browserzzz
 //TODO check doCheckForRunningGame, compiler says, wrong logic expression  --> DONE: compiler lies
 
 
@@ -71,7 +72,7 @@ public class Main {
             ClickObject ok2 = new ClickObject("images/treasureHunt/", "ok2.png", false, 50, 10, 10, log);
 
             //handleMoon
-            ClickObject moon = new ClickObject("images/", "moon.png", true, 0, 60, 30, log);
+            ClickObject moon = new ClickObject("images/", "moon.png", true, 0, 75, 30, log);
             java.util.List<ClickObject> moonList = new ArrayList<>();
             moonList.add(new ClickObject("images/", "produce.png", false, 50, 10, 10, log));
             moonList.add(new ClickObject("images/", "produce2.png", false, 50, 10, 10, log));
