@@ -5,7 +5,6 @@
 //TODO add feature to "help" friends
 //TODO move code into functions
 //TODO lower cpu load
-//TODO refresh for multiple browserzzz
 //TODO check doCheckForRunningGame, compiler says, wrong logic expression  --> DONE: compiler lies
 
 
@@ -49,8 +48,8 @@ public class Main {
             ClickObject head2 = new ClickObject("images/", "head2.png", false, 0, 0, 0, log);
 
             //refresh button from opera or chrome
-            ClickObject refresh = new ClickObject("images/", "refresh_opera.png", false, 0, 0, 0, log);
-            //ClickObject refresh = new ClickObject("images/", "refresh_chrome.png", false, 0, 0, 0, log);
+            ClickObject refresh0 = new ClickObject("images/", "refresh_opera.png", false, 0, 0, 0, log);
+            ClickObject refresh1 = new ClickObject("images/", "refresh_chrome.png", false, 0, 0, 0, log);
 
             //close#
             ClickObject close = new ClickObject("images/", "close.png", false, 0, 0, 10, log);
@@ -153,8 +152,11 @@ public class Main {
 
                     //refresh periodically
                     if (((new Date().getTime() / 1000) - lastRefresh) > 1800) {
-                        clickPos = getPosInImage(screen, refresh);
-                        click(bot, clickPos, refresh, clickArea );
+                        clickPos = getPosInImage(screen, refresh0);
+                        click(bot, clickPos, refresh0, clickArea );
+
+                        clickPos = getPosInImage(screen, refresh1);
+                        click(bot, clickPos, refresh1, clickArea );
                         lastRefresh = new Date().getTime() / 1000;
                         log.print("Refresh the page", Log.LOGLEVEL.INFO);
                         Thread.sleep(60000);
@@ -170,6 +172,7 @@ public class Main {
                 doClose(bot, close, close1, close2, close3, clickArea);
                 Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
                 bot.mouseMove(mouseLocation.x+10,mouseLocation.y+10);
+                Thread.sleep(5000); //sleep a little to lower cpu load
             }
 
             //catch all exceptions and print them...
