@@ -2,13 +2,10 @@
  * Created by Janis and Samu on 03.02.2016.
  */
 
-//TODO add border to limit the clickable area
 //TODO add feature to "help" friends
 //TODO move code into functions
 //TODO lower cpu load
-//TODO check doCheckForRunningGame, compiler says, wrong logic expression  --DONE: compiler lies
-
-
+//TODO check doCheckForRunningGame, compiler says, wrong logic expression  --> DONE: compiler lies
 
 
 import java.awt.*;
@@ -17,7 +14,6 @@ import java.awt.image.*;
 import java.io.*;
 import java.util.*;
 import java.lang.*;
-import javax.imageio.*;
 
 public class Main {
 
@@ -39,6 +35,7 @@ public class Main {
             //list of position(s) to click
             java.util.List<Position> clickPos;
 
+            Polygon clickArea;
 
             log.print("5s until start", Log.LOGLEVEL.INFO);
             Thread.sleep(5000);
@@ -74,7 +71,7 @@ public class Main {
             ClickObject ok2 = new ClickObject("images/treasureHunt/", "ok2.png", false, 50, 10, 10, log);
 
             //handleMoon
-            ClickObject moon = new ClickObject("images/", "moon.png", false, 0, 60, 30, log);
+            ClickObject moon = new ClickObject("images/", "moon.png", true, 0, 60, 30, log);
             java.util.List<ClickObject> moonList = new ArrayList<>();
             moonList.add(new ClickObject("images/", "produce.png", false, 50, 10, 10, log));
             moonList.add(new ClickObject("images/", "produce2.png", false, 50, 10, 10, log));
@@ -95,6 +92,17 @@ public class Main {
             icons.add(new ClickObject("images/", "thunder.png", true, 0, 70, 30, log));
 
 
+            ClickObject muted = new ClickObject("images/", "muted.png", false, 0, 0, 0, log);
+            ClickObject logoff = new ClickObject("images/", "logoff.png", false, 0, 0, 0, log);
+
+            log.print("get clickArea", Log.LOGLEVEL.DEBUG);
+            screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+            clickArea = getClickArea(screen, muted, logoff);
+            if (clickArea == null) {
+                //no click area found
+                log.dispose();
+                System.exit(1);
+            }
 
             log.print("Enter Main-Loop", Log.LOGLEVEL.DEBUG);
             while (true) {
@@ -104,9 +112,9 @@ public class Main {
                 bot.keyRelease(KeyEvent.VK_UP);
                 */
 
-                doTreasureHunt(bot, treasureHunt, open, ok, ok2, close, close2, close3, close4);
-                doUseForgePoint(bot, forgePoint, science, light, useForgePoint, unlock, close, close2, close3, close4);
-                doHandleMoon(bot, moon, moonList, close, close2, close3, close4);
+                doTreasureHunt(bot, treasureHunt, open, ok, ok2, close, close2, close3, close4, clickArea);
+                doUseForgePoint(bot, forgePoint, science, light, useForgePoint, unlock, close, close2, close3, close4, clickArea);
+                doHandleMoon(bot, moon, moonList, close, close2, close3, close4, clickArea);
 
                 //loops through all icons in the list and clicks them
                 int iconCount = 0;
@@ -127,7 +135,7 @@ public class Main {
 
 
                     //click it
-                    click(bot, clickPos, icon);
+                    click(bot, clickPos, icon, clickArea);
 
                     //wait for a popup and make a new screenshot
                     if ((!icon.multipleAllowed) && (clickPos.size() > 0)) {
@@ -145,7 +153,7 @@ public class Main {
                     //refresh periodically
                     if (((new Date().getTime() / 1000) - lastRefresh) > 1800) {
                         clickPos = getPosInImage(screen, refresh);
-                        click(bot, clickPos, refresh);
+                        click(bot, clickPos, refresh, clickArea );
                         lastRefresh = new Date().getTime() / 1000;
                         log.print("Refresh the page", Log.LOGLEVEL.INFO);
                         Thread.sleep(60000);
@@ -158,7 +166,7 @@ public class Main {
                     }
                 }
 
-                doClose(bot, close, close2, close3, close4);
+                doClose(bot, close, close2, close3, close4, clickArea);
 
             }
 
@@ -166,9 +174,9 @@ public class Main {
         } catch (AWTException ex) {
             log.print("AWTException:" + ex.getMessage() + "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
         } catch (IOException ex) {
-            log.print("IOException:" + ex.getMessage()+ "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
+            log.print("IOException:" + ex.getMessage() + "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
         } catch (InterruptedException ex) {
-            log.print("InterruptedException" + ex.getMessage()+ "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
+            log.print("InterruptedException" + ex.getMessage() + "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
         }
         //failerfall
         log.dispose();
@@ -192,7 +200,8 @@ public class Main {
             ClickObject close,
             ClickObject close2,
             ClickObject close3,
-            ClickObject close4) throws InterruptedException {
+            ClickObject close4,
+            Polygon clickArea) throws InterruptedException {
 
         BufferedImage screen;
         java.util.List<Position> clickPos;
@@ -201,29 +210,29 @@ public class Main {
         if (!getPosInImage(screen, forgePoint).isEmpty()) {
             log.print("Enter Forge-Point Menu", Log.LOGLEVEL.DEBUG);
             clickPos = getPosInImage(screen, science);
-            click(bot, clickPos, science);
+            click(bot, clickPos, science, clickArea);
 
             //light
             Thread.sleep(5000);
             screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
             clickPos = getPosInImage(screen, light);
-            click(bot, clickPos, light);
+            click(bot, clickPos, light, clickArea);
 
             //use 1 forgepoint
             Thread.sleep(2000);
             screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
             clickPos = getPosInImage(screen, useForgePoint);
             log.print("Use Forge-Point", Log.LOGLEVEL.INFO);
-            click(bot, clickPos, forgePoint);
+            click(bot, clickPos, forgePoint, clickArea);
 
             //unlock
             Thread.sleep(2000);
             screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
             clickPos = getPosInImage(screen, unlock);
-            click(bot, clickPos, unlock);
+            click(bot, clickPos, unlock, clickArea);
 
 
-            doClose(bot, close, close2, close3, close4);
+            doClose(bot, close, close2, close3, close4, clickArea);
         }
     }
 
@@ -236,7 +245,8 @@ public class Main {
             ClickObject close,
             ClickObject close2,
             ClickObject close3,
-            ClickObject close4) throws InterruptedException {
+            ClickObject close4,
+            Polygon clickArea) throws InterruptedException {
 
         BufferedImage screen;
         java.util.List<Position> clickPos;
@@ -246,26 +256,26 @@ public class Main {
         if (!clickPos.isEmpty()) {
             log.print("Treasure-Hunt", Log.LOGLEVEL.INFO);
 
-            click(bot, clickPos, treasureHunt);
+            click(bot, clickPos, treasureHunt, clickArea);
 
             //open
             Thread.sleep(5000);
             log.print("open", Log.LOGLEVEL.DEBUG);
             screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
             clickPos = getPosInImage(screen, open);
-            click(bot, clickPos, open);
+            click(bot, clickPos, open, clickArea);
 
             //ok
             Thread.sleep(5000);
             log.print("ok", Log.LOGLEVEL.DEBUG);
             screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
             clickPos = getPosInImage(screen, ok);
-            click(bot, clickPos, ok);
+            click(bot, clickPos, ok, clickArea);
             clickPos = getPosInImage(screen, ok2);
-            click(bot, clickPos, ok2);
+            click(bot, clickPos, ok2, clickArea);
 
 
-            doClose(bot, close, close2, close3, close4);
+            doClose(bot, close, close2, close3, close4, clickArea);
         }
     }
 
@@ -277,7 +287,8 @@ public class Main {
             ClickObject close,
             ClickObject close2,
             ClickObject close3,
-            ClickObject close4) throws InterruptedException {
+            ClickObject close4,
+            Polygon clickArea) throws InterruptedException {
 
         BufferedImage screen;
         java.util.List<Position> clickPos;
@@ -287,7 +298,11 @@ public class Main {
         if (!clickPos.isEmpty()) {
             log.print("handle Moon", Log.LOGLEVEL.INFO);
 
-            click(bot, clickPos, moon);
+            while (clickPos.size() > 1){
+                clickPos.remove(1);
+            }
+
+            click(bot, clickPos, moon, clickArea);
             Thread.sleep(2000);
 
             //loops through all icons in the list and clicks them
@@ -308,9 +323,9 @@ public class Main {
                 clickPos = getPosInImage(screen, icon);
 
                 //click it
-                click(bot, clickPos, icon);
+                click(bot, clickPos, icon, clickArea);
 
-                if (!clickPos.isEmpty()){
+                if (!clickPos.isEmpty()) {
                     breakLoop = true;
                 }
 
@@ -322,12 +337,18 @@ public class Main {
             }
 
 
-            doClose(bot, close, close2, close3, close4);
+            doClose(bot, close, close2, close3, close4, clickArea);
         }
     }
 
     //clicks on the close Buttons
-    public static void doClose(Robot bot, ClickObject close, ClickObject close2, ClickObject close3, ClickObject close4) throws InterruptedException {
+    public static void doClose(
+            Robot bot,
+            ClickObject close,
+            ClickObject close2,
+            ClickObject close3,
+            ClickObject close4,
+            Polygon clickArea) throws InterruptedException {
         BufferedImage screen;
         java.util.List<Position> clickPos;
 
@@ -336,40 +357,85 @@ public class Main {
         log.print("close x", Log.LOGLEVEL.DEBUG);
         screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
         clickPos = getPosInImage(screen, close);
-        click(bot, clickPos, close);
+        click(bot, clickPos, close, clickArea);
 
         //close3
         clickPos = getPosInImage(screen, close3);
-        click(bot, clickPos, close3);
+        click(bot, clickPos, close3, clickArea);
 
         //close4
         clickPos = getPosInImage(screen, close4);
-        click(bot, clickPos, close4);
+        click(bot, clickPos, close4, clickArea);
 
         //close2
         Thread.sleep(2000);
         log.print("close v", Log.LOGLEVEL.DEBUG);
         screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
         clickPos = getPosInImage(screen, close2);
-        click(bot, clickPos, close2);
+        click(bot, clickPos, close2, clickArea);
     }
 
     //clicks on Points with randomized delay and offset
-    public static void click(Robot bot, java.util.List<Position> clickPos, ClickObject icon) throws InterruptedException {
+    public static void click(Robot bot, java.util.List<Position> clickPos, ClickObject icon, Polygon clickArea) throws InterruptedException {
         Random rand = new Random();
-        rand.setSeed(System.currentTimeMillis() / 1000L);
+        rand.setSeed(System.currentTimeMillis());
         int xClick, yClick;
 
         for (Position pos : clickPos) {
             xClick = pos.x + icon.xOffset + (rand.nextInt(icon.maxClickTolerance) - (icon.maxClickTolerance / 2));
             yClick = pos.y + icon.yOffset + (rand.nextInt(icon.maxClickTolerance) - (icon.maxClickTolerance / 2));
             bot.mouseMove(xClick, yClick);
-            Thread.sleep(100);
-            bot.mousePress(InputEvent.BUTTON1_MASK);
-            bot.mouseRelease(InputEvent.BUTTON1_MASK);
-            Thread.sleep(100 + rand.nextInt(400));
+            if (clickArea.contains(xClick,yClick)){
+                Thread.sleep(100);
+                bot.mousePress(InputEvent.BUTTON1_MASK);
+                bot.mouseRelease(InputEvent.BUTTON1_MASK);
+                Thread.sleep(100 + rand.nextInt(400));
+            }
         }
     }
+
+    public static Polygon getClickArea(BufferedImage screen, ClickObject muted, ClickObject logoff) {
+
+        //list of position(s) to click
+        java.util.List<Position> loc_muted = getPosInImage(screen, muted);
+        java.util.List<Position> loc_logoff = getPosInImage(screen, logoff);
+
+        if ((!loc_muted.isEmpty()) && (!loc_logoff.isEmpty())) {
+            log.print("upper right:" + loc_muted.get(0).x + "," + loc_muted.get(0).y, Log.LOGLEVEL.DEBUG);
+            log.print("lower left:" +loc_logoff.get(0).x + "," + loc_logoff.get(0).y, Log.LOGLEVEL.DEBUG);
+
+            int xpoints[] = {   loc_muted.get(0).x,
+                                loc_logoff.get(0).x,
+                                loc_logoff.get(0).x,
+                                loc_muted.get(0).x+210,
+                                loc_muted.get(0).x+210,
+                                loc_muted.get(0).x};
+
+
+            int ypoints[] = {   loc_logoff.get(0).y,
+                                loc_logoff.get(0).y,
+                                loc_muted.get(0).y,
+                                loc_muted.get(0).y,
+                                loc_muted.get(0).y - 140,
+                                loc_muted.get(0).y - 140};
+
+            Polygon ClickArea = new Polygon(xpoints,ypoints,6);
+
+/*
+            ClickArea.addPoint(loc_muted.get(0).x, loc_logoff.get(0).y); //top left
+            ClickArea.addPoint(loc_logoff.get(0).x, loc_logoff.get(0).y); //top right
+            ClickArea.addPoint(loc_logoff.get(0).x, loc_muted.get(0).y); //bottom right
+            //crop menu block
+            ClickArea.addPoint(loc_logoff.get(0).x + 210, loc_muted.get(0).y); //bottom center
+            ClickArea.addPoint(loc_logoff.get(0).x + 210, loc_muted.get(0).y - 140); //center center
+            ClickArea.addPoint(loc_logoff.get(0).x, loc_muted.get(0).y - 140); //left center
+            */
+            log.print(ClickArea.toString(), Log.LOGLEVEL.DEBUG);
+            return ClickArea;
+        }
+        return null;
+    }
+
 
     //finds images and returns the positions
     public static java.util.List<Position> getPosInImage(BufferedImage big, ClickObject small) {
@@ -416,9 +482,7 @@ public class Main {
                             if (!small.multipleAllowed) {
                                 return ret;
                             }
-
                             breakLoop = true;
-
                         }
                     }
                 }
