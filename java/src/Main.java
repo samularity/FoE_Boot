@@ -90,7 +90,7 @@ public class Main {
             //first object in list will be clicked first!!!
             icons.add(new ClickObject(ImageIO.read(new File("images/coin.png")), "coin", true, 0, 70));
             icons.add(new ClickObject(ImageIO.read(new File("images/box.png")), "box", true, 0, 70));
-            icons.add(new ClickObject(ImageIO.read(new File("images/swords.png")), "swords", true, 0, 50));
+            icons.add(new ClickObject(ImageIO.read(new File("images/swords.png")), "swords", true, 0, 75));
             icons.add(new ClickObject(ImageIO.read(new File("images/hammer.png")), "hammer", true, 0, 90));
             icons.add(new ClickObject(ImageIO.read(new File("images/thunder.png")), "thunder", true, 0, 70));
 
@@ -135,7 +135,7 @@ public class Main {
 
                     //stop if game isn't at the screen
                     if (!doCheckForRunningGame(screen, head, head2)) {
-                        log.print("No running game on screen!", Log.LOGLEVEL.CRITICAL);
+                        log.print("No running game on screen!", Log.LOGLEVEL.FAIL);
                         log.dispose();
                         System.exit(0);
                     }
@@ -162,11 +162,11 @@ public class Main {
 
             //catch all exceptions and print them...
         } catch (AWTException ex) {
-            log.print("AWTException:" + ex.getMessage() + "\r\n" + ex.toString(), Log.LOGLEVEL.CRITICAL);
+            log.print("AWTException:" + ex.getMessage() + "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
         } catch (IOException ex) {
-            log.print("IOException:" + ex.getMessage()+ "\r\n" + ex.toString(), Log.LOGLEVEL.CRITICAL);
+            log.print("IOException:" + ex.getMessage()+ "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
         } catch (InterruptedException ex) {
-            log.print("InterruptedException" + ex.getMessage()+ "\r\n" + ex.toString(), Log.LOGLEVEL.CRITICAL);
+            log.print("InterruptedException" + ex.getMessage()+ "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
         }
         //failerfall
         log.dispose();

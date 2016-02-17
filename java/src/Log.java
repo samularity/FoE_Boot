@@ -19,12 +19,12 @@ public class Log {
 
     /*
     NONE:No logs are written/printed
-    CRITICAL: Only Critical errors are logged
+    FAIL: Only Critical errors are logged
     INFO: All click actions are logged
     DEBUG: All actions are logged
     */
     public enum LOGLEVEL {
-        NONE(0), CRITICAL(1), INFO(2), DEBUG(3);
+        NONE(0), FAIL(1), INFO(2), DEBUG(3);
         private final int value;   //as number
         LOGLEVEL(int value) {
             this.value = value;
@@ -33,8 +33,8 @@ public class Log {
 
 
     //class variables
-    public static LOGLEVEL loglevel;
-    public static JFrame statusWindow;
+    private static LOGLEVEL loglevel;
+    private static JFrame statusWindow;
 
     //constructor
     public Log (LOGLEVEL loglevel) {
@@ -70,7 +70,7 @@ public class Log {
     }
 
     public void dispose(){
-        print("killing log", LOGLEVEL.CRITICAL);
+        print("killing log", LOGLEVEL.FAIL);
         statusWindow.setVisible(false);
         statusWindow.dispose();
     }
