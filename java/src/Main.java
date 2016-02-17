@@ -408,32 +408,38 @@ public class Main {
             log.print("upper right:" + loc_muted.get(0).x + "," + loc_muted.get(0).y, Log.LOGLEVEL.DEBUG);
             log.print("lower left:" +loc_logoff.get(0).x + "," + loc_logoff.get(0).y, Log.LOGLEVEL.DEBUG);
 
-            int xpoints[] = {   loc_muted.get(0).x,
-                                loc_logoff.get(0).x,
-                                loc_logoff.get(0).x,
-                                loc_muted.get(0).x+210,
-                                loc_muted.get(0).x+210,
-                                loc_muted.get(0).x};
-
-
-            int ypoints[] = {   loc_logoff.get(0).y,
-                                loc_logoff.get(0).y,
-                                loc_muted.get(0).y,
-                                loc_muted.get(0).y,
-                                loc_muted.get(0).y - 140,
-                                loc_muted.get(0).y - 140};
-
-            Polygon ClickArea = new Polygon(xpoints,ypoints,6);
-
-/*
-            ClickArea.addPoint(loc_muted.get(0).x, loc_logoff.get(0).y); //top left
-            ClickArea.addPoint(loc_logoff.get(0).x, loc_logoff.get(0).y); //top right
-            ClickArea.addPoint(loc_logoff.get(0).x, loc_muted.get(0).y); //bottom right
-            //crop menu block
-            ClickArea.addPoint(loc_logoff.get(0).x + 210, loc_muted.get(0).y); //bottom center
-            ClickArea.addPoint(loc_logoff.get(0).x + 210, loc_muted.get(0).y - 140); //center center
-            ClickArea.addPoint(loc_logoff.get(0).x, loc_muted.get(0).y - 140); //left center
+            /*
+            *
+            *   Points: every X is a corner of the polygon
+            *   Start top left clockwise
+            *
+            *   X---------------------X
+            *   |                     |
+            *   |                     |
+            *   |                     |
+            *   X--X  X---X           |
+            *      X--X   |           |
+            *             X-----------X
+            *
             */
+
+
+            Polygon ClickArea = new Polygon();
+
+            ClickArea.addPoint(loc_muted.get(0).x, loc_logoff.get(0).y); //upper left
+            ClickArea.addPoint(loc_logoff.get(0).x, loc_logoff.get(0).y); //upper right
+            ClickArea.addPoint(loc_logoff.get(0).x, loc_muted.get(0).y); //lower right
+            //crop menu block
+            ClickArea.addPoint(loc_muted.get(0).x + 210, loc_muted.get(0).y); //lower center
+            ClickArea.addPoint(loc_muted.get(0).x + 210, loc_muted.get(0).y - 140); //center center
+            //forge point
+            ClickArea.addPoint(loc_muted.get(0).x + 110, loc_muted.get(0).y - 140); //forge point upper right
+            ClickArea.addPoint(loc_muted.get(0).x + 110, loc_muted.get(0).y - 70); //forge point lower right
+            ClickArea.addPoint(loc_muted.get(0).x + 60, loc_muted.get(0).y - 70); //forge point lower left
+            ClickArea.addPoint(loc_muted.get(0).x + 60, loc_muted.get(0).y - 140); //forge point upper left
+
+            ClickArea.addPoint(loc_muted.get(0).x, loc_muted.get(0).y - 140); //left center
+
             log.print(ClickArea.toString(), Log.LOGLEVEL.DEBUG);
             return ClickArea;
         }
