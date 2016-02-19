@@ -17,6 +17,10 @@ import java.lang.*;
 
 public class Main {
 
+
+
+
+
     //change the log level here
     static Log log = new Log(Log.LOGLEVEL.DEBUG);
 
@@ -52,10 +56,10 @@ public class Main {
             ClickObject refresh1 = new ClickObject("images/", "refresh_chrome.png", false, 0, 0, 0, log);
 
             //close#
-            ClickObject close = new ClickObject("images/", "close.png", false, 0, 0, 10, log);
-            ClickObject close1 = new ClickObject("images/", "close1.png", false, 0, 0, 10, log);
-            ClickObject close2 = new ClickObject("images/", "close2.png", false, 0, 0, 10, log);
-            ClickObject close3 = new ClickObject("images/", "close3.png", false, 0, 0, 10, log);
+            ClickObject close = new ClickObject("images/", "close.png", false, 0, 0, 4, log);
+            ClickObject close1 = new ClickObject("images/", "close1.png", false, 0, 0, 4, log);
+            ClickObject close2 = new ClickObject("images/", "close2.png", false, 0, 0, 4, log);
+            ClickObject close3 = new ClickObject("images/", "close3.png", false, 0, 0, 4, log);
 
             //forge points
             ClickObject forgePoint = new ClickObject("images/forgePoints/", "forgePoint.png", false, 0, 0, 0, log);
@@ -426,9 +430,9 @@ public class Main {
 
             Polygon ClickArea = new Polygon();
 
-            ClickArea.addPoint(loc_muted.get(0).x, loc_logoff.get(0).y); //upper left
-            ClickArea.addPoint(loc_logoff.get(0).x, loc_logoff.get(0).y); //upper right
-            ClickArea.addPoint(loc_logoff.get(0).x, loc_muted.get(0).y); //lower right
+            ClickArea.addPoint(loc_muted.get(0).x, loc_logoff.get(0).y - 5); //upper left
+            ClickArea.addPoint(loc_logoff.get(0).x + 5, loc_logoff.get(0).y- 5); //upper right
+            ClickArea.addPoint(loc_logoff.get(0).x + 5, loc_muted.get(0).y); //lower right
             //crop menu block
             ClickArea.addPoint(loc_muted.get(0).x + 210, loc_muted.get(0).y); //lower center
             ClickArea.addPoint(loc_muted.get(0).x + 210, loc_muted.get(0).y - 140); //center center
