@@ -5,6 +5,7 @@
 //TODO add feature to "help" friends
 //TODO move code into functions
 //TODO lower cpu load
+//TODO move map areound to see all buildings
 //TODO check doCheckForRunningGame, compiler says, wrong logic expression  --> DONE: compiler lies
 
 
@@ -301,7 +302,8 @@ public class Main {
 
         BufferedImage screen;
         java.util.List<Position> clickPos;
-
+        bot.mouseMove(1,1);
+        Thread.sleep(20);
         screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
         clickPos = getPosInImage(screen, moon);
         if (!clickPos.isEmpty()) {
