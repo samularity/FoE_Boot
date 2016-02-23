@@ -394,8 +394,9 @@ public class Main {
         for (Position pos : clickPos) {
             xClick = pos.x + icon.xOffset + (rand.nextInt(icon.maxClickTolerance) - (icon.maxClickTolerance / 2));
             yClick = pos.y + icon.yOffset + (rand.nextInt(icon.maxClickTolerance) - (icon.maxClickTolerance / 2));
-            bot.mouseMove(xClick, yClick);
-            if (clickArea.contains(xClick,yClick)){
+
+            if (clickArea.contains(xClick,yClick) || (icon.xOffset == 0 && icon.yOffset == 0)){
+                bot.mouseMove(xClick, yClick);
                 Thread.sleep(100);
                 bot.mousePress(InputEvent.BUTTON1_MASK);
                 bot.mouseRelease(InputEvent.BUTTON1_MASK);
