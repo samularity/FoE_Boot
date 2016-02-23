@@ -4,8 +4,8 @@
 
 //TODO add feature to "help" friends
 //TODO move code into functions
-//TODO lower cpu load
-//TODO move map areound to see all buildings
+//TODO lower cpu load, lol just bought a better pc
+//TODO move map around to see all buildings
 //TODO check doCheckForRunningGame, compiler says, wrong logic expression  --> DONE: compiler lies
 
 
@@ -19,12 +19,10 @@ import java.lang.*;
 public class Main {
 
 
-
-
-
     //change the log level here
     static Log log = new Log(Log.LOGLEVEL.DEBUG);
 
+    static Screen scr = new Screen(log);
 
     public static void main(String[] args) {
         try {
@@ -96,15 +94,9 @@ public class Main {
             icons.add(new ClickObject("images/", "hammer.png", true, 0, 90, 10, log));
             icons.add(new ClickObject("images/", "thunder.png", true, 0, 70, 30, log));
 
-
-            ClickObject muted = new ClickObject("images/", "muted.png", false, 0, 0, 0, log);
-            ClickObject logoff = new ClickObject("images/", "logoff.png", false, 0, 0, 0, log);
-
             log.print("get clickArea", Log.LOGLEVEL.DEBUG);
-            screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
-            clickArea = getClickArea(screen, muted, logoff);
+            clickArea = scr.clickArea;//TODO use function here and make scr.clickArea private
             if (clickArea == null) {
-                //no click area found
                 log.dispose();
                 System.exit(1);
             }
@@ -405,53 +397,6 @@ public class Main {
         }
     }
 
-    public static Polygon getClickArea(BufferedImage screen, ClickObject muted, ClickObject logoff) {
-
-        //list of position(s) to click
-        java.util.List<Position> loc_muted = getPosInImage(screen, muted);
-        java.util.List<Position> loc_logoff = getPosInImage(screen, logoff);
-
-        if ((!loc_muted.isEmpty()) && (!loc_logoff.isEmpty())) {
-            log.print("upper right:" + loc_muted.get(0).x + "," + loc_muted.get(0).y, Log.LOGLEVEL.DEBUG);
-            log.print("lower left:" +loc_logoff.get(0).x + "," + loc_logoff.get(0).y, Log.LOGLEVEL.DEBUG);
-
-            /*
-            *
-            *   Points: every X is a corner of the polygon
-            *   Start top left clockwise
-            *
-            *   X---------------------X
-            *   |                     |
-            *   |                     |
-            *   |                     |
-            *   X--X  X---X           |
-            *      X--X   |           |
-            *             X-----------X
-            *
-            */
-
-
-            Polygon ClickArea = new Polygon();
-
-            ClickArea.addPoint(loc_muted.get(0).x, loc_logoff.get(0).y - 5); //upper left
-            ClickArea.addPoint(loc_logoff.get(0).x + 5, loc_logoff.get(0).y- 5); //upper right
-            ClickArea.addPoint(loc_logoff.get(0).x + 5, loc_muted.get(0).y); //lower right
-            //crop menu block
-            ClickArea.addPoint(loc_muted.get(0).x + 210, loc_muted.get(0).y); //lower center
-            ClickArea.addPoint(loc_muted.get(0).x + 210, loc_muted.get(0).y - 140); //center center
-            //forge point
-            ClickArea.addPoint(loc_muted.get(0).x + 110, loc_muted.get(0).y - 140); //forge point upper right
-            ClickArea.addPoint(loc_muted.get(0).x + 110, loc_muted.get(0).y - 70); //forge point lower right
-            ClickArea.addPoint(loc_muted.get(0).x + 60, loc_muted.get(0).y - 70); //forge point lower left
-            ClickArea.addPoint(loc_muted.get(0).x + 60, loc_muted.get(0).y - 140); //forge point upper left
-
-            ClickArea.addPoint(loc_muted.get(0).x, loc_muted.get(0).y - 140); //left center
-
-            log.print(ClickArea.toString(), Log.LOGLEVEL.DEBUG);
-            return ClickArea;
-        }
-        return null;
-    }
 
 
     //finds images and returns the positions
