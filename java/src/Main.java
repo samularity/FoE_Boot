@@ -70,7 +70,7 @@ public class Main {
             ClickObject unlock = new ClickObject("images/forgePoints/", "unlock.png", false, 0, 0, 10, log);
 
             //treasure hunt
-            ClickObject treasureHunt = new ClickObject("images/treasureHunt/", "treasureHunt.png", false, 0, 0, 10, log);
+            ClickObject treasureHunt = new ClickObject("images/treasureHunt/", "treasureHunt.png", false, -30, 0, 10, log);
             ClickObject open = new ClickObject("images/treasureHunt/", "open.png", false, 50, 15, 10, log);
             ClickObject ok = new ClickObject("images/treasureHunt/", "ok.png", false, 50, 10, 10, log);
             ClickObject ok2 = new ClickObject("images/treasureHunt/", "ok2.png", false, 50, 10, 10, log);
@@ -117,9 +117,12 @@ public class Main {
                 bot.keyRelease(KeyEvent.VK_UP);
                 */
 
+                //Thread.sleep(1000); //sleep a little to lower cpu load
+                doHandleMoon(bot, moon, moonList, close, close1,  close2, close3, clickArea);
+                Thread.sleep(1000);
+                doHandleMoon(bot, moon, moonList, close, close1,  close2, close3, clickArea);
                 doTreasureHunt(bot, treasureHunt, open, ok, ok2, close, close1, close2, close3, clickArea);
                 doUseForgePoint(bot, forgePoint, science, light, useForgePoint, unlock, close, close1, close2, close3, clickArea);
-                doHandleMoon(bot, moon, moonList, close, close1,  close2, close3, clickArea);
 
                 //loops through all icons in the list and clicks them
                 int iconCount = 0;
@@ -177,7 +180,6 @@ public class Main {
                 doClose(bot, close, close1, close2, close3, clickArea);
                 Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
                 bot.mouseMove(mouseLocation.x+10,mouseLocation.y+10);
-                Thread.sleep(5000); //sleep a little to lower cpu load
             }
 
             //catch all exceptions and print them...
@@ -302,8 +304,6 @@ public class Main {
 
         BufferedImage screen;
         java.util.List<Position> clickPos;
-        bot.mouseMove(1,1);
-        Thread.sleep(20);
         screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
         clickPos = getPosInImage(screen, moon);
         if (!clickPos.isEmpty()) {
@@ -314,7 +314,9 @@ public class Main {
             }
 
             click(bot, clickPos, moon, clickArea);
-            Thread.sleep(2000);
+            bot.mouseMove(200,200);
+            Thread.sleep(1000);
+
 
             //loops through all icons in the list and clicks them
             int iconCount = 0;
@@ -348,7 +350,7 @@ public class Main {
             }
 
 
-            doClose(bot, close, close1,close2, close3, clickArea);
+            //doClose(bot, close, close1,close2, close3, clickArea);
         }
     }
 
@@ -364,7 +366,6 @@ public class Main {
         java.util.List<Position> clickPos;
 
         //close
-        Thread.sleep(2000);
         log.print("close", Log.LOGLEVEL.DEBUG);
         screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
         clickPos = getPosInImage(screen, close);
@@ -379,10 +380,9 @@ public class Main {
         click(bot, clickPos, close3, clickArea);
 
         //close2
-        Thread.sleep(2000);
-        screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
         clickPos = getPosInImage(screen, close2);
         click(bot, clickPos, close2, clickArea);
+        log.print("close done", Log.LOGLEVEL.DEBUG);
     }
 
     //clicks on Points with randomized delay and offset
@@ -482,10 +482,9 @@ public class Main {
 
                     double difference = (rDif * rDif) + (gDif * gDif) + (bDif * bDif);
 
-                    if (difference > 400) {
+                    if (difference > 1200) {
                         breakLoop = true;
                     }
-
                     xSmall++;
                     if (xSmall >= small.img.getWidth()) {
                         xSmall = 0;
