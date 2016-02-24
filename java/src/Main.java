@@ -27,10 +27,10 @@ public class Main {
 
             Thread.sleep(5000);
 
-            Log.getInstance(Log.LOGLEVEL.DEBUG);
+            Log log = Log.getInstance(Log.LOGLEVEL.DEBUG);
             scr = new Screen();
 
-            Log.getInstance().print("5s until start", Log.LOGLEVEL.INFO);
+            log.print("5s until start", Log.LOGLEVEL.INFO);
 
             //save the current time for refreshing periodically
             long lastRefresh = new Date().getTime() / 1000;
@@ -41,7 +41,7 @@ public class Main {
             //list of position(s) to click
             java.util.List<Position> clickPos;
 
-            Log.getInstance().print("get clickArea", Log.LOGLEVEL.DEBUG);
+            log.print("get clickArea", Log.LOGLEVEL.DEBUG);
             Polygon clickArea = scr.clickArea;//TODO use function here and make scr.clickArea private
             if (clickArea == null) {
                 Log.getInstance().closeWindow();
@@ -123,7 +123,7 @@ public class Main {
 
                     //the icon to click from the list
                     icon = icons.get(iconCount);
-                    Log.getInstance().print(icon.filepath, Log.LOGLEVEL.INFO);
+                    log.print(icon.filepath, Log.LOGLEVEL.INFO);
 
                     //search for one or for more
                     clickPos = getPosInImage(screen, icon);
@@ -140,8 +140,8 @@ public class Main {
 
                     //stop if game isn't at the screen
                     if (!doCheckForRunningGame(screen, head, head2)) {
-                        Log.getInstance().print("No running game on screen!", Log.LOGLEVEL.FAIL);
-                        Log.getInstance().closeWindow();
+                        log.print("No running game on screen!", Log.LOGLEVEL.FAIL);
+                        log.closeWindow();
                         System.exit(0);
                     }
 
@@ -153,7 +153,7 @@ public class Main {
                         clickPos = getPosInImage(screen, refresh1);
                         click(bot, clickPos, refresh1, clickArea );
                         lastRefresh = new Date().getTime() / 1000;
-                        Log.getInstance().print("Refresh the page", Log.LOGLEVEL.INFO);
+                        log.print("Refresh the page", Log.LOGLEVEL.INFO);
                         Thread.sleep(60000);
                     }
 
