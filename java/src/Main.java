@@ -20,10 +20,13 @@ public class Main {
 
     static Screen scr; //TODO make privat
 
+
     public static void main(String[] args) {
         try {
             //bot for taking screenshots and clicking
             Robot bot = new Robot();
+
+            ClickObjects.getInstance();
 
             Thread.sleep(5000);
 
@@ -49,55 +52,6 @@ public class Main {
             }
 
 
-            //images
-
-            //if this isn't on screen the program will stop
-            ClickObject head = new ClickObject("images/head.png", false, 0, 0, 0);
-            ClickObject head2 = new ClickObject("images/head2.png", false, 0, 0, 0);
-
-            //refresh button from opera or chrome
-            ClickObject refresh0 = new ClickObject("images/refresh_opera.png", false, 0, 0, 0);
-            ClickObject refresh1 = new ClickObject("images/refresh_chrome.png", false, 0, 0, 0);
-
-            //close#
-            ClickObject close = new ClickObject("images/close.png", false, 0, 0, 4);
-            ClickObject close1 = new ClickObject("images/close1.png", false, 0, 0, 4);
-            ClickObject close2 = new ClickObject("images/close2.png", false, 0, 0, 4);
-            ClickObject close3 = new ClickObject("images/close3.png", false, 0, 0, 4);
-
-            //forge points
-            ClickObject forgePoint = new ClickObject("images/forgePoints/forgePoint.png", false, 0, 0, 0);
-            ClickObject science = new ClickObject("images/forgePoints/science.png", false, 0, 0, 10);
-            ClickObject light = new ClickObject("images/forgePoints/light.png", false, 0, 0, 10);
-            ClickObject useForgePoint = new ClickObject("images/forgePoints/useForgePoint.png", false, 0, 0, 10);
-            ClickObject unlock = new ClickObject("images/forgePoints/unlock.png", false, 0, 0, 10);
-
-            //treasure hunt
-            ClickObject treasureHunt = new ClickObject("images/treasureHunt/treasureHunt.png", false, -30, 0, 10);
-            ClickObject open = new ClickObject("images/treasureHunt/open.png", false, 50, 15, 10);
-            ClickObject ok = new ClickObject("images/treasureHunt/ok.png", false, 50, 10, 10);
-            ClickObject ok2 = new ClickObject("images/treasureHunt/ok2.png", false, 50, 10, 10);
-
-            //handleMoon
-            ClickObject moon = new ClickObject("images/moon.png", true, 0, 75, 30);
-            java.util.List<ClickObject> moonList = new ArrayList<>();
-            moonList.add(new ClickObject("images/produce.png", false, 50, 10, 10));
-            moonList.add(new ClickObject("images/produce2.png", false, 50, 10, 10));
-            moonList.add(new ClickObject("images/produce3.png", false, 50, 10, 10));
-            moonList.add(new ClickObject("images/recrute.png", false, 50, 10, 10));
-            moonList.add(new ClickObject("images/recrute2.png", false, 50, 10, 10));
-
-
-            //list of click objects
-            java.util.List<ClickObject> icons = new ArrayList<>();
-
-            //first object in list will be clicked first!!!
-
-            icons.add(new ClickObject("images/coin.png", true, 0, 70, 10));
-            icons.add(new ClickObject("images/box.png", true, 0, 70, 10));
-            icons.add(new ClickObject("images/swords.png", true, 0, 70, 30));
-            icons.add(new ClickObject("images/hammer.png", true, 0, 90, 10));
-            icons.add(new ClickObject("images/thunder.png", true, 0, 70, 30));
 
 
 
@@ -105,11 +59,11 @@ public class Main {
             while (true) {
 
                 Thread.sleep(500); //sleep a little to lower cpu load
-                doHandleMoon(bot, moon, moonList, clickArea);
+                doHandleMoon(bot, clickArea);
                 Thread.sleep(1000);
-                doHandleMoon(bot, moon, moonList, clickArea);
-                doTreasureHunt(bot, treasureHunt, open, ok, ok2, close, close1, close2, close3, clickArea);
-                doUseForgePoint(bot, forgePoint, science, light, useForgePoint, unlock, close, close1, close2, close3, clickArea);
+                doHandleMoon(bot, clickArea);
+                doTreasureHunt(bot, clickArea);
+                doUseForgePoint(bot, clickArea);
 
                 //loops through all icons in the list and clicks them
                 int iconCount = 0;
@@ -122,7 +76,7 @@ public class Main {
                 while (!breakLoop) {
 
                     //the icon to click from the list
-                    icon = icons.get(iconCount);
+                    icon = ClickObjects.getInstance().icons.get(iconCount);
                     log.print(icon.filepath, Log.LOGLEVEL.INFO);
 
                     //search for one or for more
@@ -139,7 +93,7 @@ public class Main {
                     }
 
                     //stop if game isn't at the screen
-                    if (!doCheckForRunningGame(screen, head, head2)) {
+                    if (!doCheckForRunningGame(screen)) {
                         log.print("No running game on screen!", Log.LOGLEVEL.FAIL);
                         log.closeWindow();
                         System.exit(0);
@@ -147,11 +101,11 @@ public class Main {
 
                     //refresh periodically
                     if (((new Date().getTime() / 1000) - lastRefresh) > 1800) {
-                        clickPos = getPosInImage(screen, refresh0);
-                        click(bot, clickPos, refresh0, clickArea );
+                        clickPos = getPosInImage(screen, ClickObjects.getInstance().refresh0);
+                        click(bot, clickPos, ClickObjects.getInstance().refresh0, clickArea );
 
-                        clickPos = getPosInImage(screen, refresh1);
-                        click(bot, clickPos, refresh1, clickArea );
+                        clickPos = getPosInImage(screen, ClickObjects.getInstance().refresh1);
+                        click(bot, clickPos, ClickObjects.getInstance().refresh1, clickArea );
                         lastRefresh = new Date().getTime() / 1000;
                         log.print("Refresh the page", Log.LOGLEVEL.INFO);
                         Thread.sleep(60000);
@@ -159,12 +113,12 @@ public class Main {
 
                     //count up
                     iconCount++;
-                    if (iconCount >= icons.size()) {
+                    if (iconCount >= ClickObjects.getInstance().icons.size()) {
                         breakLoop = true;
                     }
                 }
 
-                doClose(bot, close, close1, close2, close3, clickArea);
+                doClose(bot, clickArea);
                 Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
                 bot.mouseMove(mouseLocation.x+10,mouseLocation.y+10);
             }
@@ -172,8 +126,6 @@ public class Main {
             //catch all exceptions and print them...
         } catch (AWTException ex) {
             Log.getInstance().print("AWTException:" + ex.getMessage() + "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
-        } catch (IOException ex) {
-            Log.getInstance().print("IOException:" + ex.getMessage() + "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
         } catch (InterruptedException ex) {
             Log.getInstance().print("InterruptedException" + ex.getMessage() + "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
         }
@@ -182,113 +134,94 @@ public class Main {
         System.exit(1);
     }
 
-    public static boolean doCheckForRunningGame(BufferedImage screen, ClickObject head, ClickObject head2) {
+    public static boolean doCheckForRunningGame(BufferedImage screen) {
         boolean onScreen = false;
-        onScreen |= !getPosInImage(screen, head).isEmpty();
-        onScreen |= !getPosInImage(screen, head2).isEmpty();
+        onScreen |= !getPosInImage(screen, ClickObjects.getInstance().head).isEmpty();
+        onScreen |= !getPosInImage(screen, ClickObjects.getInstance().head2).isEmpty();
         return onScreen;
     }
 
     public static void doUseForgePoint(
             Robot bot,
-            ClickObject forgePoint,
-            ClickObject science,
-            ClickObject light,
-            ClickObject useForgePoint,
-            ClickObject unlock,
-            ClickObject close,
-            ClickObject close1,
-            ClickObject close2,
-            ClickObject close3,
             Polygon clickArea) throws InterruptedException {
 
         BufferedImage screen;
         java.util.List<Position> clickPos;
 
         screen = scr.getScreen();
-        if (!getPosInImage(screen, forgePoint).isEmpty()) {
+        if (!getPosInImage(screen, ClickObjects.getInstance().forgePoint).isEmpty()) {
             Log.getInstance().print("Enter Forge-Point Menu", Log.LOGLEVEL.DEBUG);
-            clickPos = getPosInImage(screen, science);
-            click(bot, clickPos, science, clickArea);
+            clickPos = getPosInImage(screen, ClickObjects.getInstance().science);
+            click(bot, clickPos, ClickObjects.getInstance().science, clickArea);
 
             //light
             Thread.sleep(5000);
             screen = scr.getScreen();
-            clickPos = getPosInImage(screen, light);
-            click(bot, clickPos, light, clickArea);
+            clickPos = getPosInImage(screen, ClickObjects.getInstance().light);
+            click(bot, clickPos, ClickObjects.getInstance().light, clickArea);
 
             //use 1 forgepoint
             Thread.sleep(2000);
             screen = scr.getScreen();
-            clickPos = getPosInImage(screen, useForgePoint);
+            clickPos = getPosInImage(screen, ClickObjects.getInstance().useForgePoint);
             Log.getInstance().print("Use Forge-Point", Log.LOGLEVEL.INFO);
-            click(bot, clickPos, forgePoint, clickArea);
+            click(bot, clickPos, ClickObjects.getInstance().forgePoint, clickArea);
 
             //unlock
             Thread.sleep(2000);
             screen = scr.getScreen();
-            clickPos = getPosInImage(screen, unlock);
-            click(bot, clickPos, unlock, clickArea);
+            clickPos = getPosInImage(screen, ClickObjects.getInstance().unlock);
+            click(bot, clickPos, ClickObjects.getInstance().unlock, clickArea);
 
 
-            doClose(bot, close, close1, close2, close3, clickArea);
+            doClose(bot, clickArea);
         }
     }
 
     public static void doTreasureHunt(
             Robot bot,
-            ClickObject treasureHunt,
-            ClickObject open,
-            ClickObject ok,
-            ClickObject ok2,
-            ClickObject close,
-            ClickObject close1,
-            ClickObject close2,
-            ClickObject close3,
             Polygon clickArea) throws InterruptedException {
 
         BufferedImage screen;
         java.util.List<Position> clickPos;
 
         screen = scr.getScreen();
-        clickPos = getPosInImage(screen, treasureHunt);
+        clickPos = getPosInImage(screen, ClickObjects.getInstance().treasureHunt);
         if (!clickPos.isEmpty()) {
             Log.getInstance().print("Treasure-Hunt", Log.LOGLEVEL.INFO);
 
-            click(bot, clickPos, treasureHunt, clickArea);
+            click(bot, clickPos, ClickObjects.getInstance().treasureHunt, clickArea);
 
             //open
             Thread.sleep(5000);
             Log.getInstance().print("open", Log.LOGLEVEL.DEBUG);
             screen = scr.getScreen();
-            clickPos = getPosInImage(screen, open);
-            click(bot, clickPos, open, clickArea);
+            clickPos = getPosInImage(screen, ClickObjects.getInstance().open);
+            click(bot, clickPos, ClickObjects.getInstance().open, clickArea);
 
             //ok
             Thread.sleep(5000);
             Log.getInstance().print("ok", Log.LOGLEVEL.DEBUG);
             screen = scr.getScreen();
-            clickPos = getPosInImage(screen, ok);
-            click(bot, clickPos, ok, clickArea);
-            clickPos = getPosInImage(screen, ok2);
-            click(bot, clickPos, ok2, clickArea);
+            clickPos = getPosInImage(screen, ClickObjects.getInstance().ok);
+            click(bot, clickPos, ClickObjects.getInstance().ok, clickArea);
+            clickPos = getPosInImage(screen, ClickObjects.getInstance().ok2);
+            click(bot, clickPos, ClickObjects.getInstance().ok2, clickArea);
 
 
-            doClose(bot, close, close1, close2, close3, clickArea);
+            doClose(bot, clickArea);
         }
     }
 
 
     public static void doHandleMoon(
             Robot bot,
-            ClickObject moon,
-            java.util.List<ClickObject> moonList,
             Polygon clickArea) throws InterruptedException {
 
         BufferedImage screen;
         java.util.List<Position> clickPos;
         screen = scr.getScreen();
-        clickPos = getPosInImage(screen, moon);
+        clickPos = getPosInImage(screen, ClickObjects.getInstance().moon);
         if (!clickPos.isEmpty()) {
             Log.getInstance().print("handle Moon", Log.LOGLEVEL.INFO);
 
@@ -296,7 +229,7 @@ public class Main {
                 clickPos.remove(1);
             }
 
-            click(bot, clickPos, moon, clickArea);
+            click(bot, clickPos, ClickObjects.getInstance().moon, clickArea);
             Random rand = new Random();
 
             bot.mouseMove(100+ rand.nextInt(100),100+rand.nextInt(100));
@@ -314,7 +247,7 @@ public class Main {
             while (!breakLoop) {
 
                 //the icon to click from the list
-                icon = moonList.get(iconCount);
+                icon = ClickObjects.getInstance().moonList.get(iconCount);
                 Log.getInstance().print(icon.filepath, Log.LOGLEVEL.DEBUG);
 
                 //search for one or for more
@@ -329,7 +262,7 @@ public class Main {
 
                 //count up
                 iconCount++;
-                if (iconCount >= moonList.size()) {
+                if (iconCount >= ClickObjects.getInstance().moonList.size()) {
                     breakLoop = true;
                 }
             }
@@ -339,10 +272,6 @@ public class Main {
     //clicks on the close Buttons
     public static void doClose(
             Robot bot,
-            ClickObject close,
-            ClickObject close1,
-            ClickObject close2,
-            ClickObject close3,
             Polygon clickArea) throws InterruptedException {
         BufferedImage screen;
         java.util.List<Position> clickPos;
@@ -350,20 +279,20 @@ public class Main {
         //close
         Log.getInstance().print("close", Log.LOGLEVEL.DEBUG);
         screen = scr.getScreen();
-        clickPos = getPosInImage(screen, close);
-        click(bot, clickPos, close, clickArea);
+        clickPos = getPosInImage(screen, ClickObjects.getInstance().close);
+        click(bot, clickPos, ClickObjects.getInstance().close, clickArea);
 
         //close1
-        clickPos = getPosInImage(screen, close1);
-        click(bot, clickPos, close1, clickArea);
+        clickPos = getPosInImage(screen, ClickObjects.getInstance().close1);
+        click(bot, clickPos, ClickObjects.getInstance().close1, clickArea);
 
         //close3
-        clickPos = getPosInImage(screen, close3);
-        click(bot, clickPos, close3, clickArea);
+        clickPos = getPosInImage(screen, ClickObjects.getInstance().close3);
+        click(bot, clickPos, ClickObjects.getInstance().close3, clickArea);
 
         //close2
-        clickPos = getPosInImage(screen, close2);
-        click(bot, clickPos, close2, clickArea);
+        clickPos = getPosInImage(screen, ClickObjects.getInstance().close2);
+        click(bot, clickPos, ClickObjects.getInstance().close2, clickArea);
         Log.getInstance().print("close done", Log.LOGLEVEL.DEBUG);
     }
 
