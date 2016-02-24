@@ -26,8 +26,8 @@ public class ClickObject {
     public int maxClickTolerance;
 
     //constructor
-    ClickObject(String path, String imgName, boolean multipleAllowed, int xOffset, int yOffset, int maxClickTolerance ,Log log) throws IOException{
-        log.print("load: " + imgName, Log.LOGLEVEL.DEBUG);
+    ClickObject(String path, String imgName, boolean multipleAllowed, int xOffset, int yOffset, int maxClickTolerance) throws IOException{
+        Log.getInstance().print("load: " + imgName, Log.LOGLEVEL.DEBUG);
         this.img = ImageIO.read(new File(path + imgName));
         this.path = path;
         this.imgName = imgName;

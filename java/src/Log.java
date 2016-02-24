@@ -14,10 +14,8 @@ import java.util.Date;
 
 public class Log {
 
+    /*enum LOGLEVEL:
 
-    SimpleDateFormat formatter = new SimpleDateFormat ("yyyy.MM.dd HH:mm:ss :");
-
-    /*
     NONE:No logs are written/printed
     FAIL: Only Critical errors are logged
     INFO: All click actions are logged
@@ -31,19 +29,33 @@ public class Log {
         }
     }
 
-
     //class variables
+    private static Log instance;
     private static LOGLEVEL loglevel;
     private static JFrame statusWindow;
+    private static SimpleDateFormat formatter = new SimpleDateFormat ("yyyy.MM.dd HH:mm:ss :");
 
     //constructor
-    public Log (LOGLEVEL loglevel) {
+    private Log (LOGLEVEL loglevel) {
         Log.loglevel = loglevel;
         Log.statusWindow = new JFrame("started");
         Log.statusWindow.setSize(10,10);
         Log.statusWindow.setLocation(1,1);
         Log.statusWindow.setVisible(true);
     }
+
+    //pseudo constructors
+    synchronized public static Log getInstance(LOGLEVEL logLevel) {
+        if (instance == null) {
+            instance = new Log(logLevel);
+        }
+        return instance;
+    }
+
+    synchronized public static Log getInstance() {
+        return getInstance(LOGLEVEL.FAIL);
+    }
+
 
 
     //prints date, time and the given text to console and log file
@@ -58,7 +70,7 @@ public class Log {
     }
 
     //add text to the log file
-    public static void write (String text)
+    private void write (String text)
     {
         //a try with resources https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html
         try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("LOG.txt", true)))) {
@@ -68,10 +80,11 @@ public class Log {
         }
     }
 
-    public void dispose(){
+    public void closeWindow(){
         print("killing log", LOGLEVEL.FAIL);
         statusWindow.setVisible(false);
         statusWindow.dispose();
+
     }
 
 

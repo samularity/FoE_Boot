@@ -19,9 +19,9 @@ import java.lang.*;
 public class Main {
 
     //change the log level here
-    static Log log;
+    static Log log; //TODO make privat
 
-    static Screen scr;
+    static Screen scr; //TODO make privat
 
     public static void main(String[] args) {
         try {
@@ -30,7 +30,7 @@ public class Main {
 
             Thread.sleep(5000);
 
-            log = new Log(Log.LOGLEVEL.DEBUG);
+            log = Log.getInstance(Log.LOGLEVEL.DEBUG);
             scr = new Screen(log);
 
             log.print("5s until start", Log.LOGLEVEL.INFO);
@@ -48,7 +48,7 @@ public class Main {
             log.print("get clickArea", Log.LOGLEVEL.DEBUG);
             Polygon clickArea = scr.clickArea;//TODO use function here and make scr.clickArea private
             if (clickArea == null) {
-                log.dispose();
+                log.closeWindow();
                 System.exit(1);
             }
 
@@ -56,40 +56,40 @@ public class Main {
             //images
 
             //if this isn't on screen the program will stop
-            ClickObject head = new ClickObject("images/", "head.png", false, 0, 0, 0, log);
-            ClickObject head2 = new ClickObject("images/", "head2.png", false, 0, 0, 0, log);
+            ClickObject head = new ClickObject("images/", "head.png", false, 0, 0, 0);
+            ClickObject head2 = new ClickObject("images/", "head2.png", false, 0, 0, 0);
 
             //refresh button from opera or chrome
-            ClickObject refresh0 = new ClickObject("images/", "refresh_opera.png", false, 0, 0, 0, log);
-            ClickObject refresh1 = new ClickObject("images/", "refresh_chrome.png", false, 0, 0, 0, log);
+            ClickObject refresh0 = new ClickObject("images/", "refresh_opera.png", false, 0, 0, 0);
+            ClickObject refresh1 = new ClickObject("images/", "refresh_chrome.png", false, 0, 0, 0);
 
             //close#
-            ClickObject close = new ClickObject("images/", "close.png", false, 0, 0, 4, log);
-            ClickObject close1 = new ClickObject("images/", "close1.png", false, 0, 0, 4, log);
-            ClickObject close2 = new ClickObject("images/", "close2.png", false, 0, 0, 4, log);
-            ClickObject close3 = new ClickObject("images/", "close3.png", false, 0, 0, 4, log);
+            ClickObject close = new ClickObject("images/", "close.png", false, 0, 0, 4);
+            ClickObject close1 = new ClickObject("images/", "close1.png", false, 0, 0, 4);
+            ClickObject close2 = new ClickObject("images/", "close2.png", false, 0, 0, 4);
+            ClickObject close3 = new ClickObject("images/", "close3.png", false, 0, 0, 4);
 
             //forge points
-            ClickObject forgePoint = new ClickObject("images/forgePoints/", "forgePoint.png", false, 0, 0, 0, log);
-            ClickObject science = new ClickObject("images/forgePoints/", "science.png", false, 0, 0, 10, log);
-            ClickObject light = new ClickObject("images/forgePoints/", "light.png", false, 0, 0, 10, log);
-            ClickObject useForgePoint = new ClickObject("images/forgePoints/", "useForgePoint.png", false, 0, 0, 10, log);
-            ClickObject unlock = new ClickObject("images/forgePoints/", "unlock.png", false, 0, 0, 10, log);
+            ClickObject forgePoint = new ClickObject("images/forgePoints/", "forgePoint.png", false, 0, 0, 0);
+            ClickObject science = new ClickObject("images/forgePoints/", "science.png", false, 0, 0, 10);
+            ClickObject light = new ClickObject("images/forgePoints/", "light.png", false, 0, 0, 10);
+            ClickObject useForgePoint = new ClickObject("images/forgePoints/", "useForgePoint.png", false, 0, 0, 10);
+            ClickObject unlock = new ClickObject("images/forgePoints/", "unlock.png", false, 0, 0, 10);
 
             //treasure hunt
-            ClickObject treasureHunt = new ClickObject("images/treasureHunt/", "treasureHunt.png", false, -30, 0, 10, log);
-            ClickObject open = new ClickObject("images/treasureHunt/", "open.png", false, 50, 15, 10, log);
-            ClickObject ok = new ClickObject("images/treasureHunt/", "ok.png", false, 50, 10, 10, log);
-            ClickObject ok2 = new ClickObject("images/treasureHunt/", "ok2.png", false, 50, 10, 10, log);
+            ClickObject treasureHunt = new ClickObject("images/treasureHunt/", "treasureHunt.png", false, -30, 0, 10);
+            ClickObject open = new ClickObject("images/treasureHunt/", "open.png", false, 50, 15, 10);
+            ClickObject ok = new ClickObject("images/treasureHunt/", "ok.png", false, 50, 10, 10);
+            ClickObject ok2 = new ClickObject("images/treasureHunt/", "ok2.png", false, 50, 10, 10);
 
             //handleMoon
-            ClickObject moon = new ClickObject("images/", "moon.png", true, 0, 75, 30, log);
+            ClickObject moon = new ClickObject("images/", "moon.png", true, 0, 75, 30);
             java.util.List<ClickObject> moonList = new ArrayList<>();
-            moonList.add(new ClickObject("images/", "produce.png", false, 50, 10, 10, log));
-            moonList.add(new ClickObject("images/", "produce2.png", false, 50, 10, 10, log));
-            moonList.add(new ClickObject("images/", "produce3.png", false, 50, 10, 10, log));
-            moonList.add(new ClickObject("images/", "recrute.png", false, 50, 10, 10, log));
-            moonList.add(new ClickObject("images/", "recrute2.png", false, 50, 10, 10, log));
+            moonList.add(new ClickObject("images/", "produce.png", false, 50, 10, 10));
+            moonList.add(new ClickObject("images/", "produce2.png", false, 50, 10, 10));
+            moonList.add(new ClickObject("images/", "produce3.png", false, 50, 10, 10));
+            moonList.add(new ClickObject("images/", "recrute.png", false, 50, 10, 10));
+            moonList.add(new ClickObject("images/", "recrute2.png", false, 50, 10, 10));
 
 
             //list of click objects
@@ -97,11 +97,11 @@ public class Main {
 
             //first object in list will be clicked first!!!
 
-            icons.add(new ClickObject("images/", "coin.png", true, 0, 70, 10, log));
-            icons.add(new ClickObject("images/", "box.png", true, 0, 70, 10, log));
-            icons.add(new ClickObject("images/", "swords.png", true, 0, 70, 30, log));
-            icons.add(new ClickObject("images/", "hammer.png", true, 0, 90, 10, log));
-            icons.add(new ClickObject("images/", "thunder.png", true, 0, 70, 30, log));
+            icons.add(new ClickObject("images/", "coin.png", true, 0, 70, 10));
+            icons.add(new ClickObject("images/", "box.png", true, 0, 70, 10));
+            icons.add(new ClickObject("images/", "swords.png", true, 0, 70, 30));
+            icons.add(new ClickObject("images/", "hammer.png", true, 0, 90, 10));
+            icons.add(new ClickObject("images/", "thunder.png", true, 0, 70, 30));
 
 
 
@@ -150,7 +150,7 @@ public class Main {
                     //stop if game isn't at the screen
                     if (!doCheckForRunningGame(screen, head, head2)) {
                         log.print("No running game on screen!", Log.LOGLEVEL.FAIL);
-                        log.dispose();
+                        log.closeWindow();
                         System.exit(0);
                     }
 
@@ -187,7 +187,7 @@ public class Main {
             log.print("InterruptedException" + ex.getMessage() + "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
         }
         //failerfall
-        log.dispose();
+        log.closeWindow();
         System.exit(1);
     }
 
