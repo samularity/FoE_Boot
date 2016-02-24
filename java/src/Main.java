@@ -18,9 +18,6 @@ import java.lang.*;
 
 public class Main {
 
-    //change the log level here
-    static Log log; //TODO make privat
-
     static Screen scr; //TODO make privat
 
     public static void main(String[] args) {
@@ -30,10 +27,10 @@ public class Main {
 
             Thread.sleep(5000);
 
-            log = Log.getInstance(Log.LOGLEVEL.DEBUG);
+            Log.getInstance(Log.LOGLEVEL.DEBUG);
             scr = new Screen();
 
-            log.print("5s until start", Log.LOGLEVEL.INFO);
+            Log.getInstance().print("5s until start", Log.LOGLEVEL.INFO);
 
             //save the current time for refreshing periodically
             long lastRefresh = new Date().getTime() / 1000;
@@ -44,10 +41,10 @@ public class Main {
             //list of position(s) to click
             java.util.List<Position> clickPos;
 
-            log.print("get clickArea", Log.LOGLEVEL.DEBUG);
+            Log.getInstance().print("get clickArea", Log.LOGLEVEL.DEBUG);
             Polygon clickArea = scr.clickArea;//TODO use function here and make scr.clickArea private
             if (clickArea == null) {
-                log.closeWindow();
+                Log.getInstance().closeWindow();
                 System.exit(1);
             }
 
@@ -104,7 +101,7 @@ public class Main {
 
 
 
-            log.print("Enter Main-Loop", Log.LOGLEVEL.DEBUG);
+            Log.getInstance().print("Enter Main-Loop", Log.LOGLEVEL.DEBUG);
             while (true) {
 
                 Thread.sleep(500); //sleep a little to lower cpu load
@@ -126,7 +123,7 @@ public class Main {
 
                     //the icon to click from the list
                     icon = icons.get(iconCount);
-                    log.print(icon.filepath, Log.LOGLEVEL.INFO);
+                    Log.getInstance().print(icon.filepath, Log.LOGLEVEL.INFO);
 
                     //search for one or for more
                     clickPos = getPosInImage(screen, icon);
@@ -143,8 +140,8 @@ public class Main {
 
                     //stop if game isn't at the screen
                     if (!doCheckForRunningGame(screen, head, head2)) {
-                        log.print("No running game on screen!", Log.LOGLEVEL.FAIL);
-                        log.closeWindow();
+                        Log.getInstance().print("No running game on screen!", Log.LOGLEVEL.FAIL);
+                        Log.getInstance().closeWindow();
                         System.exit(0);
                     }
 
@@ -156,7 +153,7 @@ public class Main {
                         clickPos = getPosInImage(screen, refresh1);
                         click(bot, clickPos, refresh1, clickArea );
                         lastRefresh = new Date().getTime() / 1000;
-                        log.print("Refresh the page", Log.LOGLEVEL.INFO);
+                        Log.getInstance().print("Refresh the page", Log.LOGLEVEL.INFO);
                         Thread.sleep(60000);
                     }
 
@@ -174,14 +171,14 @@ public class Main {
 
             //catch all exceptions and print them...
         } catch (AWTException ex) {
-            log.print("AWTException:" + ex.getMessage() + "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
+            Log.getInstance().print("AWTException:" + ex.getMessage() + "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
         } catch (IOException ex) {
-            log.print("IOException:" + ex.getMessage() + "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
+            Log.getInstance().print("IOException:" + ex.getMessage() + "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
         } catch (InterruptedException ex) {
-            log.print("InterruptedException" + ex.getMessage() + "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
+            Log.getInstance().print("InterruptedException" + ex.getMessage() + "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
         }
         //failerfall
-        log.closeWindow();
+        Log.getInstance().closeWindow();
         System.exit(1);
     }
 
@@ -210,7 +207,7 @@ public class Main {
 
         screen = scr.getScreen();
         if (!getPosInImage(screen, forgePoint).isEmpty()) {
-            log.print("Enter Forge-Point Menu", Log.LOGLEVEL.DEBUG);
+            Log.getInstance().print("Enter Forge-Point Menu", Log.LOGLEVEL.DEBUG);
             clickPos = getPosInImage(screen, science);
             click(bot, clickPos, science, clickArea);
 
@@ -224,7 +221,7 @@ public class Main {
             Thread.sleep(2000);
             screen = scr.getScreen();
             clickPos = getPosInImage(screen, useForgePoint);
-            log.print("Use Forge-Point", Log.LOGLEVEL.INFO);
+            Log.getInstance().print("Use Forge-Point", Log.LOGLEVEL.INFO);
             click(bot, clickPos, forgePoint, clickArea);
 
             //unlock
@@ -256,20 +253,20 @@ public class Main {
         screen = scr.getScreen();
         clickPos = getPosInImage(screen, treasureHunt);
         if (!clickPos.isEmpty()) {
-            log.print("Treasure-Hunt", Log.LOGLEVEL.INFO);
+            Log.getInstance().print("Treasure-Hunt", Log.LOGLEVEL.INFO);
 
             click(bot, clickPos, treasureHunt, clickArea);
 
             //open
             Thread.sleep(5000);
-            log.print("open", Log.LOGLEVEL.DEBUG);
+            Log.getInstance().print("open", Log.LOGLEVEL.DEBUG);
             screen = scr.getScreen();
             clickPos = getPosInImage(screen, open);
             click(bot, clickPos, open, clickArea);
 
             //ok
             Thread.sleep(5000);
-            log.print("ok", Log.LOGLEVEL.DEBUG);
+            Log.getInstance().print("ok", Log.LOGLEVEL.DEBUG);
             screen = scr.getScreen();
             clickPos = getPosInImage(screen, ok);
             click(bot, clickPos, ok, clickArea);
@@ -293,7 +290,7 @@ public class Main {
         screen = scr.getScreen();
         clickPos = getPosInImage(screen, moon);
         if (!clickPos.isEmpty()) {
-            log.print("handle Moon", Log.LOGLEVEL.INFO);
+            Log.getInstance().print("handle Moon", Log.LOGLEVEL.INFO);
 
             while (clickPos.size() > 1){
                 clickPos.remove(1);
@@ -318,7 +315,7 @@ public class Main {
 
                 //the icon to click from the list
                 icon = moonList.get(iconCount);
-                log.print(icon.filepath, Log.LOGLEVEL.DEBUG);
+                Log.getInstance().print(icon.filepath, Log.LOGLEVEL.DEBUG);
 
                 //search for one or for more
                 clickPos = getPosInImage(screen, icon);
@@ -351,7 +348,7 @@ public class Main {
         java.util.List<Position> clickPos;
 
         //close
-        log.print("close", Log.LOGLEVEL.DEBUG);
+        Log.getInstance().print("close", Log.LOGLEVEL.DEBUG);
         screen = scr.getScreen();
         clickPos = getPosInImage(screen, close);
         click(bot, clickPos, close, clickArea);
@@ -367,7 +364,7 @@ public class Main {
         //close2
         clickPos = getPosInImage(screen, close2);
         click(bot, clickPos, close2, clickArea);
-        log.print("close done", Log.LOGLEVEL.DEBUG);
+        Log.getInstance().print("close done", Log.LOGLEVEL.DEBUG);
     }
 
     //clicks on Points with randomized delay and offset
