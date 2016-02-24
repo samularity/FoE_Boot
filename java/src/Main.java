@@ -17,21 +17,18 @@ import java.lang.*;
 
 public class Main {
 
-    static Screen scr; //TODO make privat
-
-
     public static void main(String[] args) {
         try {
 
             Log log = Log.getInstance(Log.LOGLEVEL.DEBUG);
             log.print("5s until start", Log.LOGLEVEL.INFO);
-            Thread.sleep(5000);
 
+            Thread.sleep(5000);
 
             ClickObjects.getInstance();
             //bot for taking screenshots and clicking
             Robot bot = new Robot();
-            scr = Screen.getInstance();
+            Screen scr = Screen.getInstance();
 
             //save the current time for refreshing periodically
             long lastRefresh = new Date().getTime() / 1000;
@@ -48,7 +45,7 @@ public class Main {
                 System.exit(1);
             }
 
-            Log.getInstance().print("Enter Main-Loop", Log.LOGLEVEL.DEBUG);
+            log.print("Enter Main-Loop", Log.LOGLEVEL.DEBUG);
             while (true) {
 
                 Thread.sleep(500); //sleep a little to lower cpu load
@@ -73,8 +70,7 @@ public class Main {
                     log.print(icon.filepath, Log.LOGLEVEL.INFO);
 
                     //search for one or for more
-                    clickPos = Screen.getInstance().find(screen, icon);
-
+                    clickPos = scr.find(screen, icon);
 
                     //click it
                     click(bot, clickPos, icon, clickArea);
@@ -93,7 +89,7 @@ public class Main {
 
                     //refresh periodically
                     if (((new Date().getTime() / 1000) - lastRefresh) > 1800) {
-                        clickPos = Screen.getInstance().find(screen, ClickObjects.getInstance().refresh0);
+                        clickPos = scr.find(screen, ClickObjects.getInstance().refresh0);
                         click(bot, clickPos, ClickObjects.getInstance().refresh0, clickArea );
 
                         clickPos = Screen.getInstance().find(screen, ClickObjects.getInstance().refresh1);
@@ -139,7 +135,7 @@ public class Main {
         BufferedImage screen;
         java.util.List<Point> clickPos;
 
-        screen = scr.getScreen();
+        screen = Screen.getInstance().getScreen();
         if (!Screen.getInstance().find(screen, ClickObjects.getInstance().forgePoint).isEmpty()) {
             Log.getInstance().print("Enter Forge-Point Menu", Log.LOGLEVEL.DEBUG);
             clickPos = Screen.getInstance().find(screen, ClickObjects.getInstance().science);
@@ -147,20 +143,20 @@ public class Main {
 
             //light
             Thread.sleep(5000);
-            screen = scr.getScreen();
+            screen = Screen.getInstance().getScreen();
             clickPos = Screen.getInstance().find(screen, ClickObjects.getInstance().light);
             click(bot, clickPos, ClickObjects.getInstance().light, clickArea);
 
             //use 1 forgepoint
             Thread.sleep(2000);
-            screen = scr.getScreen();
+            screen = Screen.getInstance().getScreen();
             clickPos = Screen.getInstance().find(screen, ClickObjects.getInstance().useForgePoint);
             Log.getInstance().print("Use Forge-Point", Log.LOGLEVEL.INFO);
             click(bot, clickPos, ClickObjects.getInstance().forgePoint, clickArea);
 
             //unlock
             Thread.sleep(2000);
-            screen = scr.getScreen();
+            screen = Screen.getInstance().getScreen();
             clickPos = Screen.getInstance().find(screen, ClickObjects.getInstance().unlock);
             click(bot, clickPos, ClickObjects.getInstance().unlock, clickArea);
 
@@ -176,7 +172,7 @@ public class Main {
         BufferedImage screen;
         java.util.List<Point> clickPos;
 
-        screen = scr.getScreen();
+        screen = Screen.getInstance().getScreen();
         clickPos = Screen.getInstance().find(screen, ClickObjects.getInstance().treasureHunt);
         if (!clickPos.isEmpty()) {
             Log.getInstance().print("Treasure-Hunt", Log.LOGLEVEL.INFO);
@@ -186,14 +182,14 @@ public class Main {
             //open
             Thread.sleep(5000);
             Log.getInstance().print("open", Log.LOGLEVEL.DEBUG);
-            screen = scr.getScreen();
+            screen = Screen.getInstance().getScreen();
             clickPos = Screen.getInstance().find(screen, ClickObjects.getInstance().open);
             click(bot, clickPos, ClickObjects.getInstance().open, clickArea);
 
             //ok
             Thread.sleep(5000);
             Log.getInstance().print("ok", Log.LOGLEVEL.DEBUG);
-            screen = scr.getScreen();
+            screen = Screen.getInstance().getScreen();
             clickPos = Screen.getInstance().find(screen, ClickObjects.getInstance().ok);
             click(bot, clickPos, ClickObjects.getInstance().ok, clickArea);
             clickPos = Screen.getInstance().find(screen, ClickObjects.getInstance().ok2);
@@ -211,7 +207,7 @@ public class Main {
 
         BufferedImage screen;
         java.util.List<Point> clickPos;
-        screen = scr.getScreen();
+        screen = Screen.getInstance().getScreen();
         clickPos = Screen.getInstance().find(screen, ClickObjects.getInstance().moon);
         if (!clickPos.isEmpty()) {
             Log.getInstance().print("handle Moon", Log.LOGLEVEL.INFO);
@@ -232,7 +228,7 @@ public class Main {
             ClickObject icon;
 
             //get a screenshot
-            screen = scr.getScreen();
+            screen = Screen.getInstance().getScreen();
 
             boolean breakLoop = false;
             while (!breakLoop) {
@@ -269,7 +265,7 @@ public class Main {
 
         //close
         Log.getInstance().print("close", Log.LOGLEVEL.DEBUG);
-        screen = scr.getScreen();
+        screen = Screen.getInstance().getScreen();
         clickPos = Screen.getInstance().find(screen, ClickObjects.getInstance().close);
         click(bot, clickPos, ClickObjects.getInstance().close, clickArea);
 
