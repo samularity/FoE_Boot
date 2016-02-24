@@ -14,8 +14,7 @@ public class ClickObject {
     public BufferedImage img;
 
     //name of the element for the log
-    public String imgName;
-    public String path;
+    public String filepath;
 
     //is it allowed to click a second of this element directly after the first
     public boolean multipleAllowed;
@@ -26,18 +25,16 @@ public class ClickObject {
     public int maxClickTolerance;
 
     //constructor
-    ClickObject(String path, String imgName, boolean multipleAllowed, int xOffset, int yOffset, int maxClickTolerance) throws IOException{
-        Log.getInstance().print("load: " + imgName, Log.LOGLEVEL.DEBUG);
-        this.img = ImageIO.read(new File(path + imgName));
-        this.path = path;
-        this.imgName = imgName;
+    ClickObject(String filepath, boolean multipleAllowed, int xOffset, int yOffset, int maxClickTolerance) throws IOException{
+        Log.getInstance().print("load: " + filepath, Log.LOGLEVEL.DEBUG);
+        this.img = ImageIO.read(new File(filepath));
+        this.filepath = filepath;
         this.multipleAllowed = multipleAllowed;
         this.xOffset = xOffset;
         this.yOffset = yOffset;
         this.maxClickTolerance = maxClickTolerance;
         if (maxClickTolerance <= 0) {
             this.maxClickTolerance = 1;
-
         }
     }
 }

@@ -35,8 +35,8 @@ public class Screen {
         ClickObject muted;
         ClickObject logoff;
         try{
-             muted = new ClickObject("images/", "muted.png", false, 0, 0, 0, log);
-             logoff = new ClickObject("images/", "logoff.png", false, 0, 0, 0, log);
+             muted = new ClickObject("images/muted.png", false, 0, 0, 0, log);
+             logoff = new ClickObject("images/logoff.png", false, 0, 0, 0, log);
         }
         catch (IOException ex) {
             log.print("IOException:" + ex.getMessage() + "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
