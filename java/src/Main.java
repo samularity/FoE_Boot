@@ -31,10 +31,9 @@ public class Main {
             Thread.sleep(5000);
 
             log = Log.getInstance(Log.LOGLEVEL.DEBUG);
-            scr = new Screen(log);
+            scr = new Screen();
 
             log.print("5s until start", Log.LOGLEVEL.INFO);
-
 
             //save the current time for refreshing periodically
             long lastRefresh = new Date().getTime() / 1000;
@@ -108,11 +107,6 @@ public class Main {
             log.print("Enter Main-Loop", Log.LOGLEVEL.DEBUG);
             while (true) {
 
-                /*
-                bot.keyPress(KeyEvent.VK_UP);
-                bot.keyRelease(KeyEvent.VK_UP);
-                */
-
                 Thread.sleep(500); //sleep a little to lower cpu load
                 doHandleMoon(bot, moon, moonList, clickArea);
                 Thread.sleep(1000);
@@ -125,7 +119,7 @@ public class Main {
                 ClickObject icon;
 
                 //get a screenshot
-                screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+                screen = scr.getScreen();
 
                 boolean breakLoop = false;
                 while (!breakLoop) {
@@ -144,7 +138,7 @@ public class Main {
                     //wait for a popup and make a new screenshot
                     if ((!icon.multipleAllowed) && (clickPos.size() > 0)) {
                         Thread.sleep(1000);
-                        screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+                        screen = scr.getScreen();
                     }
 
                     //stop if game isn't at the screen
@@ -214,7 +208,7 @@ public class Main {
         BufferedImage screen;
         java.util.List<Position> clickPos;
 
-        screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+        screen = scr.getScreen();
         if (!getPosInImage(screen, forgePoint).isEmpty()) {
             log.print("Enter Forge-Point Menu", Log.LOGLEVEL.DEBUG);
             clickPos = getPosInImage(screen, science);
@@ -222,20 +216,20 @@ public class Main {
 
             //light
             Thread.sleep(5000);
-            screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+            screen = scr.getScreen();
             clickPos = getPosInImage(screen, light);
             click(bot, clickPos, light, clickArea);
 
             //use 1 forgepoint
             Thread.sleep(2000);
-            screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+            screen = scr.getScreen();
             clickPos = getPosInImage(screen, useForgePoint);
             log.print("Use Forge-Point", Log.LOGLEVEL.INFO);
             click(bot, clickPos, forgePoint, clickArea);
 
             //unlock
             Thread.sleep(2000);
-            screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+            screen = scr.getScreen();
             clickPos = getPosInImage(screen, unlock);
             click(bot, clickPos, unlock, clickArea);
 
@@ -259,7 +253,7 @@ public class Main {
         BufferedImage screen;
         java.util.List<Position> clickPos;
 
-        screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+        screen = scr.getScreen();
         clickPos = getPosInImage(screen, treasureHunt);
         if (!clickPos.isEmpty()) {
             log.print("Treasure-Hunt", Log.LOGLEVEL.INFO);
@@ -269,14 +263,14 @@ public class Main {
             //open
             Thread.sleep(5000);
             log.print("open", Log.LOGLEVEL.DEBUG);
-            screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+            screen = scr.getScreen();
             clickPos = getPosInImage(screen, open);
             click(bot, clickPos, open, clickArea);
 
             //ok
             Thread.sleep(5000);
             log.print("ok", Log.LOGLEVEL.DEBUG);
-            screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+            screen = scr.getScreen();
             clickPos = getPosInImage(screen, ok);
             click(bot, clickPos, ok, clickArea);
             clickPos = getPosInImage(screen, ok2);
@@ -296,7 +290,7 @@ public class Main {
 
         BufferedImage screen;
         java.util.List<Position> clickPos;
-        screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+        screen = scr.getScreen();
         clickPos = getPosInImage(screen, moon);
         if (!clickPos.isEmpty()) {
             log.print("handle Moon", Log.LOGLEVEL.INFO);
@@ -317,7 +311,7 @@ public class Main {
             ClickObject icon;
 
             //get a screenshot
-            screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+            screen = scr.getScreen();
 
             boolean breakLoop = false;
             while (!breakLoop) {
@@ -358,7 +352,7 @@ public class Main {
 
         //close
         log.print("close", Log.LOGLEVEL.DEBUG);
-        screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+        screen = scr.getScreen();
         clickPos = getPosInImage(screen, close);
         click(bot, clickPos, close, clickArea);
 

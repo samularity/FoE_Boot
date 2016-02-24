@@ -12,19 +12,14 @@ public class Screen {
     Polygon clickArea;
     private Rectangle screenSize;
     private Robot bot;
-    private Log log;
 
-
-    public Screen(Log log) {
-        this.log = log;
-
+    public Screen() {
         try {
             bot = new Robot();
         }
         catch (AWTException ex) {
-            log.print("AWTException:" + ex.getMessage() + "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
+            Log.getInstance().print("AWTException:" + ex.getMessage() + "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
         }
-
         screenSize = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
         clickArea = getClickArea(screenSize);
     }
@@ -35,11 +30,11 @@ public class Screen {
         ClickObject muted;
         ClickObject logoff;
         try{
-             muted = new ClickObject("images/muted.png", false, 0, 0, 0, log);
-             logoff = new ClickObject("images/logoff.png", false, 0, 0, 0, log);
+             muted = new ClickObject("images/muted.png", false, 0, 0, 0);
+             logoff = new ClickObject("images/logoff.png", false, 0, 0, 0);
         }
         catch (IOException ex) {
-            log.print("IOException:" + ex.getMessage() + "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
+            Log.getInstance().print("IOException:" + ex.getMessage() + "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
             return null;
         }
 
@@ -51,8 +46,8 @@ public class Screen {
 
         if ((!loc_muted.isEmpty()) && (!loc_logoff.isEmpty())) {
 
-            log.print("upper right:" + loc_muted.get(0).x + "," + loc_muted.get(0).y, Log.LOGLEVEL.DEBUG);
-            log.print("lower left:" +loc_logoff.get(0).x + "," + loc_logoff.get(0).y, Log.LOGLEVEL.DEBUG);
+            Log.getInstance().print("upper right:" + loc_muted.get(0).x + "," + loc_muted.get(0).y, Log.LOGLEVEL.DEBUG);
+            Log.getInstance().print("lower left:" +loc_logoff.get(0).x + "," + loc_logoff.get(0).y, Log.LOGLEVEL.DEBUG);
 
             /*
             *
@@ -86,15 +81,18 @@ public class Screen {
 
             ClickArea.addPoint(loc_muted.get(0).x, loc_muted.get(0).y - 140); //left center
 
-            log.print(ClickArea.toString(), Log.LOGLEVEL.DEBUG);
+            Log.getInstance().print(ClickArea.toString(), Log.LOGLEVEL.DEBUG);
             return ClickArea;
         }
         return null;
     }
 
+    public BufferedImage getScreen() {
+        //get a screenshot
+        return bot.createScreenCapture(screenSize);
+    }
 
-
-//TODO move this to where it belongs
+    //TODO move this to where it belongs
     //finds images and returns the positions
     public static java.util.List<Position> getPosInImage(BufferedImage big, ClickObject small) {
         //List which will be returned
