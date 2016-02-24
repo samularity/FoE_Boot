@@ -49,9 +49,8 @@ public class Log {
     //prints date, time and the given text to console and log file
     public void print(String text, LOGLEVEL priority)
     {
-        statusWindow.setTitle(text);
-
-            if (priority.value <= loglevel.value) {
+        if (priority.value <= loglevel.value) {
+            statusWindow.setTitle(text);
             String temp = formatter.format(new Date()) + "\t" + priority.toString() + "\t"+ text;
             System.out.println(temp);
             write(temp);

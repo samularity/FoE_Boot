@@ -4,7 +4,7 @@
 
 //TODO add feature to "help" friends
 //TODO move code into functions
-//TODO lower cpu load, lol just bought a better pc
+//TODO lower cpu load  --> DONE: lol just bought a better pc
 //TODO move map around to see all buildings
 //TODO check doCheckForRunningGame, compiler says, wrong logic expression  --> DONE: compiler lies
 
@@ -18,16 +18,23 @@ import java.lang.*;
 
 public class Main {
 
-
     //change the log level here
-    static Log log = new Log(Log.LOGLEVEL.DEBUG);
+    static Log log;
 
-    static Screen scr = new Screen(log);
+    static Screen scr;
 
     public static void main(String[] args) {
         try {
             //bot for taking screenshots and clicking
             Robot bot = new Robot();
+
+            Thread.sleep(5000);
+
+            log = new Log(Log.LOGLEVEL.DEBUG);
+            scr = new Screen(log);
+
+            log.print("5s until start", Log.LOGLEVEL.INFO);
+
 
             //save the current time for refreshing periodically
             long lastRefresh = new Date().getTime() / 1000;
@@ -38,10 +45,12 @@ public class Main {
             //list of position(s) to click
             java.util.List<Position> clickPos;
 
-            Polygon clickArea;
-
-            log.print("5s until start", Log.LOGLEVEL.INFO);
-            Thread.sleep(5000);
+            log.print("get clickArea", Log.LOGLEVEL.DEBUG);
+            Polygon clickArea = scr.clickArea;//TODO use function here and make scr.clickArea private
+            if (clickArea == null) {
+                log.dispose();
+                System.exit(1);
+            }
 
 
             //images
@@ -94,12 +103,7 @@ public class Main {
             icons.add(new ClickObject("images/", "hammer.png", true, 0, 90, 10, log));
             icons.add(new ClickObject("images/", "thunder.png", true, 0, 70, 30, log));
 
-            log.print("get clickArea", Log.LOGLEVEL.DEBUG);
-            clickArea = scr.clickArea;//TODO use function here and make scr.clickArea private
-            if (clickArea == null) {
-                log.dispose();
-                System.exit(1);
-            }
+
 
             log.print("Enter Main-Loop", Log.LOGLEVEL.DEBUG);
             while (true) {
@@ -109,7 +113,7 @@ public class Main {
                 bot.keyRelease(KeyEvent.VK_UP);
                 */
 
-                //Thread.sleep(1000); //sleep a little to lower cpu load
+                Thread.sleep(500); //sleep a little to lower cpu load
                 doHandleMoon(bot, moon, moonList, close, close1,  close2, close3, clickArea);
                 Thread.sleep(1000);
                 doHandleMoon(bot, moon, moonList, close, close1,  close2, close3, clickArea);
@@ -306,7 +310,9 @@ public class Main {
             }
 
             click(bot, clickPos, moon, clickArea);
-            bot.mouseMove(200,200);
+            Random rand = new Random();
+
+            bot.mouseMove(100+ rand.nextInt(100),100+rand.nextInt(100));
             Thread.sleep(1000);
 
 
