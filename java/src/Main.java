@@ -114,9 +114,9 @@ public class Main {
                 */
 
                 Thread.sleep(500); //sleep a little to lower cpu load
-                doHandleMoon(bot, moon, moonList, close, close1,  close2, close3, clickArea);
+                doHandleMoon(bot, moon, moonList, clickArea);
                 Thread.sleep(1000);
-                doHandleMoon(bot, moon, moonList, close, close1,  close2, close3, clickArea);
+                doHandleMoon(bot, moon, moonList, clickArea);
                 doTreasureHunt(bot, treasureHunt, open, ok, ok2, close, close1, close2, close3, clickArea);
                 doUseForgePoint(bot, forgePoint, science, light, useForgePoint, unlock, close, close1, close2, close3, clickArea);
 
@@ -292,10 +292,6 @@ public class Main {
             Robot bot,
             ClickObject moon,
             java.util.List<ClickObject> moonList,
-            ClickObject close,
-            ClickObject close1,
-            ClickObject close2,
-            ClickObject close3,
             Polygon clickArea) throws InterruptedException {
 
         BufferedImage screen;
@@ -346,9 +342,6 @@ public class Main {
                     breakLoop = true;
                 }
             }
-
-
-            //doClose(bot, close, close1,close2, close3, clickArea);
         }
     }
 
