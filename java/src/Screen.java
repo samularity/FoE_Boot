@@ -43,22 +43,11 @@ public class Screen {
 
     private Polygon detectClickArea(Rectangle screenSize) {
 
-        ClickObject muted;
-        ClickObject logoff;
-        try{
-             muted = new ClickObject("images/muted.png", false, 0, 0, 0);
-             logoff = new ClickObject("images/logoff.png", false, 0, 0, 0);
-        }
-        catch (IOException ex) {
-            Log.getInstance().print("IOException:" + ex.getMessage() + "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
-            return null;
-        }
-
         BufferedImage screen = bot.createScreenCapture(screenSize);
 
         //list of position(s) to click
-        java.util.List<Point> loc_muted = find(screen, muted);
-        java.util.List<Point> loc_logoff = find(screen, logoff);
+        java.util.List<Point> loc_muted = find(screen, ClickObjects.getInstance().muted);
+        java.util.List<Point> loc_logoff = find(screen, ClickObjects.getInstance().logoff);
 
         if ((!loc_muted.isEmpty()) && (!loc_logoff.isEmpty())) {
 
@@ -109,7 +98,7 @@ public class Screen {
     }
 
     //finds images and returns the positions
-    public static java.util.List<Point> find (BufferedImage big, ClickObject small) {
+    public java.util.List<Point> find (BufferedImage big, ClickObject small) {
         //List which will be returned
         java.util.List<Point> ret = new ArrayList<>();
 

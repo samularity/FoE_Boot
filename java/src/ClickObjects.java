@@ -10,6 +10,10 @@ public class ClickObjects {
     private static ClickObjects instance;
     //images
 
+    //to get clickable area corners in game
+    public ClickObject muted;
+    public ClickObject logoff;
+
     //if this isn't on screen the program will stop
     public ClickObject head;
     public ClickObject head2;
@@ -49,6 +53,9 @@ public class ClickObjects {
     private ClickObjects() {
         try {
 
+            muted = new ClickObject("images/muted.png", false, 0, 0, 0);
+            logoff = new ClickObject("images/logoff.png", false, 0, 0, 0);
+
             head = new ClickObject("images/head.png", false, 0, 0, 0);
             head2 = new ClickObject("images/head2.png", false, 0, 0, 0);
 
@@ -87,6 +94,7 @@ public class ClickObjects {
             icons.add(new ClickObject("images/swords.png", true, 0, 70, 30));
             icons.add(new ClickObject("images/hammer.png", true, 0, 90, 10));
             icons.add(new ClickObject("images/thunder.png", true, 0, 70, 30));
+
 
         } catch (IOException ex){
             Log.getInstance().print("IOException:" + ex.getMessage() + "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
