@@ -31,7 +31,7 @@ public class Main {
             ClickObjects.getInstance();
             //bot for taking screenshots and clicking
             Robot bot = new Robot();
-            scr = new Screen();
+            scr = Screen.getInstance();
 
             //save the current time for refreshing periodically
             long lastRefresh = new Date().getTime() / 1000;
@@ -39,13 +39,12 @@ public class Main {
             //object for the screenshot
             BufferedImage screen;
 
-            //list of position(s) to click
-            java.util.List<Position> clickPos;
+            //list of Point(s) to click
+            java.util.List<Point> clickPos;
 
             log.print("get clickArea", Log.LOGLEVEL.DEBUG);
             Polygon clickArea = scr.getClickArea();
             if (clickArea == null) {
-                Log.getInstance().closeWindow();
                 System.exit(1);
             }
 
@@ -74,7 +73,7 @@ public class Main {
                     log.print(icon.filepath, Log.LOGLEVEL.INFO);
 
                     //search for one or for more
-                    clickPos = getPosInImage(screen, icon);
+                    clickPos = Screen.getInstance().find(screen, icon);
 
 
                     //click it
@@ -89,16 +88,15 @@ public class Main {
                     //stop if game isn't at the screen
                     if (!doCheckForRunningGame(screen)) {
                         log.print("No running game on screen!", Log.LOGLEVEL.FAIL);
-                        log.closeWindow();
                         System.exit(0);
                     }
 
                     //refresh periodically
                     if (((new Date().getTime() / 1000) - lastRefresh) > 1800) {
-                        clickPos = getPosInImage(screen, ClickObjects.getInstance().refresh0);
+                        clickPos = Screen.getInstance().find(screen, ClickObjects.getInstance().refresh0);
                         click(bot, clickPos, ClickObjects.getInstance().refresh0, clickArea );
 
-                        clickPos = getPosInImage(screen, ClickObjects.getInstance().refresh1);
+                        clickPos = Screen.getInstance().find(screen, ClickObjects.getInstance().refresh1);
                         click(bot, clickPos, ClickObjects.getInstance().refresh1, clickArea );
                         lastRefresh = new Date().getTime() / 1000;
                         log.print("Refresh the page", Log.LOGLEVEL.INFO);
@@ -124,14 +122,13 @@ public class Main {
             Log.getInstance().print("InterruptedException" + ex.getMessage() + "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
         }
         //failerfall
-        Log.getInstance().closeWindow();
         System.exit(1);
     }
 
     public static boolean doCheckForRunningGame(BufferedImage screen) {
         boolean onScreen = false;
-        onScreen |= !getPosInImage(screen, ClickObjects.getInstance().head).isEmpty();
-        onScreen |= !getPosInImage(screen, ClickObjects.getInstance().head2).isEmpty();
+        onScreen |= !Screen.getInstance().find(screen, ClickObjects.getInstance().head).isEmpty();
+        onScreen |= !Screen.getInstance().find(screen, ClickObjects.getInstance().head2).isEmpty();
         return onScreen;
     }
 
@@ -140,31 +137,31 @@ public class Main {
             Polygon clickArea) throws InterruptedException {
 
         BufferedImage screen;
-        java.util.List<Position> clickPos;
+        java.util.List<Point> clickPos;
 
         screen = scr.getScreen();
-        if (!getPosInImage(screen, ClickObjects.getInstance().forgePoint).isEmpty()) {
+        if (!Screen.getInstance().find(screen, ClickObjects.getInstance().forgePoint).isEmpty()) {
             Log.getInstance().print("Enter Forge-Point Menu", Log.LOGLEVEL.DEBUG);
-            clickPos = getPosInImage(screen, ClickObjects.getInstance().science);
+            clickPos = Screen.getInstance().find(screen, ClickObjects.getInstance().science);
             click(bot, clickPos, ClickObjects.getInstance().science, clickArea);
 
             //light
             Thread.sleep(5000);
             screen = scr.getScreen();
-            clickPos = getPosInImage(screen, ClickObjects.getInstance().light);
+            clickPos = Screen.getInstance().find(screen, ClickObjects.getInstance().light);
             click(bot, clickPos, ClickObjects.getInstance().light, clickArea);
 
             //use 1 forgepoint
             Thread.sleep(2000);
             screen = scr.getScreen();
-            clickPos = getPosInImage(screen, ClickObjects.getInstance().useForgePoint);
+            clickPos = Screen.getInstance().find(screen, ClickObjects.getInstance().useForgePoint);
             Log.getInstance().print("Use Forge-Point", Log.LOGLEVEL.INFO);
             click(bot, clickPos, ClickObjects.getInstance().forgePoint, clickArea);
 
             //unlock
             Thread.sleep(2000);
             screen = scr.getScreen();
-            clickPos = getPosInImage(screen, ClickObjects.getInstance().unlock);
+            clickPos = Screen.getInstance().find(screen, ClickObjects.getInstance().unlock);
             click(bot, clickPos, ClickObjects.getInstance().unlock, clickArea);
 
 
@@ -177,10 +174,10 @@ public class Main {
             Polygon clickArea) throws InterruptedException {
 
         BufferedImage screen;
-        java.util.List<Position> clickPos;
+        java.util.List<Point> clickPos;
 
         screen = scr.getScreen();
-        clickPos = getPosInImage(screen, ClickObjects.getInstance().treasureHunt);
+        clickPos = Screen.getInstance().find(screen, ClickObjects.getInstance().treasureHunt);
         if (!clickPos.isEmpty()) {
             Log.getInstance().print("Treasure-Hunt", Log.LOGLEVEL.INFO);
 
@@ -190,16 +187,16 @@ public class Main {
             Thread.sleep(5000);
             Log.getInstance().print("open", Log.LOGLEVEL.DEBUG);
             screen = scr.getScreen();
-            clickPos = getPosInImage(screen, ClickObjects.getInstance().open);
+            clickPos = Screen.getInstance().find(screen, ClickObjects.getInstance().open);
             click(bot, clickPos, ClickObjects.getInstance().open, clickArea);
 
             //ok
             Thread.sleep(5000);
             Log.getInstance().print("ok", Log.LOGLEVEL.DEBUG);
             screen = scr.getScreen();
-            clickPos = getPosInImage(screen, ClickObjects.getInstance().ok);
+            clickPos = Screen.getInstance().find(screen, ClickObjects.getInstance().ok);
             click(bot, clickPos, ClickObjects.getInstance().ok, clickArea);
-            clickPos = getPosInImage(screen, ClickObjects.getInstance().ok2);
+            clickPos = Screen.getInstance().find(screen, ClickObjects.getInstance().ok2);
             click(bot, clickPos, ClickObjects.getInstance().ok2, clickArea);
 
 
@@ -213,9 +210,9 @@ public class Main {
             Polygon clickArea) throws InterruptedException {
 
         BufferedImage screen;
-        java.util.List<Position> clickPos;
+        java.util.List<Point> clickPos;
         screen = scr.getScreen();
-        clickPos = getPosInImage(screen, ClickObjects.getInstance().moon);
+        clickPos = Screen.getInstance().find(screen, ClickObjects.getInstance().moon);
         if (!clickPos.isEmpty()) {
             Log.getInstance().print("handle Moon", Log.LOGLEVEL.INFO);
 
@@ -245,7 +242,7 @@ public class Main {
                 Log.getInstance().print(icon.filepath, Log.LOGLEVEL.DEBUG);
 
                 //search for one or for more
-                clickPos = getPosInImage(screen, icon);
+                clickPos = Screen.getInstance().find(screen, icon);
 
                 //click it
                 click(bot, clickPos, icon, clickArea);
@@ -268,35 +265,35 @@ public class Main {
             Robot bot,
             Polygon clickArea) throws InterruptedException {
         BufferedImage screen;
-        java.util.List<Position> clickPos;
+        java.util.List<Point> clickPos;
 
         //close
         Log.getInstance().print("close", Log.LOGLEVEL.DEBUG);
         screen = scr.getScreen();
-        clickPos = getPosInImage(screen, ClickObjects.getInstance().close);
+        clickPos = Screen.getInstance().find(screen, ClickObjects.getInstance().close);
         click(bot, clickPos, ClickObjects.getInstance().close, clickArea);
 
         //close1
-        clickPos = getPosInImage(screen, ClickObjects.getInstance().close1);
+        clickPos = Screen.getInstance().find(screen, ClickObjects.getInstance().close1);
         click(bot, clickPos, ClickObjects.getInstance().close1, clickArea);
 
         //close3
-        clickPos = getPosInImage(screen, ClickObjects.getInstance().close3);
+        clickPos = Screen.getInstance().find(screen, ClickObjects.getInstance().close3);
         click(bot, clickPos, ClickObjects.getInstance().close3, clickArea);
 
         //close2
-        clickPos = getPosInImage(screen, ClickObjects.getInstance().close2);
+        clickPos = Screen.getInstance().find(screen, ClickObjects.getInstance().close2);
         click(bot, clickPos, ClickObjects.getInstance().close2, clickArea);
         Log.getInstance().print("close done", Log.LOGLEVEL.DEBUG);
     }
 
     //clicks on Points with randomized delay and offset
-    public static void click(Robot bot, java.util.List<Position> clickPos, ClickObject icon, Polygon clickArea) throws InterruptedException {
+    public static void click(Robot bot, java.util.List<Point> clickPos, ClickObject icon, Polygon clickArea) throws InterruptedException {
         Random rand = new Random();
         rand.setSeed(System.currentTimeMillis());
         int xClick, yClick;
 
-        for (Position pos : clickPos) {
+        for (Point pos : clickPos) {
             xClick = pos.x + icon.xOffset + (rand.nextInt(icon.maxClickTolerance) - (icon.maxClickTolerance / 2));
             yClick = pos.y + icon.yOffset + (rand.nextInt(icon.maxClickTolerance) - (icon.maxClickTolerance / 2));
 
@@ -308,63 +305,6 @@ public class Main {
                 Thread.sleep(100 + rand.nextInt(400));
             }
         }
-    }
-
-
-
-    //finds images and returns the positions
-    public static java.util.List<Position> getPosInImage(BufferedImage big, ClickObject small) {
-        //List which will be returned
-        java.util.List<Position> ret = new ArrayList<>();
-
-        //two for loops for addressing every pixel in the big picture
-        for (int xBig = 0; xBig < (big.getWidth() - small.img.getWidth()); xBig++) {
-            for (int yBig = 0; yBig < (big.getHeight() - small.img.getHeight()); yBig++) {
-
-                //position in small picture
-                int xSmall = 0;
-                int ySmall = 0;
-
-                //colors of the pixels
-                Color cSmall, cBig;
-
-                //difference of r,g,b
-                int rDif, gDif, bDif;
-
-                boolean breakLoop = false;
-                while (!breakLoop) {
-                    cSmall = new Color(small.img.getRGB(xSmall, ySmall));
-                    cBig = new Color(big.getRGB(xBig + xSmall, yBig + ySmall));
-                    rDif = cBig.getRed() - cSmall.getRed();
-                    gDif = cBig.getGreen() - cSmall.getGreen();
-                    bDif = cBig.getBlue() - cSmall.getBlue();
-
-                    double difference = (rDif * rDif) + (gDif * gDif) + (bDif * bDif);
-
-                    if (difference > 1200) {
-                        breakLoop = true;
-                    }
-                    xSmall++;
-                    if (xSmall >= small.img.getWidth()) {
-                        xSmall = 0;
-                        ySmall++;
-                        if (ySmall >= small.img.getHeight()) {
-                            int x = xBig + (small.img.getWidth() / 2);
-                            int y = yBig + (small.img.getHeight() / 2);
-                            ret.add(new Position(x, y));
-
-                            if (!small.multipleAllowed) {
-                                return ret;
-                            }
-                            breakLoop = true;
-                        }
-                    }
-                }
-
-            }
-        }
-        Collections.shuffle(ret);
-        return ret;
     }
 }
 

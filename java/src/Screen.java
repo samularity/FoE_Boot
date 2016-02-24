@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,11 +10,13 @@ import java.util.Collections;
  */
 public class Screen {
 
+    private static Screen instance;
+
     private Polygon clickArea;
     private Rectangle screenSize;
     private Robot bot;
 
-    public Screen() {
+    private Screen() {
         try {
             bot = new Robot();
         }
@@ -23,6 +26,15 @@ public class Screen {
         screenSize = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
         clickArea = detectClickArea(screenSize);
     }
+
+    //pseudo constructors
+    synchronized public static Screen getInstance() {
+        if (instance == null) {
+            instance = new Screen();
+        }
+        return instance;
+    }
+
 
     public Polygon getClickArea()
     {
@@ -45,8 +57,8 @@ public class Screen {
         BufferedImage screen = bot.createScreenCapture(screenSize);
 
         //list of position(s) to click
-        java.util.List<Position> loc_muted = find(screen, muted);
-        java.util.List<Position> loc_logoff = find(screen, logoff);
+        java.util.List<Point> loc_muted = find(screen, muted);
+        java.util.List<Point> loc_logoff = find(screen, logoff);
 
         if ((!loc_muted.isEmpty()) && (!loc_logoff.isEmpty())) {
 
@@ -97,9 +109,9 @@ public class Screen {
     }
 
     //finds images and returns the positions
-    public static java.util.List<Position> find (BufferedImage big, ClickObject small) {
+    public static java.util.List<Point> find (BufferedImage big, ClickObject small) {
         //List which will be returned
-        java.util.List<Position> ret = new ArrayList<>();
+        java.util.List<Point> ret = new ArrayList<>();
 
         //two for loops for addressing every pixel in the big picture
         for (int xBig = 0; xBig < (big.getWidth() - small.img.getWidth()); xBig++) {
@@ -135,7 +147,7 @@ public class Screen {
                         if (ySmall >= small.img.getHeight()) {
                             int x = xBig + (small.img.getWidth() / 2);
                             int y = yBig + (small.img.getHeight() / 2);
-                            ret.add(new Position(x, y));
+                            ret.add(new Point(x , y));
 
                             if (!small.multipleAllowed) {
                                 return ret;

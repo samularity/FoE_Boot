@@ -80,12 +80,4 @@ public class Log {
             System.out.println("File Write Failed");
         }
     }
-
-    public void closeWindow(){
-        print("killing log", LOGLEVEL.FAIL);
-        statusWindow.setVisible(false);
-        statusWindow.dispose();
-    }
-
-
 }
