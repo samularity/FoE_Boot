@@ -72,9 +72,10 @@ public class Log {
     //add text to the log file
     private void write (String text)
     {
-        //a try with resources https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html
         try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("LOG.txt", true)))) {
             out.println(text);
+            out.flush();
+            out.close();
         } catch (IOException e) {
             System.out.println("File Write Failed");
         }
@@ -84,7 +85,6 @@ public class Log {
         print("killing log", LOGLEVEL.FAIL);
         statusWindow.setVisible(false);
         statusWindow.dispose();
-
     }
 
 

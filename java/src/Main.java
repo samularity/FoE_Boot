@@ -12,7 +12,6 @@
 import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.image.*;
-import java.io.*;
 import java.util.*;
 import java.lang.*;
 
@@ -23,17 +22,16 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            //bot for taking screenshots and clicking
-            Robot bot = new Robot();
-
-            ClickObjects.getInstance();
-
-            Thread.sleep(5000);
 
             Log log = Log.getInstance(Log.LOGLEVEL.DEBUG);
-            scr = new Screen();
-
             log.print("5s until start", Log.LOGLEVEL.INFO);
+            Thread.sleep(5000);
+
+
+            ClickObjects.getInstance();
+            //bot for taking screenshots and clicking
+            Robot bot = new Robot();
+            scr = new Screen();
 
             //save the current time for refreshing periodically
             long lastRefresh = new Date().getTime() / 1000;
@@ -45,15 +43,11 @@ public class Main {
             java.util.List<Position> clickPos;
 
             log.print("get clickArea", Log.LOGLEVEL.DEBUG);
-            Polygon clickArea = scr.clickArea;//TODO use function here and make scr.clickArea private
+            Polygon clickArea = scr.getClickArea();
             if (clickArea == null) {
                 Log.getInstance().closeWindow();
                 System.exit(1);
             }
-
-
-
-
 
             Log.getInstance().print("Enter Main-Loop", Log.LOGLEVEL.DEBUG);
             while (true) {

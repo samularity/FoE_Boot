@@ -9,7 +9,7 @@ import java.util.Collections;
  */
 public class Screen {
 
-    Polygon clickArea;
+    private Polygon clickArea;
     private Rectangle screenSize;
     private Robot bot;
 
@@ -21,11 +21,15 @@ public class Screen {
             Log.getInstance().print("AWTException:" + ex.getMessage() + "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
         }
         screenSize = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
-        clickArea = getClickArea(screenSize);
+        clickArea = detectClickArea(screenSize);
     }
 
+    public Polygon getClickArea()
+    {
+        return clickArea;
+    }
 
-     private Polygon getClickArea(Rectangle screenSize) {
+    private Polygon detectClickArea(Rectangle screenSize) {
 
         ClickObject muted;
         ClickObject logoff;
@@ -41,8 +45,8 @@ public class Screen {
         BufferedImage screen = bot.createScreenCapture(screenSize);
 
         //list of position(s) to click
-        java.util.List<Position> loc_muted = getPosInImage(screen, muted);
-        java.util.List<Position> loc_logoff = getPosInImage(screen, logoff);
+        java.util.List<Position> loc_muted = find(screen, muted);
+        java.util.List<Position> loc_logoff = find(screen, logoff);
 
         if ((!loc_muted.isEmpty()) && (!loc_logoff.isEmpty())) {
 
@@ -92,9 +96,8 @@ public class Screen {
         return bot.createScreenCapture(screenSize);
     }
 
-    //TODO move this to where it belongs
     //finds images and returns the positions
-    public static java.util.List<Position> getPosInImage(BufferedImage big, ClickObject small) {
+    public static java.util.List<Position> find (BufferedImage big, ClickObject small) {
         //List which will be returned
         java.util.List<Position> ret = new ArrayList<>();
 
@@ -147,5 +150,6 @@ public class Screen {
         Collections.shuffle(ret);
         return ret;
     }
+
 }
 
