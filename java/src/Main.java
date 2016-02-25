@@ -19,8 +19,34 @@ public class Main {
 
     public static void main(String[] args) {
         try {
+            if (args.length  > 0){
+                switch (args[0]){
+                    case "-debug":
+                    case "-d":
+                        Log.getInstance(Log.LOGLEVEL.DEBUG);
+                        break;
+                    case "-info":
+                    case "-i" :
+                        Log.getInstance(Log.LOGLEVEL.INFO);
+                        break;
+                    case "-fail":
+                    case "-f":
+                        Log.getInstance(Log.LOGLEVEL.FAIL);
+                        break;
+                    case "-none":
+                    case "-n":
+                        Log.getInstance(Log.LOGLEVEL.NONE);
+                        break;
+                    default:
+                        Log.getInstance(Log.LOGLEVEL.DEBUG);
+                        break;
+                    }
+                }
+            else {
+                Log.getInstance(Log.LOGLEVEL.DEBUG);
+            }
 
-            Log log = Log.getInstance(Log.LOGLEVEL.DEBUG);
+            Log log = Log.getInstance();
             log.print("5s until start", Log.LOGLEVEL.INFO);
 
             Thread.sleep(5000);
@@ -42,6 +68,7 @@ public class Main {
             log.print("get clickArea", Log.LOGLEVEL.DEBUG);
             Polygon clickArea = scr.getClickArea();
             if (clickArea == null) {
+                log.print("exit, no click area found", Log.LOGLEVEL.FAIL);
                 System.exit(1);
             }
 

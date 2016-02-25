@@ -42,6 +42,7 @@ public class Log {
         Log.statusWindow.setSize(10,10);
         Log.statusWindow.setLocation(1,1);
         Log.statusWindow.setVisible(true);
+        print("Starting Log with loglevel:" + loglevel.toString() , LOGLEVEL.NONE);
     }
 
     //pseudo constructors
