@@ -19,34 +19,8 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            if (args.length  > 0){
-                switch (args[0]){
-                    case "-debug":
-                    case "-d":
-                        Log.getInstance(Log.LOGLEVEL.DEBUG);
-                        break;
-                    case "-info":
-                    case "-i" :
-                        Log.getInstance(Log.LOGLEVEL.INFO);
-                        break;
-                    case "-fail":
-                    case "-f":
-                        Log.getInstance(Log.LOGLEVEL.FAIL);
-                        break;
-                    case "-none":
-                    case "-n":
-                        Log.getInstance(Log.LOGLEVEL.NONE);
-                        break;
-                    default:
-                        Log.getInstance(Log.LOGLEVEL.DEBUG);
-                        break;
-                    }
-                }
-            else {
-                Log.getInstance(Log.LOGLEVEL.DEBUG);
-            }
 
-            Log log = Log.getInstance();
+            Log log = Log.getInstance(args);
             log.print("5s until start", Log.LOGLEVEL.INFO);
 
             Thread.sleep(5000);
@@ -148,14 +122,14 @@ public class Main {
         System.exit(1);
     }
 
-    public static boolean doCheckForRunningGame(BufferedImage screen) {
+    private static boolean doCheckForRunningGame(BufferedImage screen) {
         boolean onScreen = false;
         onScreen |= !Screen.getInstance().find(screen, ClickObjects.getInstance().head).isEmpty();
         onScreen |= !Screen.getInstance().find(screen, ClickObjects.getInstance().head2).isEmpty();
         return onScreen;
     }
 
-    public static void doUseForgePoint(
+    private static void doUseForgePoint(
             Robot bot,
             Polygon clickArea) throws InterruptedException {
 
@@ -174,7 +148,7 @@ public class Main {
             clickPos = Screen.getInstance().find(screen, ClickObjects.getInstance().light);
             click(bot, clickPos, ClickObjects.getInstance().light, clickArea);
 
-            //use 1 forgepoint
+            //use 1 forge-point
             Thread.sleep(2000);
             screen = Screen.getInstance().getScreen();
             clickPos = Screen.getInstance().find(screen, ClickObjects.getInstance().useForgePoint);
@@ -228,7 +202,7 @@ public class Main {
     }
 
 
-    public static void doHandleMoon(
+    private static void doHandleMoon(
             Robot bot,
             Polygon clickArea) throws InterruptedException {
 
@@ -284,7 +258,7 @@ public class Main {
     }
 
     //clicks on the close Buttons
-    public static void doClose(
+    private static void doClose(
             Robot bot,
             Polygon clickArea) throws InterruptedException {
         BufferedImage screen;
@@ -310,8 +284,10 @@ public class Main {
         Log.getInstance().print("close done", Log.LOGLEVEL.DEBUG);
     }
 
+
+
     //clicks on Points with randomized delay and offset
-    public static void click(Robot bot, java.util.List<Point> clickPos, ClickObject icon, Polygon clickArea) throws InterruptedException {
+    private static void click(Robot bot, java.util.List<Point> clickPos, ClickObject icon, Polygon clickArea) throws InterruptedException {
         Random rand = new Random();
         rand.setSeed(System.currentTimeMillis());
         int xClick, yClick;

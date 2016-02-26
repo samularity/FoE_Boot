@@ -1,7 +1,5 @@
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -12,8 +10,8 @@ public class Screen {
 
     private static Screen instance;
 
-    private Polygon clickArea;
-    private Rectangle screenSize;
+    private final Polygon clickArea;
+    private final Rectangle screenSize;
     private Robot bot;
 
     private Screen() {

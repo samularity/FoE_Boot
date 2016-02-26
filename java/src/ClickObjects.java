@@ -83,8 +83,8 @@ public class ClickObjects {
             moonList.add(new ClickObject("images/produce.png", false, 50, 10, 10));
             moonList.add(new ClickObject("images/produce2.png", false, 50, 10, 10));
             moonList.add(new ClickObject("images/produce3.png", false, 50, 10, 10));
-            moonList.add(new ClickObject("images/recrute.png", false, 50, 10, 10));
-            moonList.add(new ClickObject("images/recrute2.png", false, 50, 10, 10));
+            moonList.add(new ClickObject("images/recruit.png", false, 50, 10, 10));
+            moonList.add(new ClickObject("images/recruit2.png", false, 50, 10, 10));
 
 
             //list of click objects

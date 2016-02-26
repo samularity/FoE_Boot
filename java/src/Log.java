@@ -33,7 +33,7 @@ public class Log {
     private static Log instance;
     private static LOGLEVEL loglevel;
     private static JFrame statusWindow;
-    private static SimpleDateFormat formatter = new SimpleDateFormat ("yyyy.MM.dd HH:mm:ss :");
+    private static final SimpleDateFormat formatter = new SimpleDateFormat ("yyyy.MM.dd HH:mm:ss :");
 
     //constructor
     private Log (LOGLEVEL loglevel) {
@@ -53,6 +53,10 @@ public class Log {
         return instance;
     }
 
+    synchronized public static Log getInstance(String[] args) {
+        return getInstance(getLoglevel(args));
+    }
+
     synchronized public static Log getInstance() {
         return getInstance(LOGLEVEL.FAIL);
     }
@@ -68,6 +72,28 @@ public class Log {
             System.out.println(temp);
             write(temp);
         }
+    }
+
+    public static LOGLEVEL getLoglevel (String[] str){
+        if (str.length  > 0){
+            switch (str[0]){
+                case "-debug":
+                case "-d":
+                    return (Log.LOGLEVEL.DEBUG);
+                case "-info":
+                case "-i" :
+                    return(Log.LOGLEVEL.INFO);
+                case "-fail":
+                case "-f":
+                    return(Log.LOGLEVEL.FAIL);
+                case "-none":
+                case "-n":
+                    return(Log.LOGLEVEL.NONE);
+                default:
+                    return(Log.LOGLEVEL.DEBUG);
+            }
+        }
+        return(Log.LOGLEVEL.DEBUG);
     }
 
     //add text to the log file
