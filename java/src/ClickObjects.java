@@ -18,15 +18,6 @@ public class ClickObjects {
     public ClickObject head;
     public ClickObject head2;
 
-    //refresh button from opera or chrome
-    public ClickObject refresh0;
-    public ClickObject refresh1;
-
-    //close
-    public ClickObject close;
-    public ClickObject close1;
-    public ClickObject close2;
-    public ClickObject close3;
 
     //forge points
     public ClickObject forgePoint;
@@ -43,58 +34,63 @@ public class ClickObjects {
 
     //handleMoon
     public ClickObject moon;
-    public List<ClickObject> moonList = new ArrayList<>();
+    public List<ClickObject> moonList;
 
     //list of click objects
-    public List<ClickObject> icons = new ArrayList<>();
+    public List<ClickObject> correctable;
+
+    //doClose
+    public List<ClickObject> closes;
+
+    //refresh button from opera or chrome
+    public List<ClickObject> refreshes;
 
 
     //constructor
     private ClickObjects() {
         try {
 
-            muted = new ClickObject("images/muted.png", false, 0, 0, 0);
-            logoff = new ClickObject("images/logoff.png", false, 0, 0, 0);
+            muted = new ClickObject("images/muted.png", 0, 0, 0);
+            logoff = new ClickObject("images/logoff.png", 0, 0, 0);
 
-            head = new ClickObject("images/head.png", false, 0, 0, 0);
-            head2 = new ClickObject("images/head2.png", false, 0, 0, 0);
+            head = new ClickObject("images/head.png", 0, 0, 0);
+            head2 = new ClickObject("images/head2.png", 0, 0, 0);
 
-            refresh0 = new ClickObject("images/refresh_opera.png", false, 0, 0, 0);
-            refresh1 = new ClickObject("images/refresh_chrome.png", false, 0, 0, 0);
+            forgePoint = new ClickObject("images/forgePoints/forgePoint.png", 0, 0, 0);
+            science = new ClickObject("images/forgePoints/science.png", 0, 0, 10);
+            light = new ClickObject("images/forgePoints/light.png", 0, 0, 10);
+            useForgePoint = new ClickObject("images/forgePoints/useForgePoint.png", 0, 0, 10);
+            unlock = new ClickObject("images/forgePoints/unlock.png", 0, 0, 10);
 
-            close = new ClickObject("images/close.png", false, 0, 0, 4);
-            close1 = new ClickObject("images/close1.png", false, 0, 0, 4);
-            close2 = new ClickObject("images/close2.png", false, 0, 0, 4);
-            close3 = new ClickObject("images/close3.png", false, 0, 0, 4);
+            treasureHunt = new ClickObject("images/treasureHunt/treasureHunt.png", -30, 0, 10);
+            open = new ClickObject("images/treasureHunt/open.png", 50, 15, 10);
+            ok = new ClickObject("images/treasureHunt/ok.png", 50, 10, 10);
+            ok2 = new ClickObject("images/treasureHunt/ok2.png", 50, 10, 10);
 
-            forgePoint = new ClickObject("images/forgePoints/forgePoint.png", false, 0, 0, 0);
-            science = new ClickObject("images/forgePoints/science.png", false, 0, 0, 10);
-            light = new ClickObject("images/forgePoints/light.png", false, 0, 0, 10);
-            useForgePoint = new ClickObject("images/forgePoints/useForgePoint.png", false, 0, 0, 10);
-            unlock = new ClickObject("images/forgePoints/unlock.png", false, 0, 0, 10);
-
-            treasureHunt = new ClickObject("images/treasureHunt/treasureHunt.png", false, -30, 0, 10);
-            open = new ClickObject("images/treasureHunt/open.png", false, 50, 15, 10);
-            ok = new ClickObject("images/treasureHunt/ok.png", false, 50, 10, 10);
-            ok2 = new ClickObject("images/treasureHunt/ok2.png", false, 50, 10, 10);
-
-            moon = new ClickObject("images/moon.png", true, 0, 75, 30);
+            moon = new ClickObject("images/moon.png", 0, 75, 30);
             moonList = new ArrayList<>();
-            moonList.add(new ClickObject("images/produce.png", false, 50, 10, 10));
-            moonList.add(new ClickObject("images/produce2.png", false, 50, 10, 10));
-            moonList.add(new ClickObject("images/produce3.png", false, 50, 10, 10));
-            moonList.add(new ClickObject("images/recruit.png", false, 50, 10, 10));
-            moonList.add(new ClickObject("images/recruit2.png", false, 50, 10, 10));
+            moonList.add(new ClickObject("images/produce.png", 50, 10, 10));
+            moonList.add(new ClickObject("images/produce2.png", 50, 10, 10));
+            moonList.add(new ClickObject("images/produce3.png", 50, 10, 10));
+            moonList.add(new ClickObject("images/recruit.png", 50, 10, 10));
+            moonList.add(new ClickObject("images/recruit2.png", 50, 10, 10));
 
+            closes = new ArrayList<>();
+            closes.add(new ClickObject("images/doClose.png", 0, 0, 4));
+            closes.add(new ClickObject("images/close1.png", 0, 0, 4));
+            closes.add(new ClickObject("images/close2.png", 0, 0, 4));
+            closes.add(new ClickObject("images/close3.png", 0, 0, 4));
 
-            //list of click objects
-            icons = new ArrayList<>();
-            icons.add(new ClickObject("images/coin.png", true, 0, 70, 10));
-            icons.add(new ClickObject("images/box.png", true, 0, 70, 10));
-            icons.add(new ClickObject("images/swords.png", true, 0, 70, 30));
-            icons.add(new ClickObject("images/hammer.png", true, 0, 90, 10));
-            icons.add(new ClickObject("images/thunder.png", true, 0, 70, 30));
+            correctable = new ArrayList<>();
+            correctable.add(new ClickObject("images/coin.png", 0, 70, 10));
+            correctable.add(new ClickObject("images/box.png", 0, 70, 10));
+            correctable.add(new ClickObject("images/swords.png", 0, 70, 30));
+            correctable.add(new ClickObject("images/hammer.png", 0, 90, 10));
+            correctable.add(new ClickObject("images/thunder.png", 0, 70, 30));
 
+            refreshes = new ArrayList<>();
+            refreshes.add(new ClickObject("images/refresh_opera.png", 0, 0, 0));
+            refreshes.add(new ClickObject("images/refresh_chrome.png", 0, 0, 0));
 
         } catch (IOException ex){
             Log.getInstance().print("IOException:" + ex.getMessage() + "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
