@@ -46,8 +46,8 @@ public class Screen {
         BufferedImage screen = bot.createScreenCapture(screenSize);
 
         //list of position(s) to click
-        java.util.List<Point> loc_muted = find(screen, ClickObjects.getInstance().muted);
-        java.util.List<Point> loc_logoff = find(screen, ClickObjects.getInstance().logoff);
+        java.util.List<Point> loc_muted = find(screen, ClickObjects.getInstance().muted, false);
+        java.util.List<Point> loc_logoff = find(screen, ClickObjects.getInstance().logoff, false);
 
         if ((!loc_muted.isEmpty()) && (!loc_logoff.isEmpty())) {
 
@@ -98,7 +98,7 @@ public class Screen {
     }
 
     //finds images and returns the positions
-    public java.util.List<Point> find (BufferedImage big, ClickObject small) {
+    public java.util.List<Point> find (BufferedImage big, ClickObject small, boolean multipleAllowed) {
         //List which will be returned
         java.util.List<Point> ret = new ArrayList<>();
 
@@ -138,7 +138,7 @@ public class Screen {
                             int y = yBig + (small.img.getHeight() / 2);
                             ret.add(new Point(x , y));
 
-                            if (!small.multipleAllowed) {
+                            if (!multipleAllowed) {
                                 return ret;
                             }
                             breakLoop = true;

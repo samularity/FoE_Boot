@@ -26,28 +26,28 @@ public class Worker {
 
         log.print("ForgePoint", Log.LOGLEVEL.DEBUG);
 
-        if (!scr.find(scr.getScreen(), clObj.forgePoint).isEmpty()) {
+        if (!scr.find(scr.getScreen(), clObj.forgePoint, false).isEmpty()) {
             log.print("found: ForgePoint", Log.LOGLEVEL.INFO);
 
-            clickPos = scr.find(scr.getScreen(), clObj.science);
+            clickPos = scr.find(scr.getScreen(), clObj.science, false);
             scr.click(clickPos, clObj.science);
 
             //light
             Thread.sleep(5000);
             log.print("light", Log.LOGLEVEL.INFO);
-            clickPos = scr.find(scr.getScreen(), clObj.light);
+            clickPos = scr.find(scr.getScreen(), clObj.light, false);
             scr.click(clickPos, clObj.light);
 
             //use 1 forge-point
             Thread.sleep(2000);
             log.print("use one", Log.LOGLEVEL.INFO);
-            clickPos = scr.find(scr.getScreen(), clObj.useForgePoint);
+            clickPos = scr.find(scr.getScreen(), clObj.useForgePoint, false);
             scr.click(clickPos, clObj.forgePoint);
 
             //unlock
             Thread.sleep(2000);
             log.print("unlock", Log.LOGLEVEL.INFO);
-            clickPos = scr.find(scr.getScreen(), clObj.unlock);
+            clickPos = scr.find(scr.getScreen(), clObj.unlock, false);
             scr.click(clickPos, clObj.unlock);
 
             doClose();
@@ -62,7 +62,7 @@ public class Worker {
 
         log.print("Treasure-Hunt", Log.LOGLEVEL.DEBUG);
 
-        clickPos = scr.find(scr.getScreen(), clObj.treasureHunt);
+        clickPos = scr.find(scr.getScreen(), clObj.treasureHunt, false);
         if (!clickPos.isEmpty()) {
             log.print("found: Treasure-Hunt", Log.LOGLEVEL.INFO);
 
@@ -71,16 +71,16 @@ public class Worker {
             //open
             Thread.sleep(5000);
             log.print("open", Log.LOGLEVEL.INFO);
-            clickPos = scr.find(scr.getScreen(), clObj.open);
+            clickPos = scr.find(scr.getScreen(), clObj.open, false);
             scr.click(clickPos, clObj.open);
 
             //ok
             Thread.sleep(5000);
             log.print("ok", Log.LOGLEVEL.INFO);
             screen = scr.getScreen();
-            clickPos = scr.find(screen, clObj.ok);
+            clickPos = scr.find(screen, clObj.ok, false);
             scr.click(clickPos, clObj.ok);
-            clickPos = scr.find(screen, clObj.ok2);
+            clickPos = scr.find(screen, clObj.ok2, false);
             scr.click(clickPos, clObj.ok2);
 
             doClose();
@@ -96,7 +96,7 @@ public class Worker {
         log.print("doClose", Log.LOGLEVEL.INFO);
         screen = scr.getScreen();
         for(ClickObject icon : clObj.closes){
-            clickPos = scr.find(screen, icon);
+            clickPos = scr.find(screen, icon, false);
             scr.click(clickPos, icon);
         }
     }
@@ -108,7 +108,7 @@ public class Worker {
 
         log.print("handle Moon", Log.LOGLEVEL.DEBUG);
 
-        clickPos = scr.find(scr.getScreen(), clObj.moon);
+        clickPos = scr.find(scr.getScreen(), clObj.moon, false);
         if (!clickPos.isEmpty()) {
             log.print("found: Moon", Log.LOGLEVEL.INFO);
 
@@ -137,7 +137,7 @@ public class Worker {
 
                 log.print(icon.filepath, Log.LOGLEVEL.DEBUG);
 
-                clickPos = scr.find(screen, icon);
+                clickPos = scr.find(screen, icon, false);
                 scr.click(clickPos, icon);
 
                 //count up
@@ -170,7 +170,7 @@ public class Worker {
             icon = clObj.correctable.get(iconCount);
             log.print(icon.filepath, Log.LOGLEVEL.DEBUG);
 
-            clickPos = scr.find(screen, icon);
+            clickPos = scr.find(screen, icon, true);
             scr.click(clickPos, icon);
 
             //count up
@@ -193,7 +193,7 @@ public class Worker {
             log.print("time for a refresh", Log.LOGLEVEL.INFO);
             screen = scr.getScreen();
             for(ClickObject icon : clObj.refreshes){
-                clickPos = scr.find(screen, icon);
+                clickPos = scr.find(screen, icon, false);
                 scr.click(clickPos, icon);
             }
             lastRefresh = new Date().getTime();
