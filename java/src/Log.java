@@ -74,9 +74,9 @@ public class Log {
         }
     }
 
-    public static LOGLEVEL getLoglevel (String[] str){
-        if (str.length  > 0){
-            switch (str[0]){
+    private static LOGLEVEL getLoglevel (String[] args){
+        if (args.length  > 0){
+            switch (args[0]){
                 case "-debug":
                 case "-d":
                     return (Log.LOGLEVEL.DEBUG);

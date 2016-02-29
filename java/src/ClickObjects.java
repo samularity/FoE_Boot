@@ -14,11 +14,6 @@ public class ClickObjects {
     public ClickObject muted;
     public ClickObject logoff;
 
-    //if this isn't on screen the program will stop
-    public ClickObject head;
-    public ClickObject head2;
-
-
     //forge points
     public ClickObject forgePoint;
     public ClickObject science;
@@ -53,9 +48,6 @@ public class ClickObjects {
             muted = new ClickObject("images/muted.png", 0, 0, 0);
             logoff = new ClickObject("images/logoff.png", 0, 0, 0);
 
-            head = new ClickObject("images/head.png", 0, 0, 0);
-            head2 = new ClickObject("images/head2.png", 0, 0, 0);
-
             forgePoint = new ClickObject("images/forgePoints/forgePoint.png", 0, 0, 0);
             science = new ClickObject("images/forgePoints/science.png", 0, 0, 10);
             light = new ClickObject("images/forgePoints/light.png", 0, 0, 10);
@@ -71,12 +63,10 @@ public class ClickObjects {
             moonList = new ArrayList<>();
             moonList.add(new ClickObject("images/produce.png", 50, 10, 10));
             moonList.add(new ClickObject("images/produce2.png", 50, 10, 10));
-            moonList.add(new ClickObject("images/produce3.png", 50, 10, 10));
             moonList.add(new ClickObject("images/recruit.png", 50, 10, 10));
-            moonList.add(new ClickObject("images/recruit2.png", 50, 10, 10));
 
             closes = new ArrayList<>();
-            closes.add(new ClickObject("images/doClose.png", 0, 0, 4));
+            closes.add(new ClickObject("images/close.png", 0, 0, 4));
             closes.add(new ClickObject("images/close1.png", 0, 0, 4));
             closes.add(new ClickObject("images/close2.png", 0, 0, 4));
             closes.add(new ClickObject("images/close3.png", 0, 0, 4));
