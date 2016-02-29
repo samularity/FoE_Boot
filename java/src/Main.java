@@ -28,17 +28,15 @@ public class Main {
 
             log.print("Enter Main-Loop", Log.LOGLEVEL.DEBUG);
             while (true) {
-
-                Thread.sleep(500); //sleep a little to lower cpu load
-                worker.handleMoon();
-                Thread.sleep(1000);
-
+                Thread.sleep(1500); //sleep a little to lower cpu load
                 worker.handleMoon();
                 worker.treasureHunt();
                 worker.useForgePoint();
+                Thread.sleep(1500);
+                worker.handleMoon();
                 worker.collectThings();
-                worker.doClose();
                 worker.refresh();
+                worker.doClose();
             }
 
         //catch all exceptions and print them...
@@ -47,8 +45,7 @@ public class Main {
         } catch (InterruptedException ex) {
             Log.getInstance().print("InterruptedException" + ex.getMessage() + "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
         }
-        //failerfall
-        System.exit(1);
+        System.exit(1);        //failerfall
     }
 }
 
