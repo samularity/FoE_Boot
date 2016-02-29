@@ -74,7 +74,7 @@ public class Main {
                     clickPos = scr.find(screen, icon);
 
                     //click it
-                    click(bot, clickPos, icon, clickArea);
+                    scr.click(clickPos, icon);
 
                     //wait for a popup and make a new screenshot
                     if ((!icon.multipleAllowed) && (clickPos.size() > 0)) {
@@ -91,10 +91,10 @@ public class Main {
                     //refresh periodically
                     if (((new Date().getTime() / 1000) - lastRefresh) > 1800) {
                         clickPos = scr.find(screen, ClickObjects.getInstance().refresh0);
-                        click(bot, clickPos, ClickObjects.getInstance().refresh0, clickArea );
+                        scr.click( clickPos, ClickObjects.getInstance().refresh0 );
 
                         clickPos = Screen.getInstance().find(screen, ClickObjects.getInstance().refresh1);
-                        click(bot, clickPos, ClickObjects.getInstance().refresh1, clickArea );
+                        scr.click(clickPos, ClickObjects.getInstance().refresh1 );
                         lastRefresh = new Date().getTime() / 1000;
                         log.print("Refresh the page", Log.LOGLEVEL.INFO);
                         Thread.sleep(60000);
@@ -166,7 +166,7 @@ public class Main {
         }
     }
 
-    public static void doTreasureHunt(
+    private static void doTreasureHunt(
             Robot bot,
             Polygon clickArea) throws InterruptedException {
 
@@ -282,28 +282,6 @@ public class Main {
         clickPos = Screen.getInstance().find(screen, ClickObjects.getInstance().close2);
         click(bot, clickPos, ClickObjects.getInstance().close2, clickArea);
         Log.getInstance().print("close done", Log.LOGLEVEL.DEBUG);
-    }
-
-
-
-    //clicks on Points with randomized delay and offset
-    private static void click(Robot bot, java.util.List<Point> clickPos, ClickObject icon, Polygon clickArea) throws InterruptedException {
-        Random rand = new Random();
-        rand.setSeed(System.currentTimeMillis());
-        int xClick, yClick;
-
-        for (Point pos : clickPos) {
-            xClick = pos.x + icon.xOffset + (rand.nextInt(icon.maxClickTolerance) - (icon.maxClickTolerance / 2));
-            yClick = pos.y + icon.yOffset + (rand.nextInt(icon.maxClickTolerance) - (icon.maxClickTolerance / 2));
-
-            if (clickArea.contains(xClick,yClick) || (icon.xOffset == 0 && icon.yOffset == 0)){
-                bot.mouseMove(xClick, yClick);
-                Thread.sleep(100);
-                bot.mousePress(InputEvent.BUTTON1_MASK);
-                bot.mouseRelease(InputEvent.BUTTON1_MASK);
-                Thread.sleep(100 + rand.nextInt(400));
-            }
-        }
     }
 }
 

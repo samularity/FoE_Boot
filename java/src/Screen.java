@@ -1,7 +1,9 @@
 import java.awt.*;
+import java.awt.event.InputEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 /**
  * Last Edit by sam on 23/02/16.
@@ -148,6 +150,26 @@ public class Screen {
         }
         Collections.shuffle(ret);
         return ret;
+    }
+
+    //clicks on Points with randomized delay and offset
+    public void click(java.util.List<Point> clickPos, ClickObject icon) throws InterruptedException {
+        Random rand = new Random();
+        rand.setSeed(System.currentTimeMillis());
+        int xClick, yClick;
+
+        for (Point pos : clickPos) {
+            xClick = pos.x + icon.xOffset + (rand.nextInt(icon.maxClickTolerance) - (icon.maxClickTolerance / 2));
+            yClick = pos.y + icon.yOffset + (rand.nextInt(icon.maxClickTolerance) - (icon.maxClickTolerance / 2));
+
+            if (clickArea.contains(xClick,yClick) || (icon.xOffset == 0 && icon.yOffset == 0)){
+                bot.mouseMove(xClick, yClick);
+                Thread.sleep(100);
+                bot.mousePress(InputEvent.BUTTON1_MASK);
+                bot.mouseRelease(InputEvent.BUTTON1_MASK);
+                Thread.sleep(100 + rand.nextInt(400));
+            }
+        }
     }
 
 }
