@@ -18,11 +18,12 @@ public class Screen {
     private final Polygon clickArea;
     private final Rectangle screenSize;
     private Robot bot;
+    private BufferedImage big;
 
     private Screen() throws AWTException , IOException{
         bot = new Robot();
         screenSize = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
-        clickArea = detectClickArea(screenSize);
+        clickArea = detectClickArea();
     }
 
     //pseudo constructors
@@ -39,13 +40,13 @@ public class Screen {
         return clickArea;
     }
 
-    private Polygon detectClickArea(Rectangle screenSize) throws IOException {
+    private Polygon detectClickArea() throws IOException {
 
-        BufferedImage screen = bot.createScreenCapture(screenSize);
+        getScreen();
 
         //list of position(s) to click
-        java.util.List<Point> loc_muted = find(screen, ClickObjects.getInstance().muted, false);
-        java.util.List<Point> loc_logoff = find(screen, ClickObjects.getInstance().logoff, false);
+        java.util.List<Point> loc_muted = find(ClickObjects.getInstance().muted, false, false);
+        java.util.List<Point> loc_logoff = find(ClickObjects.getInstance().logoff, false, false);
 
         if ((!loc_muted.isEmpty()) && (!loc_logoff.isEmpty())) {
 
@@ -90,18 +91,24 @@ public class Screen {
         return null;
     }
 
-    public BufferedImage getScreen() {
+    public void getScreen() {
         //get a screenshot
-        return bot.createScreenCapture(screenSize);
+        big = bot.createScreenCapture(screenSize);
     }
 
 
+    public java.util.List<Point> find (ClickObject small, boolean multipleAllowed) {
+        return find (small, multipleAllowed, true);
+    }
 
-    private BufferedImage big;
     //finds images and returns the positions
-    public java.util.List<Point> find (BufferedImage big, ClickObject small, boolean multipleAllowed) {
+    public java.util.List<Point> find (ClickObject small, boolean multipleAllowed, boolean createScreenshot) {
         //List which will be returned
         java.util.List<Point> ret = new ArrayList<>();
+
+        if(createScreenshot || big == null){
+            getScreen();
+        }
 
         //two for loops for addressing every pixel in the big picture
         for (int xBig = 0; xBig < (big.getWidth() - small.img.getWidth()); xBig++) {

@@ -1,7 +1,6 @@
 package de.foebot;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
 
@@ -28,28 +27,28 @@ public class Worker {
 
         log.print("ForgePoint", Log.LOGLEVEL.DEBUG);
 
-        if (!scr.find(scr.getScreen(), clObj.forgePoint, false).isEmpty()) {
+        if (!scr.find(clObj.forgePoint, false).isEmpty()) {
             log.print("found: ForgePoint", Log.LOGLEVEL.INFO);
 
-            clickPos = scr.find(scr.getScreen(), clObj.science, false);
+            clickPos = scr.find(clObj.science, false);
             scr.click(clickPos, clObj.science);
 
             //light
             Thread.sleep(5000);
             log.print("light", Log.LOGLEVEL.INFO);
-            clickPos = scr.find(scr.getScreen(), clObj.light, false);
+            clickPos = scr.find(clObj.light, false);
             scr.click(clickPos, clObj.light);
 
             //use 1 forge-point
             Thread.sleep(2000);
             log.print("use one", Log.LOGLEVEL.INFO);
-            clickPos = scr.find(scr.getScreen(), clObj.useForgePoint, false);
+            clickPos = scr.find(clObj.useForgePoint, false);
             scr.click(clickPos, clObj.forgePoint);
 
             //unlock
             Thread.sleep(2000);
             log.print("unlock", Log.LOGLEVEL.INFO);
-            clickPos = scr.find(scr.getScreen(), clObj.unlock, false);
+            clickPos = scr.find(clObj.unlock, false);
             scr.click(clickPos, clObj.unlock);
 
             doClose();
@@ -60,11 +59,10 @@ public class Worker {
     public void treasureHunt() throws InterruptedException {
 
         java.util.List<Point> clickPos;
-        BufferedImage screen;
 
         log.print("Treasure-Hunt", Log.LOGLEVEL.DEBUG);
 
-        clickPos = scr.find(scr.getScreen(), clObj.treasureHunt, false);
+        clickPos = scr.find(clObj.treasureHunt, false);
         if (!clickPos.isEmpty()) {
             log.print("found: Treasure-Hunt", Log.LOGLEVEL.INFO);
 
@@ -73,16 +71,16 @@ public class Worker {
             //open
             Thread.sleep(5000);
             log.print("open", Log.LOGLEVEL.INFO);
-            clickPos = scr.find(scr.getScreen(), clObj.open, false);
+            clickPos = scr.find(clObj.open, false);
             scr.click(clickPos, clObj.open);
 
             //ok
             Thread.sleep(5000);
             log.print("ok", Log.LOGLEVEL.INFO);
-            screen = scr.getScreen();
-            clickPos = scr.find(screen, clObj.ok, false);
+            scr.getScreen();
+            clickPos = scr.find(clObj.ok, false, false);
             scr.click(clickPos, clObj.ok);
-            clickPos = scr.find(screen, clObj.ok2, false);
+            clickPos = scr.find(clObj.ok2, false, false);
             scr.click(clickPos, clObj.ok2);
 
             doClose();
@@ -91,26 +89,24 @@ public class Worker {
 
     public void doClose() throws InterruptedException {
 
-        BufferedImage screen;
         java.util.List<Point> clickPos;
 
         //doClose
         log.print("doClose", Log.LOGLEVEL.INFO);
-        screen = scr.getScreen();
+        scr.getScreen();
         for(ClickObject icon : clObj.closes){
-            clickPos = scr.find(screen, icon, false);
+            clickPos = scr.find(icon, false, false);
             scr.click(clickPos, icon);
         }
     }
 
     public void handleMoon() throws InterruptedException, AWTException {
 
-        BufferedImage screen;
         java.util.List<Point> clickPos;
 
         log.print("handle Moon", Log.LOGLEVEL.DEBUG);
 
-        clickPos = scr.find(scr.getScreen(), clObj.moon, true);
+        clickPos = scr.find(clObj.moon, true);
         if (!clickPos.isEmpty()) {
             log.print("found: Moon", Log.LOGLEVEL.INFO);
 
@@ -129,7 +125,7 @@ public class Worker {
             ClickObject icon;
 
             //get a screenshot
-            screen = scr.getScreen();
+            scr.getScreen();
 
             boolean breakLoop = false;
             while (!breakLoop) {
@@ -139,7 +135,7 @@ public class Worker {
 
                 log.print(icon.filepath, Log.LOGLEVEL.DEBUG);
 
-                clickPos = scr.find(screen, icon, false);
+                clickPos = scr.find(icon, false, false);
                 scr.click(clickPos, icon);
 
                 //count up
@@ -153,7 +149,6 @@ public class Worker {
 
     public void collectThings() throws InterruptedException {
 
-        BufferedImage screen;
         java.util.List<Point> clickPos;
 
         log.print("collect Things", Log.LOGLEVEL.INFO);
@@ -163,7 +158,7 @@ public class Worker {
         ClickObject icon;
 
         //get a screenshot
-        screen = scr.getScreen();
+        scr.getScreen();
 
         boolean breakLoop = false;
         while (!breakLoop) {
@@ -172,7 +167,7 @@ public class Worker {
             icon = clObj.correctable.get(iconCount);
             log.print(icon.filepath, Log.LOGLEVEL.DEBUG);
 
-            clickPos = scr.find(screen, icon, true);
+            clickPos = scr.find(icon, true, false);
             scr.click(clickPos, icon);
 
             //count up
@@ -185,7 +180,6 @@ public class Worker {
 
     public void refresh() throws InterruptedException {
 
-        BufferedImage screen;
         java.util.List<Point> clickPos;
 
         log.print("refresh", Log.LOGLEVEL.DEBUG);
@@ -193,9 +187,9 @@ public class Worker {
         //refresh periodically
         if (((System.currentTimeMillis()) - lastRefresh) > 1800000) { // 1.800.000 ms = 30min
             log.print("time for a refresh", Log.LOGLEVEL.INFO);
-            screen = scr.getScreen();
+            scr.getScreen();
             for(ClickObject icon : clObj.refreshes){
-                clickPos = scr.find(screen, icon, false);
+                clickPos = scr.find(icon, false, false);
                 scr.click(clickPos, icon);
             }
             lastRefresh = System.currentTimeMillis();

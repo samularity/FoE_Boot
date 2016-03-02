@@ -29,6 +29,7 @@ public class Main {
 
             log.print("Enter Main-Loop", Log.LOGLEVEL.DEBUG);
             while (true) {
+
                 Thread.sleep(1500); //sleep a little to lower cpu load
                 worker.handleMoon();
                 worker.treasureHunt();
