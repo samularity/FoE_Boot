@@ -1,6 +1,9 @@
+package de.foebot;
+
 import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -16,19 +19,14 @@ public class Screen {
     private final Rectangle screenSize;
     private Robot bot;
 
-    private Screen() {
-        try {
-            bot = new Robot();
-        }
-        catch (AWTException ex) {
-            Log.getInstance().print("AWTException:" + ex.getMessage() + "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
-        }
+    private Screen() throws AWTException , IOException{
+        bot = new Robot();
         screenSize = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
         clickArea = detectClickArea(screenSize);
     }
 
     //pseudo constructors
-    synchronized public static Screen getInstance() {
+    synchronized public static Screen getInstance() throws AWTException, IOException {
         if (instance == null) {
             instance = new Screen();
         }
@@ -41,7 +39,7 @@ public class Screen {
         return clickArea;
     }
 
-    private Polygon detectClickArea(Rectangle screenSize) {
+    private Polygon detectClickArea(Rectangle screenSize) throws IOException {
 
         BufferedImage screen = bot.createScreenCapture(screenSize);
 
@@ -70,24 +68,24 @@ public class Screen {
             */
 
 
-            Polygon ClickArea = new Polygon();
+            Polygon clickArea = new Polygon();
 
-            ClickArea.addPoint(loc_muted.get(0).x, loc_logoff.get(0).y - 5); //upper left
-            ClickArea.addPoint(loc_logoff.get(0).x + 5, loc_logoff.get(0).y- 5); //upper right
-            ClickArea.addPoint(loc_logoff.get(0).x + 5, loc_muted.get(0).y); //lower right
+            clickArea.addPoint(loc_muted.get(0).x, loc_logoff.get(0).y - 5); //upper left
+            clickArea.addPoint(loc_logoff.get(0).x + 5, loc_logoff.get(0).y- 5); //upper right
+            clickArea.addPoint(loc_logoff.get(0).x + 5, loc_muted.get(0).y); //lower right
             //crop menu block
-            ClickArea.addPoint(loc_muted.get(0).x + 210, loc_muted.get(0).y); //lower center
-            ClickArea.addPoint(loc_muted.get(0).x + 210, loc_muted.get(0).y - 140); //center center
+            clickArea.addPoint(loc_muted.get(0).x + 210, loc_muted.get(0).y); //lower center
+            clickArea.addPoint(loc_muted.get(0).x + 210, loc_muted.get(0).y - 140); //center center
             //forge point
-            ClickArea.addPoint(loc_muted.get(0).x + 110, loc_muted.get(0).y - 140); //forge point upper right
-            ClickArea.addPoint(loc_muted.get(0).x + 110, loc_muted.get(0).y - 70); //forge point lower right
-            ClickArea.addPoint(loc_muted.get(0).x + 60, loc_muted.get(0).y - 70); //forge point lower left
-            ClickArea.addPoint(loc_muted.get(0).x + 60, loc_muted.get(0).y - 140); //forge point upper left
+            clickArea.addPoint(loc_muted.get(0).x + 110, loc_muted.get(0).y - 140); //forge point upper right
+            clickArea.addPoint(loc_muted.get(0).x + 110, loc_muted.get(0).y - 70); //forge point lower right
+            clickArea.addPoint(loc_muted.get(0).x + 60, loc_muted.get(0).y - 70); //forge point lower left
+            clickArea.addPoint(loc_muted.get(0).x + 60, loc_muted.get(0).y - 140); //forge point upper left
 
-            ClickArea.addPoint(loc_muted.get(0).x, loc_muted.get(0).y - 140); //left center
+            clickArea.addPoint(loc_muted.get(0).x, loc_muted.get(0).y - 140); //left center
 
-            Log.getInstance().print(ClickArea.toString(), Log.LOGLEVEL.DEBUG);
-            return ClickArea;
+            Log.getInstance().print(clickArea.toString(), Log.LOGLEVEL.DEBUG);
+            return clickArea;
         }
         return null;
     }
@@ -97,6 +95,9 @@ public class Screen {
         return bot.createScreenCapture(screenSize);
     }
 
+
+
+    private BufferedImage big;
     //finds images and returns the positions
     public java.util.List<Point> find (BufferedImage big, ClickObject small, boolean multipleAllowed) {
         //List which will be returned

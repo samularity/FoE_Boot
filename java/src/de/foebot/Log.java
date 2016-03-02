@@ -1,4 +1,4 @@
-/**
+package de.foebot; /**
  * Created by sam on 10/02/16.
  */
 

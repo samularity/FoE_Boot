@@ -1,6 +1,8 @@
+package de.foebot;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Date;
+import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -12,11 +14,11 @@ public class Worker {
     private Log log;
     private long lastRefresh;
 
-    public Worker(){
+    public Worker() throws IOException, AWTException {
         scr = Screen.getInstance();
         clObj = ClickObjects.getInstance();
         log = Log.getInstance();
-        lastRefresh = new Date().getTime();
+        lastRefresh = System.currentTimeMillis();
 
     }
 
@@ -108,7 +110,7 @@ public class Worker {
 
         log.print("handle Moon", Log.LOGLEVEL.DEBUG);
 
-        clickPos = scr.find(scr.getScreen(), clObj.moon, false);
+        clickPos = scr.find(scr.getScreen(), clObj.moon, true);
         if (!clickPos.isEmpty()) {
             log.print("found: Moon", Log.LOGLEVEL.INFO);
 
@@ -189,14 +191,14 @@ public class Worker {
         log.print("refresh", Log.LOGLEVEL.DEBUG);
 
         //refresh periodically
-        if (((new Date().getTime()) - lastRefresh) > 1800000) { // 1.800.000 ms = 30min
+        if (((System.currentTimeMillis()) - lastRefresh) > 1800000) { // 1.800.000 ms = 30min
             log.print("time for a refresh", Log.LOGLEVEL.INFO);
             screen = scr.getScreen();
             for(ClickObject icon : clObj.refreshes){
                 clickPos = scr.find(screen, icon, false);
                 scr.click(clickPos, icon);
             }
-            lastRefresh = new Date().getTime();
+            lastRefresh = System.currentTimeMillis();
             Thread.sleep(60000);
         }
     }

@@ -1,4 +1,4 @@
-/**
+package de.foebot; /**
  * Created by Janis and Samu on 03.02.2016.
  */
 
@@ -6,6 +6,7 @@
 //TODO move map around to see all buildings
 
 import java.awt.AWTException;
+import java.io.IOException;
 import java.lang.*;
 
 public class Main {
@@ -44,7 +45,10 @@ public class Main {
             Log.getInstance().print("AWTException:" + ex.getMessage() + "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
         } catch (InterruptedException ex) {
             Log.getInstance().print("InterruptedException" + ex.getMessage() + "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
-        }
+        } catch (IOException ex){
+        Log.getInstance().print("IOException:" + ex.getMessage() + "\r\n" + ex.toString(), Log.LOGLEVEL.FAIL);
+     }
+
         System.exit(1);        //failerfall
     }
 }

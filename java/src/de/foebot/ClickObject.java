@@ -1,6 +1,7 @@
+package de.foebot;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -24,7 +25,7 @@ public class ClickObject {
     //constructor
     ClickObject(String filepath, int xOffset, int yOffset, int maxClickTolerance) throws IOException{
         Log.getInstance().print("load: " + filepath, Log.LOGLEVEL.DEBUG);
-        this.img = ImageIO.read(new File(filepath));
+        this.img = ImageIO.read(getClass().getResource("/" + filepath));
         this.filepath = filepath;
         this.xOffset = xOffset;
         this.yOffset = yOffset;
