@@ -73,13 +73,13 @@ public class Screen {
 
             clickArea.addPoint(loc_muted.get(0).x, loc_logoff.get(0).y - 5); //upper left
             clickArea.addPoint(loc_logoff.get(0).x + 5, loc_logoff.get(0).y- 5); //upper right
-            clickArea.addPoint(loc_logoff.get(0).x + 5, loc_muted.get(0).y); //lower right
+            clickArea.addPoint(loc_logoff.get(0).x + 5, loc_muted.get(0).y - 25); //lower right
             //crop menu block
-            clickArea.addPoint(loc_muted.get(0).x + 210, loc_muted.get(0).y); //lower center
+            clickArea.addPoint(loc_muted.get(0).x + 210, loc_muted.get(0).y - 25); //lower center
             clickArea.addPoint(loc_muted.get(0).x + 210, loc_muted.get(0).y - 140); //center center
             //forge point
-            clickArea.addPoint(loc_muted.get(0).x + 110, loc_muted.get(0).y - 140); //forge point upper right
-            clickArea.addPoint(loc_muted.get(0).x + 110, loc_muted.get(0).y - 70); //forge point lower right
+            clickArea.addPoint(loc_muted.get(0).x + 90, loc_muted.get(0).y - 140); //forge point upper right
+            clickArea.addPoint(loc_muted.get(0).x + 90, loc_muted.get(0).y - 70); //forge point lower right
             clickArea.addPoint(loc_muted.get(0).x + 60, loc_muted.get(0).y - 70); //forge point lower left
             clickArea.addPoint(loc_muted.get(0).x + 60, loc_muted.get(0).y - 140); //forge point upper left
 
