@@ -67,7 +67,7 @@ public class ClickObjects {
             moonList.add(new ClickObject("de/foebot/images/produce2.png", 50, 10, 10));
             moonList.add(new ClickObject("de/foebot/images/recruit.png", 50, 10, 10));
 
-        temp = new ArrayList<>();
+            temp = new ArrayList<>();
             temp.add(new ClickObject("de/foebot/images/close.png", 0, 0, 4));
             temp.add(new ClickObject("de/foebot/images/close1.png", 0, 0, 4));
             temp.add(new ClickObject("de/foebot/images/close2.png", 0, 0, 4));
@@ -75,7 +75,7 @@ public class ClickObjects {
             closes = Collections.unmodifiableList(temp);
 
             temp = new ArrayList<>();
-            temp.add(new ClickObject("de/foebot/images/coin.png", 0, 70, 10));
+            temp.add(new ClickObject("de/foebot/images/coin.png", -15, 90, 10));
             temp.add(new ClickObject("de/foebot/images/box.png", 0, 70, 10));
             temp.add(new ClickObject("de/foebot/images/swords.png", 0, 70, 30));
             temp.add(new ClickObject("de/foebot/images/hammer.png", 0, 90, 10));
